@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { Logger, ValidationPipe, ValidationPipeOptions, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import * as basicAuth from 'express-basic-auth';
+import expressBasicAuth from 'express-basic-auth';
 import { ConfigService } from '@nestjs/config';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { ENVIROMENTS } from '@common/enums';
@@ -26,7 +26,7 @@ function swaggerSetup(
 
 	app.use(
 		[swaggerPath, `${swaggerPath}-json`, `${swaggerPath}-yaml`],
-		basicAuth({
+		expressBasicAuth({
 			challenge: true,
 			users: {
 				[swaggerUsername]: swaggerPassword,
@@ -84,7 +84,12 @@ function validationPipeSetup(app: NestExpressApplication): void {
 }
 
 function interceptorsSetup(app: NestExpressApplication, configService: ConfigService): void {
-	app.useGlobalInterceptors(new LoggingInterceptor(configService), new TimeoutInterceptor(5000));
+	const appRequestTimeout = configService.getOrThrow<number>('APP_REQUEST_TIMEOUT');
+
+	app.useGlobalInterceptors(
+		new LoggingInterceptor(configService),
+		new TimeoutInterceptor(appRequestTimeout),
+	);
 }
 
 async function bootstrap(): Promise<void> {
