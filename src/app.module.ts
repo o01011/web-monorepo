@@ -42,37 +42,36 @@ import 'winston-daily-rotate-file';
 				POSTGRES_USER: Joi.string().required().description('PostgreSQL database username'),
 				POSTGRES_PASSWORD: Joi.string().required().description('POstgreSQL database password'),
 				POSTGRES_DB: Joi.string().required().description('PostgresSQL database name'),
-				POSTGRES_URL: Joi.string().uri().description('PostgresSQL connection URL'),
+				POSTGRES_URL: Joi.string()
+					.uri({
+						scheme: ['postgresql', 'postgres'],
+					})
+					.required()
+					.description('PostgresSQL connection URL'),
 
-				ALLOW_ANONYMOUS_LOGIN: Joi.boolean()
-					.default(false)
-					.description('Allow anonymous login to Zookeeper'),
-				ZOO_ENABLE_AUTH: Joi.boolean().default(true).description('Enable Zookeeper authentication'),
-				ZOO_SERVER_USERS: Joi.string().description('Zookeeper server users'),
-				ZOO_SERVER_PASSWORDS: Joi.string().description('Zookeeper server passwords'),
-				ZOOKEEPER_USER: Joi.string().description('Zookeeper admin user'),
-				ZOOKEEPER_PASSWORD: Joi.string().min(8).description('Zookeeper admin password'),
+				KAFKA_USER: Joi.string().required().description('Kafka username'),
+				KAFKA_PASSWORD: Joi.string().min(3).required().description('Kafka password'),
 
-				KAFKA_USER: Joi.string().description('Kafka username'),
-				KAFKA_PASSWORD: Joi.string().min(8).description('Kafka password'),
-
-				REDIS_PASSWORD: Joi.string().min(8).description('Redis port'),
+				REDIS_PASSWORD: Joi.string().min(3).required().description('Redis port'),
 				REDIS_PORT: Joi.number().port().default(6379).description('Redis port'),
 
-				RI_PORT: Joi.number().port().default(8001).default('Redis Insight port'),
+				RI_PORT: Joi.number().port().default(8001).description('Redis Insight port'),
 
-				PROMETHEUS_PORT: Joi.number().port().default().description('Prometheus port'),
-				RAFANA_PORT: Joi.number().port().default(3000).description('Grafana port'),
+				PROMETHEUS_PORT: Joi.number().port().default(9090).description('Prometheus port'),
+				GRAFANA_PORT: Joi.number().port().default(3000).description('Grafana port'),
 				GRAFANA_ADMIN_USER: Joi.string().default('admin').description('Grafana admin username'),
 				GRAFANA_ADMIN_PASSWORD: Joi.string()
-					.min(8)
+					.min(3)
 					.default('admin')
 					.description('Grafana admin password'),
-				GRAFANA_DOMAIN: Joi.string().uri().default('localhost').description('Grafana domain'),
+				GRAFANA_DOMAIN: Joi.string()
+					.uri()
+					.default('localhost')
+					.description('Grafana domain')
+					.allow('localhost', 'nestjs-boilerplate-grafana'),
 			})
 				.with('POSTGRES_USER', 'POSTGRES_PASSWORD')
 				.with('SWAGGER_USERNAME', 'SWAGGER_PASSWORD')
-				.with('ZOOKEEPER_USER', 'ZOOKEEPER_PASSWORD')
 				.with('KAFKA_USER', 'KAFKA_PASSWORD'),
 		}),
 		WinstonModule.forRoot({
