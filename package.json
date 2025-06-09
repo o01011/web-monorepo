@@ -37,10 +37,8 @@
 		"prisma:status": "prisma migrate status",
 		"prisma:validate": "prisma validate",
 		"prepare": "husky",
-		"docker-compose:up:dev": "docker compose --env-file .env.dev --progress tty -f docker-compose.dev.yml up -d --build",
-		"docker-compose:down:dev": "docker compose --env-file .env.dev --progress tty -f docker-compose.dev.yml down -v",
-		"docker-compose:up:prod": "docker compose --env-file .env.prod --progress tty -f docker-compose.prod.yml up -d --build",
-		"docker-compose:down:prod": "docker compose --env-file .env.prod --progress tty -f docker-compose.prod.yml down -v"
+		"docker-compose:dev:up": "docker compose --progress tty -f docker-compose.yml up -d",
+		"docker-compose:dev:down": "docker compose --progress tty -f docker-compose.yml down -v"
 	},
 	"dependencies": {
 		"@nestjs/common": "^11.1.3",
