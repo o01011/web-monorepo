@@ -51,6 +51,7 @@ services:
     image: redislabs/redisinsight:latest
     container_name: nestjs-boilerplate-redis-insight
     hostname: nestjs-boilerplate-redis-insight
+    user: '0:0'
     env_file:
       - .env
     environment:
@@ -72,94 +73,80 @@ services:
       nestjs-boilerplate-redis:
         condition: service_healthy
 
-  nestjs-boilerplate-prometheus:
-    image: prom/prometheus:latest
-    container_name: nestjs-boilerplate-prometheus
-    hostname: nestjs-boilerplate-prometheus
-    env_file:
-      - .env
-    ports:
-      - '${PROMETHEUS_PORT}:${PROMETHEUS_PORT}'
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    restart: unless-stopped
-    networks:
-      - nestjs-boilerplate-network
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--storage.tsdb.retention.time=30d'
-    healthcheck:
-      test: wget --spider -q http://localhost:$PROMETHEUS_PORT/-/healthy
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
+  # nestjs-boilerplate-prometheus:
+  #   image: prom/prometheus:latest
+  #   container_name: nestjs-boilerplate-prometheus
+  #   hostname: nestjs-boilerplate-prometheus
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '${PROMETHEUS_PORT}:${PROMETHEUS_PORT}'
+  #   volumes:
+  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  #   restart: unless-stopped
+  #   networks:
+  #     - nestjs-boilerplate-network
+  #   command:
+  #     - '--config.file=/etc/prometheus/prometheus.yml'
+  #     - '--storage.tsdb.path=/prometheus'
+  #     - '--web.console.templates=/etc/prometheus/consoles'
+  #     - '--web.console.libraries=/etc/prometheus/console_libraries'
+  #     - '--storage.tsdb.retention.time=30d'
+  #   healthcheck:
+  #     test: wget --spider -q http://localhost:$PROMETHEUS_PORT/-/healthy
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 30s
 
-  nestjs-boilerplate-grafana:
-    image: grafana/grafana:latest
-    container_name: nestjs-boilerplate-grafana
-    hostname: nestjs-boilerplate-grafana
-    env_file:
-      - .env
-    ports:
-      - '${GF_PORT}:${GF_PORT}'
-    environment:
-      - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
-      - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
-      - GF_USERS_ALLOW_SIGN_UP=${GF_USERS_ALLOW_SIGN_UP}
-      - GF_AUTH_DISABLE_LOGIN_FORM=${GF_AUTH_DISABLE_LOGIN_FORM}
-      - GF_AUTH_ANONYMOUS_ENABLED=${GF_AUTH_ANONYMOUS_ENABLED}
-      - GF_SERVER_ROOT_URL=${GF_SERVER_ROOT_URL}
-      - GF_SERVER_DOMAIN=${GF_SERVER_DOMAIN}
-      - GF_PATHS_PROVISIONING=${GF_PATHS_PROVISIONING}
-      - GF_PATHS_CONFIG=${GF_PATHS_CONFIG}
-    depends_on:
-      nestjs-boilerplate-prometheus:
-        condition: service_healthy
-    restart: unless-stopped
-    volumes:
-      - nestjs-boilerplate-grafana-data:/var/lib/grafana
-    networks:
-      - nestjs-boilerplate-network
-    healthcheck:
-      test: curl -f http://localhost:$GF_PORT/api/health
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
-
-  nestjs-boilerplate-zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    container_name: nestjs-boilerplate-zookeeper
-    hostname: nestjs-boilerplate-zookeeper
-    env_file:
-      - .env
-    environment:
-      - ZOOKEEPER_CLIENT_PORT=${ZOOKEEPER_CLIENT_PORT}
-      - ZOOKEEPER_TICK_TIME=${ZOOKEEPER_TICK_TIME}
-    ports:
-      - '${ZOOKEEPER_CLIENT_PORT}:${ZOOKEEPER_CLIENT_PORT}'
-    networks:
-      - nestjs-boilerplate-network
+  # nestjs-boilerplate-grafana:
+  #   image: grafana/grafana:latest
+  #   container_name: nestjs-boilerplate-grafana
+  #   hostname: nestjs-boilerplate-grafana
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - '${GF_PORT}:${GF_PORT}'
+  #   environment:
+  #     - GF_SECURITY_ADMIN_USER=${GF_SECURITY_ADMIN_USER}
+  #     - GF_SECURITY_ADMIN_PASSWORD=${GF_SECURITY_ADMIN_PASSWORD}
+  #     - GF_USERS_ALLOW_SIGN_UP=${GF_USERS_ALLOW_SIGN_UP}
+  #     - GF_AUTH_DISABLE_LOGIN_FORM=${GF_AUTH_DISABLE_LOGIN_FORM}
+  #     - GF_AUTH_ANONYMOUS_ENABLED=${GF_AUTH_ANONYMOUS_ENABLED}
+  #     - GF_SERVER_ROOT_URL=${GF_SERVER_ROOT_URL}
+  #     - GF_SERVER_DOMAIN=${GF_SERVER_DOMAIN}
+  #     - GF_PATHS_PROVISIONING=${GF_PATHS_PROVISIONING}
+  #     - GF_PATHS_CONFIG=${GF_PATHS_CONFIG}
+  #   depends_on:
+  #     nestjs-boilerplate-prometheus:
+  #       condition: service_healthy
+  #   restart: unless-stopped
+  #   volumes:
+  #     - nestjs-boilerplate-grafana-data:/var/lib/grafana
+  #   networks:
+  #     - nestjs-boilerplate-network
+  #   healthcheck:
+  #     test: curl -f http://localhost:$GF_PORT/api/health
+  #     interval: 30s
+  #     timeout: 10s
+  #     retries: 3
+  #     start_period: 30s
 
   nestjs-boilerplate-kafka-broker:
-    image: confluentinc/cp-kafka:latest
+    image: bitnami/kafka:latest
+    container_name: nestjs-boilerplate-kafka-broker
     hostname: nestjs-boilerplate-kafka-broker
     env_file:
       - .env
     ports:
       - '${KAFKA_PORT}:${KAFKA_PORT}'
-    depends_on:
-      - nestjs-boilerplate-zookeeper
     environment:
-      - KAFKA_BROKER_ID=${KAFKA_BROKER_ID}
-      - KAFKA_ZOOKEEPER_CONNECT=nestjs-boilerplate-zookeeper:2181
-      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=${KAFKA_LISTENER_SECURITY_PROTOCOL_MAP}
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://nestjs-boilerplate-kafka-broker:9092,PLAINTEXT_INTERNAL://localhost:19092
-      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=${KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR}
+      - KAFKA_CFG_NODE_ID=${KAFKA_CFG_NODE_ID}
+      - KAFKA_CFG_PROCESS_ROLES=${KAFKA_CFG_PROCESS_ROLES}
+      - KAFKA_CFG_LISTENERS=${KAFKA_CFG_LISTENERS}
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=${KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP}
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=${KAFKA_CFG_CONTROLLER_QUORUM_VOTERS}
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=${KAFKA_CFG_CONTROLLER_LISTENER_NAMES}
     networks:
       - nestjs-boilerplate-network
 
@@ -172,11 +159,10 @@ services:
     depends_on:
       - nestjs-boilerplate-kafka-broker
     ports:
-      - '8080:8080'
+      - '${KAFKA_UI_PORT}:${KAFKA_UI_PORT}'
     environment:
       - KAFKA_CLUSTERS_0_NAME=${KAFKA_CLUSTERS_0_NAME}
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=nestjs-boilerplate-kafka-broker:9092
-      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper=2181
       - KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL=${KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL}
       - KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM=${KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM}
       - KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG=org.apache.kafka.common.security.scram.ScramLoginModule required username="${KAFKA_USER}" password="${KAFKA_PASSWORD}";
@@ -191,14 +177,13 @@ networks:
 
 volumes:
   nestjs-boilerplate-postgres-data:
+    name: nestjs-boilerplate-postgres-data
     driver: local
   nestjs-boilerplate-redis-data:
-    driver: local
-  nestjs-boilerplate-grafana-data:
-    driver: local
-  nestjs-boilerplate-zookeeper-data:
-    driver: local
-  nestjs-boilerplate-kafka-data:
+    name: nestjs-boilerplate-redis-data
     driver: local
   nestjs-boilerplate-redis-insight-data:
+    name: nestjs-boilerplate-redis-insight-data
     driver: local
+  # nestjs-boilerplate-grafana-data:
+  #   driver: local

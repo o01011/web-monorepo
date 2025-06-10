@@ -1,2 +1,2 @@
-export * from './logger.inteceptor';
+export * from './logger.interceptor';
 export * from './timeout.interceptor';
