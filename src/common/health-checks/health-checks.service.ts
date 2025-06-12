@@ -1,21 +1,24 @@
 import { PrismaService } from '@common/prisma/prisma.service';
+import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Injectable } from '@nestjs/common';
 import {
 	HealthCheck,
 	HealthCheckResult,
 	HealthCheckService,
 	HealthIndicatorResult,
-	// MongooseHealthIndicator,
 	PrismaHealthIndicator,
+	HealthIndicatorService,
 } from '@nestjs/terminus';
+import Redis from 'ioredis';
 
 @Injectable()
 export class HealthChecksService {
 	constructor(
+		@InjectRedis() private readonly redis: Redis,
 		private readonly healthCheckService: HealthCheckService,
 		private readonly prismaHealthIndicator: PrismaHealthIndicator,
-		// private readonly mongooseHealthIndicator: MongooseHealthIndicator,
 		private readonly prismaService: PrismaService,
+		private readonly healthIndicatorService: HealthIndicatorService,
 	) {}
 
 	@HealthCheck()
@@ -23,8 +26,18 @@ export class HealthChecksService {
 		return this.healthCheckService.check([
 			(): Promise<HealthIndicatorResult> =>
 				this.prismaHealthIndicator.pingCheck('database', this.prismaService),
-			(): Promise<HealthCheckResult> => this.redis.pingCheck('redis'),
-			// (): Promise<HealthCheckResult> => this.mongooseHealthIndicator.pingCheck('mongodb'),
+			(): Promise<HealthIndicatorResult> => this.pingCheck('redis'),
 		]);
+	}
+
+	async pingCheck<const TKey extends string>(key: TKey): Promise<HealthIndicatorResult> {
+		const indicator = this.healthIndicatorService.check(key);
+
+		try {
+			await this.redis.ping();
+			return indicator.up();
+		} catch (e) {
+			return indicator.down({ message: e.message });
+		}
 	}
 }

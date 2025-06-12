@@ -23,6 +23,8 @@ function swaggerSetup(
 	const swaggerPath = '/docs';
 	const swaggerUsername = configService.getOrThrow<string>('SWAGGER_USERNAME');
 	const swaggerPassword = configService.getOrThrow<string>('SWAGGER_PASSWORD');
+	const appName = configService.getOrThrow<string>('APP_NAME');
+	const appDescription = configService.getOrThrow<string>('APP_DESCRIPTION');
 
 	app.use(
 		[swaggerPath, `${swaggerPath}-json`, `${swaggerPath}-yaml`],
@@ -35,8 +37,8 @@ function swaggerSetup(
 	);
 
 	const swaggerConfig = new DocumentBuilder()
-		.setTitle('Nestjs boilerplate')
-		.setDescription('Nestjs builerplate description')
+		.setTitle(appName)
+		.setDescription(appDescription)
 		.setVersion('1.0')
 		.addServer(`http://localhost:${appPort}`, 'development')
 		.build();

@@ -37,8 +37,8 @@
 		"prisma:status": "prisma migrate status",
 		"prisma:validate": "prisma validate",
 		"prepare": "husky",
-		"docker-compose:dev:up": "docker compose --progress tty -f docker-compose.yml up -d",
-		"docker-compose:dev:down": "docker compose --progress tty -f docker-compose.yml down -v"
+		"docker-compose:up": "docker compose --progress tty -f docker-compose.yml up -d",
+		"docker-compose:down": "docker compose --progress tty -f docker-compose.yml down -v"
 	},
 	"dependencies": {
 		"@nestjs-modules/ioredis": "^2.0.2",

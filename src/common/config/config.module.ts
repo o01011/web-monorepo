@@ -6,7 +6,6 @@ import { ConfigModule as CoreConfigModule } from '@nestjs/config';
 	imports: [
 		CoreConfigModule.forRoot({
 			isGlobal: true,
-			cache: true,
 			envFilePath: '.env',
 			validationSchema: Joi.object({
 				NODE_ENV: Joi.string()
@@ -22,6 +21,8 @@ import { ConfigModule as CoreConfigModule } from '@nestjs/config';
 					.positive()
 					.default(5000)
 					.description('Request timeout in milliseconds'),
+				APP_NAME: Joi.string(),
+				APP_DESCRIPTION: Joi.string(),
 
 				SWAGGER_USERNAME: Joi.string()
 					.min(3)
@@ -45,26 +46,15 @@ import { ConfigModule as CoreConfigModule } from '@nestjs/config';
 					.required()
 					.description('PostgreSQL connection URL'),
 
-				ZOOKEEPER_CLIENT_PORT: Joi.number()
-					.port()
-					.default(2181)
-					.description('Zookeeper client port'),
-				ZOOKEEPER_TICK_TIME: Joi.number()
-					.positive()
-					.default(2000)
-					.description('Zookeeper tick time in milliseconds'),
-
 				KAFKA_PORT: Joi.number().port().default(19092).description('Kafka port'),
 				KAFKA_USER: Joi.string().required().description('Kafka username'),
 				KAFKA_PASSWORD: Joi.string().min(3).required().description('Kafka password'),
-				KAFKA_BROKER_ID: Joi.number().positive().default(1).description('Kafka broker ID'),
-				KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: Joi.string()
-					.default('PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT')
-					.description('Kafka listener security protocol map'),
-				KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: Joi.number()
-					.positive()
-					.default(1)
-					.description('Kafka offsets topic replication factor'),
+				KAFKA_CFG_NODE_ID: Joi.string(),
+				KAFKA_CFG_PROCESS_ROLES: Joi.string(),
+				KAFKA_CFG_LISTENERS: Joi.string(),
+				KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: Joi.string(),
+				KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: Joi.string(),
+				KAFKA_CFG_CONTROLLER_LISTENER_NAMES: Joi.string(),
 
 				KAFKA_UI_PORT: Joi.number().port().default(8080).description('Kafka UI port'),
 				KAFKA_CLUSTERS_0_NAME: Joi.string().default('local').description('Kafka cluster name'),
@@ -75,11 +65,11 @@ import { ConfigModule as CoreConfigModule } from '@nestjs/config';
 					.default('SCRAM-SHA-512')
 					.description('Kafka cluster SASL mechanism'),
 
-				REDIS_PASSWORD: Joi.string().min(3).required().description('Redis password'),
+				REDIS_HOST: Joi.string(),
 				REDIS_PORT: Joi.number().port().default(6379).description('Redis port'),
 
-				REDISINSIGHT_PORT: Joi.number().port().default(5540).description('Redis Insight port'),
-				REDISINSIGHT_DISABLE_ENCRYPTION: Joi.number()
+				RI_PORT: Joi.number().port().default(5540).description('Redis Insight port'),
+				RI_DISABLE_ENCRYPTION: Joi.number()
 					.valid(0, 1)
 					.default(1)
 					.description('Redis Insight encryption flag'),
