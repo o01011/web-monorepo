@@ -1,6 +1,6 @@
 services:
   nestjs-boilerplate-postgres:
-    image: postgres:latest
+    image: postgres:17.5-alpine3.22
     container_name: nestjs-boilerplate-postgres
     hostname: nestjs-boilerplate-postgres
     env_file:
@@ -25,14 +25,14 @@ services:
       - nestjs-boilerplate-network
 
   nestjs-boilerplate-redis:
-    image: redis:latest
+    image: redis:8.0.2-alpine
     container_name: nestjs-boilerplate-redis
     hostname: nestjs-boilerplate-redis
     env_file:
       - .env
     environment:
-      - REDIS_PORT=${REDIS_PORT}
-      - REDIS_DATABASES=${REDIS_DATABASES}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_DATABASES: ${REDIS_DATABASES}
     ports:
       - '${REDIS_PORT}:${REDIS_PORT}'
     volumes:
@@ -56,7 +56,7 @@ services:
     env_file:
       - .env
     environment:
-      - REDISINSIGHT_DISABLE_ENCRYPTION=${RI_DISABLE_ENCRYPTION}
+      REDISINSIGHT_DISABLE_ENCRYPTION: ${RI_DISABLE_ENCRYPTION}
     ports:
       - '${RI_PORT}:${RI_PORT}'
     volumes:
@@ -134,20 +134,24 @@ services:
   #     start_period: 30s
 
   nestjs-boilerplate-kafka-broker:
-    image: bitnami/kafka:latest
+    image: apache/kafka:latest
     container_name: nestjs-boilerplate-kafka-broker
     hostname: nestjs-boilerplate-kafka-broker
     env_file:
       - .env
-    ports:
-      - '${KAFKA_PORT}:${KAFKA_PORT}'
     environment:
-      - KAFKA_CFG_NODE_ID=${KAFKA_CFG_NODE_ID}
-      - KAFKA_CFG_PROCESS_ROLES=${KAFKA_CFG_PROCESS_ROLES}
-      - KAFKA_CFG_LISTENERS=${KAFKA_CFG_LISTENERS}
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=${KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP}
-      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=${KAFKA_CFG_CONTROLLER_QUORUM_VOTERS}
-      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=${KAFKA_CFG_CONTROLLER_LISTENER_NAMES}
+      KAFKA_NODE_ID: ${KAFKA_NODE_ID}
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:${KAFKA_PORT},CONTROLLER://0.0.0.0:${KAFKA_CONTROLLER_PORT}
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://nestjs-boilerplate-kafka-broker:${KAFKA_PORT}
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: ${KAFKA_NODE_ID}@nestjs-boilerplate-kafka-broker:${KAFKA_CONTROLLER_PORT}
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: ${KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR}
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: ${KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR}
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: ${KAFKA_TRANSACTION_STATE_LOG_MIN_ISR}
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: ${KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS}
+      KAFKA_NUM_PARTITIONS: ${KAFKA_NUM_PARTITIONS}
     networks:
       - nestjs-boilerplate-network
 
@@ -162,11 +166,8 @@ services:
     ports:
       - '${KAFKA_UI_PORT}:${KAFKA_UI_PORT}'
     environment:
-      - KAFKA_CLUSTERS_0_NAME=${KAFKA_CLUSTERS_0_NAME}
-      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=nestjs-boilerplate-kafka-broker:9092
-      - KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL=${KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL}
-      - KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM=${KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM}
-      - KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG=org.apache.kafka.common.security.scram.ScramLoginModule required username="${KAFKA_USER}" password="${KAFKA_PASSWORD}";
+      KAFKA_CLUSTERS_0_NAME: ${KAFKA_CLUSTERS_0_NAME}
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: nestjs-boilerplate-kafka-broker:${KAFKA_PORT}
     networks:
       - nestjs-boilerplate-network
 

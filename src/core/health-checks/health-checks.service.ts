@@ -1,4 +1,4 @@
-import { PrismaService } from '@common/prisma/prisma.service';
+import { PrismaService } from '@core/prisma/prisma.service';
 import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Injectable } from '@nestjs/common';
 import {
