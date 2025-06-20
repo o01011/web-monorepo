@@ -4,7 +4,6 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { WinstonModule, utilities as nestWinstonModuleUtilities } from 'nest-winston';
 import { transports, format, config } from 'winston';
-import 'winston-daily-rotate-file';
 
 @Module({
 	imports: [
@@ -16,7 +15,6 @@ import 'winston-daily-rotate-file';
 				return {
 					levels: config.syslog.levels,
 					level: LOG_LEVELS[logLevel],
-
 					transports: [
 						new transports.Console({
 							format: format.combine(
@@ -25,14 +23,6 @@ import 'winston-daily-rotate-file';
 								format.json(),
 								nestWinstonModuleUtilities.format.nestLike('nestjs-boilerplate'),
 							),
-						}),
-						new transports.DailyRotateFile({
-							filename: 'logs/application-%DATE%.log',
-							datePattern: 'YYYY-MM-DD',
-							zippedArchive: true,
-							maxSize: '20m',
-							maxFiles: '14d',
-							format: format.combine(format.timestamp(), format.json()),
 						}),
 					],
 				};

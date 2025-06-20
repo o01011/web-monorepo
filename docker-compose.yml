@@ -3,15 +3,14 @@ services:
     image: postgres:17.5-alpine3.22
     container_name: nestjs-boilerplate-postgres
     hostname: nestjs-boilerplate-postgres
-    env_file:
-      - .env
+    env_file: .env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
       PGUSER: ${POSTGRES_USER}
     ports:
-      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
       - nestjs-boilerplate-postgres-data:/var/lib/postgresql/data
     restart: always
@@ -24,17 +23,37 @@ services:
     networks:
       - nestjs-boilerplate-network
 
+  nestjs-boilerplate-mongo:
+    image: mongo:8.0.10-noble
+    container_name: nestjs-boilerplate-mongo
+    hostname: nestjs-boilerplate-mongo
+    env_file: .env
+    ports:
+      - ${MONGO_PORT}:${MONGO_PORT}
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    volumes:
+      - nestjs-boilerplate-mongo-data:/data/db
+    restart: always
+    command:
+      - --storageEngine
+      - wiredTiger
+      - --auth
+    networks:
+      - nestjs-boilerplate-network
+
   nestjs-boilerplate-redis:
     image: redis:8.0.2-alpine
     container_name: nestjs-boilerplate-redis
     hostname: nestjs-boilerplate-redis
-    env_file:
-      - .env
+    env_file: .env
     environment:
       REDIS_PORT: ${REDIS_PORT}
       REDIS_DATABASES: ${REDIS_DATABASES}
     ports:
-      - '${REDIS_PORT}:${REDIS_PORT}'
+      - ${REDIS_PORT}:${REDIS_PORT}
     volumes:
       - nestjs-boilerplate-redis-data:/data
 
@@ -52,13 +71,12 @@ services:
     image: redislabs/redisinsight:latest
     container_name: nestjs-boilerplate-redis-insight
     hostname: nestjs-boilerplate-redis-insight
-    user: '0:0'
-    env_file:
-      - .env
+    user: 0:0
+    env_file: .env
     environment:
       REDISINSIGHT_DISABLE_ENCRYPTION: ${RI_DISABLE_ENCRYPTION}
     ports:
-      - '${RI_PORT}:${RI_PORT}'
+      - ${RI_PORT}:${RI_PORT}
     volumes:
       - nestjs-boilerplate-redis-insight-data:/usr/src/app/redisinsight/api/data
     restart: always
@@ -78,8 +96,7 @@ services:
   #   image: prom/prometheus:latest
   #   container_name: nestjs-boilerplate-prometheus
   #   hostname: nestjs-boilerplate-prometheus
-  #   env_file:
-  #     - .env
+  #   env_file: .env
   #   ports:
   #     - '${PROMETHEUS_PORT}:${PROMETHEUS_PORT}'
   #   volumes:
@@ -104,8 +121,7 @@ services:
   #   image: grafana/grafana:latest
   #   container_name: nestjs-boilerplate-grafana
   #   hostname: nestjs-boilerplate-grafana
-  #   env_file:
-  #     - .env
+  #   env_file: .env
   #   ports:
   #     - '${GF_PORT}:${GF_PORT}'
   #   environment:
@@ -137,8 +153,7 @@ services:
     image: apache/kafka:latest
     container_name: nestjs-boilerplate-kafka-broker
     hostname: nestjs-boilerplate-kafka-broker
-    env_file:
-      - .env
+    env_file: .env
     environment:
       KAFKA_NODE_ID: ${KAFKA_NODE_ID}
       KAFKA_PROCESS_ROLES: broker,controller
@@ -159,8 +174,7 @@ services:
     image: provectuslabs/kafka-ui:latest
     container_name: nestjs-boilerplate-kafka-ui
     hostname: nestjs-boilerplate-kafka-ui
-    env_file:
-      - .env
+    env_file: .env
     depends_on:
       - nestjs-boilerplate-kafka-broker
     ports:
@@ -186,6 +200,9 @@ volumes:
     driver: local
   nestjs-boilerplate-redis-insight-data:
     name: nestjs-boilerplate-redis-insight-data
+    driver: local
+  nestjs-boilerplate-mongo-data:
+    name: nestjs-boilerplate-mongo-data
     driver: local
   # nestjs-boilerplate-grafana-data:
   #   driver: local

@@ -8,6 +8,7 @@ import {
 	HealthIndicatorResult,
 	PrismaHealthIndicator,
 	HealthIndicatorService,
+	MongooseHealthIndicator,
 } from '@nestjs/terminus';
 import Redis from 'ioredis';
 
@@ -19,6 +20,7 @@ export class HealthChecksService {
 		private readonly prismaHealthIndicator: PrismaHealthIndicator,
 		private readonly prismaService: PrismaService,
 		private readonly healthIndicatorService: HealthIndicatorService,
+		private readonly mongooseHealthIndicator: MongooseHealthIndicator,
 	) {}
 
 	@HealthCheck()
@@ -27,6 +29,7 @@ export class HealthChecksService {
 			(): Promise<HealthIndicatorResult> =>
 				this.prismaHealthIndicator.pingCheck('postgres', this.prismaService),
 			(): Promise<HealthIndicatorResult> => this.pingCheck('redis'),
+			(): Promise<HealthIndicatorResult> => this.mongooseHealthIndicator.pingCheck('mongodb'),
 		]);
 	}
 
