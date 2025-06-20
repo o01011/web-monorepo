@@ -1,14 +1,17 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor, Logger } from '@nestjs/common';
+import { CallHandler, ExecutionContext, Inject, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
 import { ENVIROMENTS } from '@common/enums';
 import { Request, Response } from 'express';
+import { Logger } from 'winston';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
-	private readonly logger = new Logger();
-
-	constructor(private readonly configService: ConfigService) {}
+	constructor(
+		private readonly configService: ConfigService,
+		@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+	) {}
 
 	intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
 		const httpContext = context.switchToHttp();
@@ -23,12 +26,8 @@ export class LoggingInterceptor implements NestInterceptor {
 		const { method, originalUrl, headers, query, params, body } = request;
 
 		if (!isProduction) {
-			this.logger.log(
-				`[Request] ${method} ${originalUrl}\n` +
-					`Params: ${JSON.stringify(params, null, 2)}\n` +
-					`Query: ${JSON.stringify(query, null, 2)}\n` +
-					`Headers: ${JSON.stringify(headers, null, 2)}\n` +
-					`Body: ${JSON.stringify(body, null, 2)}`,
+			this.logger.debug(
+				`[Request] ${method} ${originalUrl} Params: ${JSON.stringify(params, null, 2)} Query: ${JSON.stringify(query, null, 2)} Headers: ${JSON.stringify(headers, null, 2)} Body: ${JSON.stringify(body, null, 2)}`,
 			);
 		}
 
@@ -38,10 +37,8 @@ export class LoggingInterceptor implements NestInterceptor {
 					const duration = Date.now() - start;
 					const { statusCode } = response;
 					if (!isProduction) {
-						this.logger.log(
-							`[Response - Success] ${method} ${originalUrl}\n` +
-								`Status: ${statusCode}\n` +
-								`Time: ${duration}ms`,
+						this.logger.debug(
+							`[Response - Success] ${method} ${originalUrl} Status: ${statusCode} Time: ${duration}ms`,
 						);
 					}
 				},
@@ -50,10 +47,7 @@ export class LoggingInterceptor implements NestInterceptor {
 					const statusCode = err.getStatus?.() || 500;
 					if (!isProduction) {
 						this.logger.error(
-							`[Response - Error] ${method} ${originalUrl}\n` +
-								`Status: ${statusCode}\n` +
-								`Time: ${duration}ms\n` +
-								`Error: ${err.message}`,
+							`[Response - Error] ${method} ${originalUrl} Status: ${statusCode} Time: ${duration}ms Error: ${err.message}`,
 						);
 					}
 				},

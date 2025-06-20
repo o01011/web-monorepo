@@ -25,7 +25,7 @@ export class HealthChecksService {
 	check(): Promise<HealthCheckResult> {
 		return this.healthCheckService.check([
 			(): Promise<HealthIndicatorResult> =>
-				this.prismaHealthIndicator.pingCheck('database', this.prismaService),
+				this.prismaHealthIndicator.pingCheck('postgres', this.prismaService),
 			(): Promise<HealthIndicatorResult> => this.pingCheck('redis'),
 		]);
 	}

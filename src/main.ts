@@ -7,7 +7,6 @@ import expressBasicAuth from 'express-basic-auth';
 import { ConfigService } from '@nestjs/config';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { ENVIROMENTS } from '@common/enums';
-import { LoggingInterceptor, TimeoutInterceptor } from '@common/interceptors';
 
 const logger = new Logger('Bootstrap');
 
@@ -20,7 +19,7 @@ function swaggerSetup(
 	configService: ConfigService,
 	appPort: number,
 ): void {
-	const swaggerPath = '/docs';
+	const swaggerPath = '/api/docs';
 	const swaggerUsername = configService.getOrThrow<string>('SWAGGER_USERNAME');
 	const swaggerPassword = configService.getOrThrow<string>('SWAGGER_PASSWORD');
 	const appName = configService.getOrThrow<string>('APP_NAME');
@@ -85,15 +84,6 @@ function validationPipeSetup(app: NestExpressApplication): void {
 	app.useGlobalPipes(new ValidationPipe(validationPipeConfig));
 }
 
-function interceptorsSetup(app: NestExpressApplication, configService: ConfigService): void {
-	const appRequestTimeout = configService.getOrThrow<number>('APP_REQUEST_TIMEOUT');
-
-	app.useGlobalInterceptors(
-		new LoggingInterceptor(configService),
-		new TimeoutInterceptor(appRequestTimeout),
-	);
-}
-
 async function bootstrap(): Promise<void> {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
@@ -107,14 +97,13 @@ async function bootstrap(): Promise<void> {
 	if (!isProduction) swaggerSetup(app, configService, appPort);
 
 	validationPipeSetup(app);
-	interceptorsSetup(app, configService);
 	setupLogger(app);
 
 	await app.listen(appPort);
 
 	logger.log(`Nestjs boilerplate is running on: ${await app.getUrl()}`);
 
-	if (!isProduction) logger.log(`Swagger docs available at: ${await app.getUrl()}/docs`);
+	if (!isProduction) logger.log(`Swagger docs available at: ${await app.getUrl()}/api/docs`);
 }
 
 bootstrap().catch(e => {
