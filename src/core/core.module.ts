@@ -4,9 +4,14 @@ import { PrismaModule } from '@core/prisma/prisma.module';
 import { LoggerModule } from '@core/logger/logger.module';
 import { HealthChecksModule } from '@core/health-checks/health-checks.module';
 import { ConfigModule } from '@core/config/config.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { LoggingInterceptor, TimeoutInterceptor } from '@common/interceptors';
+import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+import {
+	LoggingInterceptor,
+	ResponseTransformationInterceptor,
+	TimeoutInterceptor,
+} from '@common/interceptors';
 import { MongoModule } from '@core/mongo/mongo.module';
+import { CatchEverythingFilter, HttpExceptionFilter } from '@common/filters';
 
 @Module({
 	imports: [ConfigModule, HealthChecksModule, LoggerModule, PrismaModule, RedisModule, MongoModule],
@@ -18,6 +23,18 @@ import { MongoModule } from '@core/mongo/mongo.module';
 		{
 			provide: APP_INTERCEPTOR,
 			useClass: TimeoutInterceptor,
+		},
+		{
+			provide: APP_INTERCEPTOR,
+			useClass: ResponseTransformationInterceptor,
+		},
+		{
+			provide: APP_FILTER,
+			useClass: HttpExceptionFilter,
+		},
+		{
+			provide: APP_FILTER,
+			useClass: CatchEverythingFilter,
 		},
 	],
 })

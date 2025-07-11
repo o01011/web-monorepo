@@ -33,7 +33,7 @@ export class HealthChecksService {
 		]);
 	}
 
-	async pingCheck<const TKey extends string>(key: TKey): Promise<HealthIndicatorResult> {
+	async pingCheck(key: string): Promise<HealthIndicatorResult> {
 		const indicator = this.healthIndicatorService.check(key);
 
 		try {
