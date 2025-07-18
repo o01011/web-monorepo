@@ -13,9 +13,10 @@ async function main() {
 	for (let i = 0; i < amountOfUsers; ++i) {
 		const user: User = {
 			id: i,
+			name: faker.person.firstName(),
+			email: faker.internet.email(),
 			createdAt: faker.date.past(),
 			updatedAt: faker.date.recent(),
-			username: faker.internet.username(),
 		};
 
 		users.push(user);
