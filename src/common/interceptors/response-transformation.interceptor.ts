@@ -13,7 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 interface SuccessResponse<T> {
 	requestId: string;
 	statusCode: number;
-	message: string;
+	statusMessage: string;
 	timestamp: string;
 	version: string;
 	path: string;
@@ -23,7 +23,7 @@ interface SuccessResponse<T> {
 interface ErrorResponse {
 	requestId: string;
 	statusCode: number;
-	message: string;
+	statusMessage: string;
 	error: string;
 	timestamp: string;
 	version: string;
@@ -32,7 +32,7 @@ interface ErrorResponse {
 
 @Injectable()
 export class ResponseTransformationInterceptor implements NestInterceptor {
-	intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+	intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
 		const ctx = context.switchToHttp();
 		const request = ctx.getRequest<Request>();
 		const response = ctx.getResponse<Response>();
@@ -48,7 +48,7 @@ export class ResponseTransformationInterceptor implements NestInterceptor {
 				return {
 					requestId,
 					statusCode,
-					message: isErrorStatus ? 'Error' : 'Success',
+					statusMessage: isErrorStatus ? 'Error' : 'Success',
 					timestamp: new Date().toISOString(),
 					version: this.getApiVersion(request),
 					path: request.url,
@@ -61,7 +61,7 @@ export class ResponseTransformationInterceptor implements NestInterceptor {
 				const errorResponse: ErrorResponse = {
 					requestId,
 					statusCode,
-					message: e.message || 'Internal server error',
+					statusMessage: e.message || 'Internal server error',
 					error: e.name || 'HttpException',
 					timestamp: new Date().toISOString(),
 					version: this.getApiVersion(request),

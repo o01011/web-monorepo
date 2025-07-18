@@ -13,7 +13,7 @@ export class LoggingInterceptor implements NestInterceptor {
 		@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
 	) {}
 
-	intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+	intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
 		const httpContext = context.switchToHttp();
 		const request = httpContext.getRequest<Request>();
 		const response = httpContext.getResponse<Response>();
@@ -24,6 +24,7 @@ export class LoggingInterceptor implements NestInterceptor {
 			this.configService.getOrThrow<string>('NODE_ENV') === ENVIROMENTS.PRODUCTION;
 
 		const { method, originalUrl, headers, query, params, body } = request;
+		console.log(request);
 
 		if (!isProduction) {
 			this.logger.debug(

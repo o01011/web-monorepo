@@ -12,7 +12,7 @@ import { catchError, Observable, throwError, timeout, TimeoutError } from 'rxjs'
 export class TimeoutInterceptor implements NestInterceptor {
 	constructor(private readonly configService: ConfigService) {}
 
-	intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> {
+	intercept(context: ExecutionContext, next: CallHandler<unknown>): Observable<unknown> {
 		const appRequestTimeout = this.configService.getOrThrow<number>('APP_REQUEST_TIMEOUT');
 
 		return next.handle().pipe(

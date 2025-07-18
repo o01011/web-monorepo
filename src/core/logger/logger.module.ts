@@ -1,19 +1,18 @@
-// import { ENVIROMENTS } from '@common/enums';
 import { LOG_LEVELS } from '@common/enums/log-levels.enum';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { WinstonModule, utilities as nestWinstonModuleUtilities } from 'nest-winston';
-import { transports, format, config } from 'winston';
+import { config, format, transports } from 'winston';
 
 @Module({
 	imports: [
 		WinstonModule.forRootAsync({
 			useFactory: async (configService: ConfigService) => {
-				// const isDev = configService.getOrThrow<string>('NODE_ENV') === ENVIROMENTS.DEVELOPMENT;
 				const logLevel = configService.getOrThrow<number>('LOG_LEVEL');
 
 				return {
 					levels: config.syslog.levels,
+
 					level: LOG_LEVELS[logLevel],
 					transports: [
 						new transports.Console({
