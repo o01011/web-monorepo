@@ -22,6 +22,7 @@
 			"@common/*": ["src/common/*"],
 			"@core/*": ["src/core/*"],
 			"@modules/users/*": ["src/modules/users/*"],
+			"@modules/posts/*": ["src/modules/posts/*"],
 		}
 	}
 }

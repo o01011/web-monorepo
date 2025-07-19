@@ -1,16 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Post } from '@prisma/client';
+import { IsInt, IsNotEmpty, IsPositive, IsString } from 'class-validator';
 
-export class CreatePostDto implements Post {
+export class CreatePostDto {
+	@IsNotEmpty()
+	@IsString()
 	@ApiProperty()
-	id: number;
+	description: string;
 
+	@IsInt()
+	@IsNotEmpty()
+	@IsPositive()
 	@ApiProperty()
-	createdAt: Date;
-
-	@ApiProperty()
-	updatedAt: Date;
-
-	@ApiProperty()
-	authorId: number;
+	userId: number;
 }
