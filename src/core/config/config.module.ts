@@ -24,6 +24,8 @@ import { ConfigModule as CoreConfigModule } from '@nestjs/config';
 				APP_NAME: Joi.string(),
 				APP_DESCRIPTION: Joi.string(),
 
+				LOG_LEVEL: Joi.number().required().description('Logging level'),
+
 				SWAGGER_USERNAME: Joi.string()
 					.min(3)
 					.default('admin')
@@ -50,6 +52,7 @@ import { ConfigModule as CoreConfigModule } from '@nestjs/config';
 
 				REDIS_HOST: Joi.string(),
 				REDIS_PORT: Joi.number().port().default(6379).description('Redis port'),
+				REDIS_DATABASES: Joi.number().required(),
 			}).with('SWAGGER_USERNAME', 'SWAGGER_PASSWORD'),
 			// .with('KAFKA_USER', 'KAFKA_PASSWORD')
 		}),
