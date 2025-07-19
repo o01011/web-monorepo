@@ -1,37 +1,33 @@
-import { PrismaClient, User } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 
 const prisma = new PrismaClient();
 
+const fakerUser = () => ({
+	name: `${faker.person.firstName()} ${faker.person.lastName()}`,
+	email: faker.internet.email(),
+});
+
+const fakerPost = (userId: number) => ({
+	description: faker.lorem.sentence(),
+	userId,
+});
+
 async function main() {
-	await prisma.user.deleteMany({});
+	const userCount = 10;
 
-	const amountOfUsers = 50;
+	for (let i = 0; i < userCount; i++) {
+		const user = await prisma.user.create({ data: fakerUser() });
 
-	const users: User[] = [];
-
-	for (let i = 0; i < amountOfUsers; ++i) {
-		const user: User = {
-			id: i,
-			name: faker.person.firstName(),
-			email: faker.internet.email(),
-			createdAt: faker.date.past(),
-			updatedAt: faker.date.recent(),
-		};
-
-		users.push(user);
+		const postCount = faker.number.int({ min: 1, max: 5 });
+		for (let j = 0; j < postCount; j++) {
+			await prisma.post.create({ data: fakerPost(user.id) });
+		}
 	}
 
-	const addUsers = async () => await prisma.user.createMany({ data: users });
-
-	addUsers();
+	console.log(`Seeds successfully applied!`);
 }
 
 main()
-	.catch(e => {
-		console.error(e);
-		process.exit(1);
-	})
-	.finally(async () => {
-		await prisma.$disconnect();
-	});
+	.catch(e => console.error(e))
+	.finally(async () => await prisma.$disconnect());
