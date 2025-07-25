@@ -2,5 +2,5 @@
 	"eslint.format.enable": true,
 	"editor.formatOnSave": false,
 	"editor.tabSize": 2,
-	"eslint.validate": ["typescript"],
+	"eslint.validate": ["typescript"]
 }
