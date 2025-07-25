@@ -1,5 +1,1 @@
----
-layout: home
----
-
-Nestjs boilerplate
+# Nestjs boilerplate
