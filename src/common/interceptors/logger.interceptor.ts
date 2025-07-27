@@ -87,8 +87,7 @@ export class LoggingInterceptor implements NestInterceptor {
 			url,
 			statusCode,
 			duration: `${duration}ms`,
-			error: e.message,
-			stack: e.stack,
+			error: e,
 		});
 	}
 }

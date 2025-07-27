@@ -43,7 +43,7 @@ export class ResponseTransformationInterceptor implements NestInterceptor {
 					timestamp: new Date().toISOString(),
 					version: this.getApiVersion(request),
 					path: request.path,
-					error: e.response.message,
+					error: e,
 					data: null,
 				};
 

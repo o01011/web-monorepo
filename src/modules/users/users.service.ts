@@ -1,12 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto, UserDto } from '@modules/users/dto';
 import { UsersRepository } from '@modules/users/users.repository';
+import { KafkaProducerService } from '@core/kafka/producer/kafka-producer.service';
 
 @Injectable()
 export class UsersService {
-	constructor(private readonly usersRepository: UsersRepository) {}
+	constructor(
+		private readonly usersRepository: UsersRepository,
+		private readonly kafkaProducerService: KafkaProducerService,
+	) {}
 
 	async create(createUserDto: CreateUserDto): Promise<UserDto> {
+		this.kafkaProducerService.produce({
+			topic: 'create-user',
+			messages: [{ value: JSON.stringify(createUserDto) }],
+		});
+
 		return this.usersRepository.create(createUserDto);
 	}
 

@@ -74,11 +74,6 @@ function validationPipeSetup(app: NestExpressApplication): void {
 		transform: true,
 		whitelist: true,
 		forbidNonWhitelisted: true,
-		validateCustomDecorators: true,
-		transformOptions: {
-			enableImplicitConversion: true,
-			excludeExtraneousValues: true,
-		},
 	};
 
 	app.useGlobalPipes(new ValidationPipe(validationPipeConfig));

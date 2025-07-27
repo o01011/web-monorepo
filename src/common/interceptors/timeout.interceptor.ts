@@ -21,7 +21,7 @@ export class TimeoutInterceptor implements NestInterceptor {
 			timeout(this.appRequestTimeout),
 			catchError(e => {
 				if (e instanceof TimeoutError) {
-					throw new GatewayTimeoutException('Gateway timeout has occured');
+					throw new GatewayTimeoutException('Timeout has occured');
 				}
 				return throwError(() => e);
 			}),

@@ -11,9 +11,18 @@ import {
 	TimeoutInterceptor,
 } from '@common/interceptors';
 import { MongoModule } from '@core/mongo/mongo.module';
+import { KafkaModule } from './kafka/kafka.module';
 
 @Module({
-	imports: [ConfigModule, HealthChecksModule, LoggerModule, PrismaModule, RedisModule, MongoModule],
+	imports: [
+		ConfigModule,
+		HealthChecksModule,
+		LoggerModule,
+		PrismaModule,
+		RedisModule,
+		MongoModule,
+		KafkaModule,
+	],
 	providers: [
 		{
 			provide: APP_INTERCEPTOR,
