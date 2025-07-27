@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { IUsersRepository } from '@modules/users/interfaces';
 import { PrismaService } from '@core/prisma/prisma.service';
 import { CreateUserDto, UserDto, UpdateUserDto } from '@modules/users/dto';
@@ -21,6 +21,8 @@ export class UsersRepository implements IUsersRepository {
 
 	async findOne(id: number): Promise<UserDto | null> {
 		const user = await this.prismaService.user.findUnique({ where: { id } });
+
+		if (!user) throw new NotFoundException(`User with id ${id} not found`);
 
 		return new UserDto(user);
 	}

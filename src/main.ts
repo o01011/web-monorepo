@@ -20,10 +20,10 @@ function swaggerSetup(
 	appPort: number,
 ): void {
 	const swaggerPath = '/api/docs';
-	const swaggerUsername = configService.getOrThrow<string>('SWAGGER_USERNAME');
-	const swaggerPassword = configService.getOrThrow<string>('SWAGGER_PASSWORD');
-	const appName = configService.getOrThrow<string>('APP_NAME');
-	const appDescription = configService.getOrThrow<string>('APP_DESCRIPTION');
+	const swaggerUsername = configService.get<string>('SWAGGER_USERNAME');
+	const swaggerPassword = configService.get<string>('SWAGGER_PASSWORD');
+	const appName = configService.get<string>('APP_NAME');
+	const appDescription = configService.get<string>('APP_DESCRIPTION');
 
 	app.use(
 		[swaggerPath, `${swaggerPath}-json`, `${swaggerPath}-yaml`],
@@ -88,9 +88,9 @@ async function bootstrap(): Promise<void> {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
 	const configService = app.get(ConfigService);
-	const isProduction = configService.getOrThrow<string>('NODE_ENV') === ENVIROMENTS.PRODUCTION;
+	const isProduction = configService.get<string>('NODE_ENV') === ENVIROMENTS.PRODUCTION;
 
-	const appPort = configService.getOrThrow<number>('APP_PORT');
+	const appPort = configService.get<number>('APP_PORT');
 
 	versioningSetup(app);
 

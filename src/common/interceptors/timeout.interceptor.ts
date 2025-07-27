@@ -10,13 +10,15 @@ import { catchError, Observable, throwError, timeout, TimeoutError } from 'rxjs'
 
 @Injectable()
 export class TimeoutInterceptor implements NestInterceptor {
-	constructor(private readonly configService: ConfigService) {}
+	private readonly appRequestTimeout: number;
+
+	constructor(private readonly configService: ConfigService) {
+		this.appRequestTimeout = this.configService.get<number>('APP_REQUEST_TIMEOUT');
+	}
 
 	intercept(context: ExecutionContext, next: CallHandler<unknown>): Observable<unknown> {
-		const appRequestTimeout = this.configService.getOrThrow<number>('APP_REQUEST_TIMEOUT');
-
 		return next.handle().pipe(
-			timeout(appRequestTimeout),
+			timeout(this.appRequestTimeout),
 			catchError(e => {
 				if (e instanceof TimeoutError) {
 					throw new GatewayTimeoutException('Gateway timeout has occured');

@@ -8,51 +8,87 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
+	private readonly className = LoggingInterceptor.name;
+	private readonly isProduction: boolean;
+
 	constructor(
 		private readonly configService: ConfigService,
 		@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
-	) {}
+	) {
+		this.isProduction = this.configService.get<string>('NODE_ENV') === ENVIROMENTS.PRODUCTION;
+	}
 
 	intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
+		if (this.isProduction) return next.handle();
+
 		const httpContext = context.switchToHttp();
 		const request = httpContext.getRequest<Request>();
 		const response = httpContext.getResponse<Response>();
 
 		const start = Date.now();
-
-		const isProduction =
-			this.configService.getOrThrow<string>('NODE_ENV') === ENVIROMENTS.PRODUCTION;
-
 		const { method, originalUrl, headers, query, params, body } = request;
-		console.log(request);
 
-		if (!isProduction) {
-			this.logger.debug(
-				`[Request] ${method} ${originalUrl} Params: ${JSON.stringify(params, null, 2)} Query: ${JSON.stringify(query, null, 2)} Headers: ${JSON.stringify(headers, null, 2)} Body: ${JSON.stringify(body, null, 2)}`,
-			);
-		}
+		this.logRequestDetails(method, originalUrl, { params, query, headers, body });
 
 		return next.handle().pipe(
 			tap({
 				next: () => {
 					const duration = Date.now() - start;
 					const { statusCode } = response;
-					if (!isProduction) {
-						this.logger.debug(
-							`[Response - Success] ${method} ${originalUrl} Status: ${statusCode} Time: ${duration}ms`,
-						);
-					}
+					this.logResponseSuccess(method, originalUrl, statusCode, duration);
 				},
-				error: err => {
+				error: e => {
 					const duration = Date.now() - start;
-					const statusCode = err.getStatus?.() || 500;
-					if (!isProduction) {
-						this.logger.error(
-							`[Response - Error] ${method} ${originalUrl} Status: ${statusCode} Time: ${duration}ms Error: ${err.message}`,
-						);
-					}
+					const statusCode = response.statusCode;
+					this.logResponseError(method, originalUrl, statusCode, duration, e);
 				},
 			}),
 		);
+	}
+
+	private logRequestDetails(
+		method: string,
+		url: string,
+		details: { params: unknown; query: unknown; headers: unknown; body: unknown },
+	): void {
+		this.logger.debug(`[${this.className}] Incoming Request`, {
+			method,
+			url,
+			params: details.params,
+			query: details.query,
+			headers: details.headers,
+			body: details.body,
+		});
+	}
+
+	private logResponseSuccess(
+		method: string,
+		url: string,
+		statusCode: number,
+		duration: number,
+	): void {
+		this.logger.debug(`[${this.className}] Request Completed`, {
+			method,
+			url,
+			statusCode,
+			duration: `${duration}ms`,
+		});
+	}
+
+	private logResponseError(
+		method: string,
+		url: string,
+		statusCode: number,
+		duration: number,
+		e: Error,
+	): void {
+		this.logger.error(`[${this.className}] Request Failed`, {
+			method,
+			url,
+			statusCode,
+			duration: `${duration}ms`,
+			error: e.message,
+			stack: e.stack,
+		});
 	}
 }

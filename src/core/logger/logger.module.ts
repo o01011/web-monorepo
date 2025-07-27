@@ -8,7 +8,7 @@ import { config, format, transports } from 'winston';
 	imports: [
 		WinstonModule.forRootAsync({
 			useFactory: async (configService: ConfigService) => {
-				const logLevel = configService.getOrThrow<number>('LOG_LEVEL');
+				const logLevel = configService.get<number>('LOG_LEVEL');
 
 				return {
 					levels: config.syslog.levels,

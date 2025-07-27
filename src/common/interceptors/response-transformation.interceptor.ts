@@ -1,3 +1,4 @@
+import { IResponse } from '@common/interfaces';
 import {
 	CallHandler,
 	ExecutionContext,
@@ -8,27 +9,6 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import { v4 as uuidv4 } from 'uuid';
-
-interface SuccessResponse<T> {
-	requestId: string;
-	statusCode: number;
-	statusMessage: string;
-	timestamp: string;
-	version: string;
-	path: string;
-	data: T;
-}
-
-interface ErrorResponse {
-	requestId: string;
-	statusCode: number;
-	statusMessage: string;
-	error: string;
-	timestamp: string;
-	version: string;
-	path: string;
-}
 
 @Injectable()
 export class ResponseTransformationInterceptor implements NestInterceptor {
@@ -36,36 +16,35 @@ export class ResponseTransformationInterceptor implements NestInterceptor {
 		const ctx = context.switchToHttp();
 		const request = ctx.getRequest<Request>();
 		const response = ctx.getResponse<Response>();
-		const requestId = uuidv4();
-
-		response.setHeader('X-Request-Id', requestId);
 
 		return next.handle().pipe(
-			map((data): SuccessResponse<typeof data> => {
+			map((data): IResponse<typeof data> => {
 				const statusCode = response.statusCode;
 				const isErrorStatus = statusCode >= HttpStatus.BAD_REQUEST;
 
-				return {
-					requestId,
+				const successResponse: IResponse<typeof data> = {
 					statusCode,
 					statusMessage: isErrorStatus ? 'Error' : 'Success',
 					timestamp: new Date().toISOString(),
 					version: this.getApiVersion(request),
 					path: request.url,
+					error: null,
 					data: isErrorStatus ? null : data,
 				};
+
+				return successResponse;
 			}),
 			catchError(e => {
 				const statusCode = e instanceof HttpException ? e.getStatus() : 500;
 
-				const errorResponse: ErrorResponse = {
-					requestId,
+				const errorResponse: IResponse<null> = {
 					statusCode,
 					statusMessage: e.message || 'Internal server error',
-					error: e.name || 'HttpException',
 					timestamp: new Date().toISOString(),
 					version: this.getApiVersion(request),
 					path: request.path,
+					error: e.response.message,
+					data: null,
 				};
 
 				return throwError(() => new HttpException(errorResponse, statusCode));

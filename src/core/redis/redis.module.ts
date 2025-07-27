@@ -10,9 +10,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 			useFactory: (configService: ConfigService) => ({
 				type: 'single',
 				options: {
-					port: configService.getOrThrow<number>('REDIS_PORT'),
-					host: configService.getOrThrow<string>('REDIS_HOST'),
-					db: configService.getOrThrow<number>('REDIS_DATABASES'),
+					port: configService.get<number>('REDIS_PORT'),
+					host: configService.get<string>('REDIS_HOST'),
+					db: configService.get<number>('REDIS_DATABASES'),
 				},
 			}),
 			inject: [ConfigService],

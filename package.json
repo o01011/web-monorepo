@@ -21,15 +21,19 @@
 		"start:dev": "nest start --watch",
 		"start:debug": "nest start --debug --watch",
 		"start:prod": "node dist/src/main",
+    "prisma:init": "prisma init",
 		"prisma:generate": "prisma generate",
-		"prisma:studio": "prisma studio",
+		"prisma:studio": "prisma studio --browser none",
 		"prisma:migrate": "prisma migrate dev",
 		"prisma:migrate:deploy": "prisma migrate deploy",
+    "prisma:pull": "prisma db pull --print",
 		"prisma:push": "prisma db push",
 		"prisma:reset": "prisma migrate reset",
 		"prisma:seed": "ts-node prisma/seed.ts",
 		"prisma:status": "prisma migrate status",
 		"prisma:validate": "prisma validate",
+    "prisma:format": "prisma format",
+    "prisma:version": "prisma -v --json",
     "test": "jest",
 		"prepare": "husky",
 		"docker-compose:up": "docker compose --progress tty -f docker-compose.yml up -d",
@@ -93,6 +97,9 @@
 		"node": "24.4.0",
 		"npm": "11.4.2"
 	},
+  "prisma": {
+    "schema": "./prisma/schema"
+  },
 	"jest": {
 		"moduleFileExtensions": [
 			"js",
