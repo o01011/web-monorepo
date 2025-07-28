@@ -1,6 +1,6 @@
 import { Injectable, OnApplicationShutdown, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Kafka, Producer, ProducerRecord } from 'kafkajs';
+import { Kafka, Producer, ProducerRecord, Partitioners } from 'kafkajs';
 
 @Injectable()
 export class KafkaProducerService implements OnModuleInit, OnApplicationShutdown {
@@ -13,7 +13,7 @@ export class KafkaProducerService implements OnModuleInit, OnApplicationShutdown
 		this.kafka = new Kafka({
 			brokers: [`nestjs-boilerplate-kafka-broker:${this.kafkaBrokerPort}`],
 		});
-		this.producer = this.kafka.producer();
+		this.producer = this.kafka.producer({ createPartitioner: Partitioners.DefaultPartitioner });
 	}
 
 	async onModuleInit(): Promise<void> {

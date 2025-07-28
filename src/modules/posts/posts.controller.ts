@@ -3,6 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { PostsService } from '@modules/posts/posts.service';
 import { CreatePostDto, PostDto, UpdatePostDto } from '@modules/posts/dto';
 
+// TODO: add swagger responses docs
 @Controller('posts')
 @ApiTags('Posts')
 export class PostsController {

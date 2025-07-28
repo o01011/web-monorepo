@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { Exclude } from 'class-transformer';
 
+// TODO: add completed api property args
 export class UserDto implements User {
 	constructor(partial: Partial<UserDto>) {
 		Object.assign(this, partial);

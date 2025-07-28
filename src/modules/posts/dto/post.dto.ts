@@ -2,6 +2,7 @@ import { UserDto } from '@modules/users/dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { Post } from '@prisma/client';
 
+// TODO: add completed api property args
 export class PostDto implements Post {
 	constructor(partial: Partial<PostDto>) {
 		Object.assign(this, partial);
