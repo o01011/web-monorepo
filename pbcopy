@@ -1,7 +1,0 @@
-CONTAINER ID   IMAGE                           COMMAND                  CREATED         STATUS                   PORTS                              NAMES
-addd670d6eff   redislabs/redisinsight:latest   "./docker-entry.sh n…"   5 minutes ago   Up 5 minutes             0.0.0.0:5540->5540/tcp             nestjs-boilerplate-redis-insight
-7c66a3d2961b   provectuslabs/kafka-ui:latest   "/bin/sh -c 'java --…"   5 minutes ago   Up 5 minutes             0.0.0.0:8080->8080/tcp             nestjs-boilerplate-kafka-ui
-1a356d65e635   postgres:17.5-alpine3.22        "docker-entrypoint.s…"   5 minutes ago   Up 5 minutes (healthy)   0.0.0.0:5432->5432/tcp             nestjs-boilerplate-postgres
-c84eb3ad214d   redis:8.0.2-alpine              "docker-entrypoint.s…"   5 minutes ago   Up 5 minutes (healthy)   0.0.0.0:6379->6379/tcp             nestjs-boilerplate-redis
-e86f5042589b   apache/kafka:latest             "/__cacert_entrypoin…"   5 minutes ago   Up 5 minutes             0.0.0.0:9092-9093->9092-9093/tcp   nestjs-boilerplate-kafka-broker
-175e19eee53f   mongo:8.0.10-noble              "docker-entrypoint.s…"   5 minutes ago   Up 5 minutes             0.0.0.0:27017->27017/tcp           nestjs-boilerplate-mongo
