@@ -1,0 +1,2 @@
+export const POST_DESCRIPTION_MIN_LENGHT = 1;
+export const POST_DESCRIPTION_MAX_LENGHT = 255;
