@@ -80,7 +80,11 @@ export class LoggingInterceptor implements NestInterceptor {
 		url: string,
 		statusCode: number,
 		duration: number,
-		e: Error,
+		e: {
+			name: string;
+			message: string;
+			details?: string | null;
+		} | null,
 	): void {
 		this.logger.error(`[${this.className}] Request Failed`, {
 			method,

@@ -1,16 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsNotEmpty, IsPositive, IsString } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
+import { POST_DESCRIPTION_MAX_LENGHT, POST_DESCRIPTION_MIN_LENGHT } from '../posts.constants';
 
-// TODO: add api property args
 export class CreatePostDto {
 	@IsNotEmpty()
 	@IsString()
-	@ApiProperty()
+	@ApiProperty({
+		example: 'New post',
+		description: 'Description of the post',
+		minLength: POST_DESCRIPTION_MIN_LENGHT,
+		maxLength: POST_DESCRIPTION_MAX_LENGHT,
+		type: String,
+	})
 	description: string;
-
-	@IsInt()
-	@IsNotEmpty()
-	@IsPositive()
-	@ApiProperty()
-	userId: number;
 }

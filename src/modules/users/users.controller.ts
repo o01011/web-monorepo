@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post } from '@nestjs/common';
 import {
 	ApiBadRequestResponse,
 	ApiBody,
@@ -49,7 +49,7 @@ export class UsersController {
 		return this.usersService.findAll();
 	}
 
-	@Get(':id')
+	@Get(':userId')
 	@ApiOperation({
 		summary: 'Get a user by ID',
 		description: 'Retrieves a single user by their ID',
@@ -65,16 +65,16 @@ export class UsersController {
 		description: 'Invalid user ID format',
 	})
 	@ApiParam({
-		name: 'id',
-		type: Number,
+		name: 'userId',
+		type: String,
 		description: 'User ID',
-		example: 1,
+		example: '550e8400-e29b-41d4-a716-446655440000',
 	})
-	findOne(@Param('id', ParseIntPipe) id: number) {
-		return this.usersService.findOne(id);
+	findOne(@Param('userId', ParseUUIDPipe) userId: string) {
+		return this.usersService.findOne(userId);
 	}
 
-	@Patch(':id')
+	@Patch(':userId')
 	@ApiOperation({
 		summary: 'Update a user',
 		description: 'Updates an existing user with new data',
@@ -89,15 +89,20 @@ export class UsersController {
 	@ApiBadRequestResponse({
 		description: 'Invalid input data or user ID format',
 	})
-	@ApiParam({ name: 'id', type: Number, description: 'User iD', example: 1 })
+	@ApiParam({
+		name: 'userId',
+		type: String,
+		description: 'User iD',
+		example: '550e8400-e29b-41d4-a716-446655440000',
+	})
 	@ApiBody({
 		type: UpdateUserDto,
 	})
-	update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
-		return this.usersService.update(id, updateUserDto);
+	update(@Param('userId', ParseUUIDPipe) userId: string, @Body() updateUserDto: UpdateUserDto) {
+		return this.usersService.update(userId, updateUserDto);
 	}
 
-	@Delete(':id')
+	@Delete(':userId')
 	@ApiOperation({
 		summary: 'Delete a user',
 		description: 'Deletes a user by their ID',
@@ -112,12 +117,12 @@ export class UsersController {
 		description: 'Invalid user ID format',
 	})
 	@ApiParam({
-		name: 'id',
+		name: 'userId',
 		type: Number,
 		description: 'User ID',
 		example: 1,
 	})
-	remove(@Param('id', ParseIntPipe) id: number) {
-		return this.usersService.remove(id);
+	remove(@Param('userId', ParseUUIDPipe) userId: string) {
+		return this.usersService.remove(userId);
 	}
 }

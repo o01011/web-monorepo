@@ -4,6 +4,10 @@ export interface IResponse<T> {
 	timestamp: string;
 	version: string;
 	path: string;
-	error: string | null;
+	error: {
+		name: string;
+		message: string;
+		details?: string | null;
+	} | null;
 	data: T | null;
 }

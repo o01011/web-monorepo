@@ -36,6 +36,8 @@ export class ResponseTransformationInterceptor implements NestInterceptor {
 			}),
 			catchError(e => {
 				const statusCode = e instanceof HttpException ? e.getStatus() : 500;
+				const errorMessage = e.message || 'Internal server error';
+				const errorName = e.name || 'Error';
 
 				const errorResponse: IResponse<null> = {
 					statusCode,
@@ -43,7 +45,11 @@ export class ResponseTransformationInterceptor implements NestInterceptor {
 					timestamp: new Date().toISOString(),
 					version: this.getApiVersion(request),
 					path: request.path,
-					error: e,
+					error: {
+						name: errorName,
+						message: errorMessage,
+						details: e.response?.error || null,
+					},
 					data: null,
 				};
 

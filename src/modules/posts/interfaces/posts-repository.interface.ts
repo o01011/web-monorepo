@@ -1,8 +1,8 @@
 import { CreatePostDto, PostDto, UpdatePostDto } from '@modules/posts/dto';
 
 export interface IPostRepository {
-	create(createPostDto: CreatePostDto): Promise<PostDto>;
-	findOne(id: number): Promise<PostDto | null>;
-	update(id: number, updatePostDto: UpdatePostDto): Promise<PostDto>;
-	remove(id: number): Promise<PostDto>;
+	create(userId: string, createPostDto: CreatePostDto): Promise<PostDto>;
+	findOne(postId: string): Promise<PostDto | null>;
+	update(postId: string, updatePostDto: UpdatePostDto): Promise<PostDto>;
+	remove(postId: string): Promise<PostDto>;
 }

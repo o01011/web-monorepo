@@ -8,7 +8,7 @@ const fakerUser = () => ({
 	email: faker.internet.email(),
 });
 
-const fakerPost = (userId: number) => ({
+const fakerPost = (userId: string) => ({
 	description: faker.lorem.sentence(),
 	userId,
 });

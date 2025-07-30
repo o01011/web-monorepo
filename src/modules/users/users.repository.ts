@@ -19,22 +19,25 @@ export class UsersRepository implements IUsersRepository {
 		return users.map(user => new UserDto(user));
 	}
 
-	async findOne(id: number): Promise<UserDto | null> {
-		const user = await this.prismaService.user.findUnique({ where: { id } });
+	async findOne(userId: string): Promise<UserDto | null> {
+		const user = await this.prismaService.user.findUnique({ where: { id: userId } });
 
-		if (!user) throw new NotFoundException(`User with id ${id} not found`);
-
-		return new UserDto(user);
-	}
-
-	async update(id: number, updateUserDto: UpdateUserDto): Promise<UserDto> {
-		const user = await this.prismaService.user.update({ where: { id }, data: updateUserDto });
+		if (!user) throw new NotFoundException(`User with id ${userId} not found`);
 
 		return new UserDto(user);
 	}
 
-	async remove(id: number): Promise<UserDto> {
-		const user = await this.prismaService.user.delete({ where: { id } });
+	async update(userId: string, updateUserDto: UpdateUserDto): Promise<UserDto> {
+		const user = await this.prismaService.user.update({
+			where: { id: userId },
+			data: updateUserDto,
+		});
+
+		return new UserDto(user);
+	}
+
+	async remove(userId: string): Promise<UserDto> {
+		const user = await this.prismaService.user.delete({ where: { id: userId } });
 
 		return new UserDto(user);
 	}
