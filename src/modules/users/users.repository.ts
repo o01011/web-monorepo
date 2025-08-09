@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { IUsersRepository } from '@modules/users/interfaces';
 import { PrismaService } from '@core/prisma/prisma.service';
 import { CreateUserDto, UserDto, UpdateUserDto } from '@modules/users/dto';
@@ -9,21 +9,16 @@ export class UsersRepository implements IUsersRepository {
 
 	async create(createUserDto: CreateUserDto): Promise<UserDto> {
 		const user = await this.prismaService.user.create({ data: createUserDto });
-
 		return new UserDto(user);
 	}
 
 	async findAll(): Promise<UserDto[]> {
 		const users = await this.prismaService.user.findMany();
-
 		return users.map(user => new UserDto(user));
 	}
 
-	async findOne(userId: string): Promise<UserDto | null> {
+	async findOne(userId: string): Promise<UserDto> {
 		const user = await this.prismaService.user.findUnique({ where: { id: userId } });
-
-		if (!user) throw new NotFoundException(`User with id ${userId} not found`);
-
 		return new UserDto(user);
 	}
 
@@ -32,13 +27,11 @@ export class UsersRepository implements IUsersRepository {
 			where: { id: userId },
 			data: updateUserDto,
 		});
-
 		return new UserDto(user);
 	}
 
 	async remove(userId: string): Promise<UserDto> {
 		const user = await this.prismaService.user.delete({ where: { id: userId } });
-
 		return new UserDto(user);
 	}
 }

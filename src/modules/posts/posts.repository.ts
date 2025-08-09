@@ -1,7 +1,7 @@
-import { PrismaService } from '@core/prisma/prisma.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePostDto, PostDto, UpdatePostDto } from '@modules/posts/dto';
 import { IPostRepository } from '@modules/posts/interfaces/posts-repository.interface';
+import { PrismaService } from '@core/prisma/prisma.service';
 
 @Injectable()
 export class PostsRepository implements IPostRepository {

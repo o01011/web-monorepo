@@ -118,9 +118,9 @@ export class UsersController {
 	})
 	@ApiParam({
 		name: 'userId',
-		type: Number,
+		type: String,
 		description: 'User ID',
-		example: 1,
+		example: '550e8400-e29b-41d4-a716-446655440000',
 	})
 	remove(@Param('userId', ParseUUIDPipe) userId: string) {
 		return this.usersService.remove(userId);

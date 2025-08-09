@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, Inject, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable, tap } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
-import { ENVIROMENTS } from '@common/enums';
+import { EnviromentEnum } from '@common/enums';
 import { Request, Response } from 'express';
 import { Logger } from 'winston';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
@@ -15,7 +15,7 @@ export class LoggingInterceptor implements NestInterceptor {
 		private readonly configService: ConfigService,
 		@Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
 	) {
-		this.isProduction = this.configService.get<string>('NODE_ENV') === ENVIROMENTS.PRODUCTION;
+		this.isProduction = this.configService.get<string>('NODE_ENV') === EnviromentEnum.PRODUCTION;
 	}
 
 	intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {

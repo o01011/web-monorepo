@@ -1,4 +1,4 @@
-import { LOG_LEVELS } from '@common/enums/log-levels.enum';
+import { LogLevelsEnum } from '@common/enums/log-levels.enum';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { WinstonModule, utilities as nestWinstonModuleUtilities } from 'nest-winston';
@@ -13,7 +13,7 @@ import { config, format, transports } from 'winston';
 				return {
 					levels: config.syslog.levels,
 
-					level: LOG_LEVELS[logLevel],
+					level: LogLevelsEnum[logLevel],
 					transports: [
 						new transports.Console({
 							format: format.combine(

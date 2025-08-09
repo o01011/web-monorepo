@@ -1,4 +1,4 @@
-export enum LOG_LEVELS {
+export enum LogLevelsEnum {
 	'emerg' = 0,
 	'alert' = 1,
 	'crit' = 2,

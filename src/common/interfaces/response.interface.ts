@@ -5,9 +5,7 @@ export interface IResponse<T> {
 	version: string;
 	path: string;
 	error: {
-		name: string;
-		message: string;
-		details?: string | null;
+		message: string | unknown;
 	} | null;
 	data: T | null;
 }

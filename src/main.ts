@@ -6,7 +6,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import expressBasicAuth from 'express-basic-auth';
 import { ConfigService } from '@nestjs/config';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
-import { ENVIROMENTS } from '@common/enums';
+import { EnviromentEnum } from '@common/enums';
 
 const logger = new Logger('Bootstrap');
 
@@ -83,7 +83,7 @@ async function bootstrap(): Promise<void> {
 	const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
 	const configService = app.get(ConfigService);
-	const isProduction = configService.get<string>('NODE_ENV') === ENVIROMENTS.PRODUCTION;
+	const isProduction = configService.get<string>('NODE_ENV') === EnviromentEnum.PRODUCTION;
 
 	const appPort = configService.get<number>('APP_PORT');
 

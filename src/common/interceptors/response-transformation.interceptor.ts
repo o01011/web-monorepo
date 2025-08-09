@@ -7,8 +7,10 @@ import {
 	Injectable,
 	NestInterceptor,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { Request, Response } from 'express';
 import { catchError, map, Observable, throwError } from 'rxjs';
+import { PrismaStatusCodesEnum, ResponseStatusMessagesEnum } from '@common/enums';
 
 @Injectable()
 export class ResponseTransformationInterceptor implements NestInterceptor {
@@ -21,41 +23,47 @@ export class ResponseTransformationInterceptor implements NestInterceptor {
 			map((data): IResponse<typeof data> => {
 				const statusCode = response.statusCode;
 				const isErrorStatus = statusCode >= HttpStatus.BAD_REQUEST;
-
 				const successResponse: IResponse<typeof data> = {
 					statusCode,
-					statusMessage: isErrorStatus ? 'Error' : 'Success',
+					statusMessage: isErrorStatus
+						? ResponseStatusMessagesEnum.ERROR
+						: ResponseStatusMessagesEnum.SUCCESS,
 					timestamp: new Date().toISOString(),
 					version: this.getApiVersion(request),
 					path: request.url,
 					error: null,
-					data: isErrorStatus ? null : data,
+					data,
 				};
 
 				return successResponse;
 			}),
 			catchError(e => {
-				const statusCode = e instanceof HttpException ? e.getStatus() : 500;
-				const errorMessage = e.message || 'Internal server error';
-				const errorName = e.name || 'Error';
-
-				const errorResponse: IResponse<null> = {
-					statusCode,
-					statusMessage: e.message || 'Internal server error',
-					timestamp: new Date().toISOString(),
-					version: this.getApiVersion(request),
-					path: request.path,
-					error: {
-						name: errorName,
-						message: errorMessage,
-						details: e.response?.error || null,
-					},
-					data: null,
-				};
-
-				return throwError(() => new HttpException(errorResponse, statusCode));
+				if (e instanceof Prisma.PrismaClientKnownRequestError) {
+					return this.handlePrismaErrorResponse(e, request);
+				}
 			}),
 		);
+	}
+
+	private handlePrismaErrorResponse(
+		e: Prisma.PrismaClientKnownRequestError,
+		request: Request,
+	): Observable<never> {
+		const statusCode = PrismaStatusCodesEnum[e.code] || HttpStatus.INTERNAL_SERVER_ERROR;
+
+		const errorResponse: IResponse<null> = {
+			statusCode,
+			statusMessage: ResponseStatusMessagesEnum.ERROR,
+			timestamp: new Date().toISOString(),
+			version: this.getApiVersion(request),
+			path: request.url,
+			error: {
+				message: e.meta?.cause,
+			},
+			data: null,
+		};
+
+		return throwError(() => new HttpException(errorResponse, statusCode));
 	}
 
 	private getApiVersion(request: Request): string {
