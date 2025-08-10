@@ -11,26 +11,32 @@ export class PostsService {
 	) {}
 
 	async create(userId: string, createPostDto: CreatePostDto): Promise<PostDto> {
-		await this.usersService.findOne(userId);
+		await this.usersService.findById(userId);
 
 		return this.postsRepository.create(userId, createPostDto);
 	}
 
-	async findOne(postId: string): Promise<PostDto> {
-		const post = await this.postsRepository.findOne(postId);
+	async findAllByUserId(userId: string): Promise<PostDto[]> {
+		await this.usersService.findById(userId);
 
-		return post;
+		return this.postsRepository.findAllByUserId(userId);
 	}
 
-	async update(postId: string, updatePostDto: UpdatePostDto): Promise<PostDto> {
-		const post = await this.postsRepository.findOne(postId);
+	async findById(userId: string, postId: string): Promise<PostDto> {
+		await this.usersService.findById(userId);
 
-		return this.postsRepository.update(post.id, updatePostDto);
+		return this.postsRepository.findById(postId);
 	}
 
-	async remove(postId: string): Promise<PostDto> {
-		const post = await this.postsRepository.findOne(postId);
+	async update(userId: string, postId: string, updatePostDto: UpdatePostDto): Promise<PostDto> {
+		await this.usersService.findById(userId);
 
-		return this.postsRepository.remove(post.id);
+		return this.postsRepository.update(postId, updatePostDto);
+	}
+
+	async remove(userId: string, postId: string): Promise<PostDto> {
+		await this.usersService.findById(userId);
+
+		return this.postsRepository.remove(postId);
 	}
 }

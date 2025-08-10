@@ -1,11 +1,10 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { CreateUserDto } from '@modules/users/dto/create-user.dto';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 import { USER_NAME_MAX_LENGTH, USER_NAME_MIN_LENGTH } from '../users.constants';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
 	@IsString()
-	@IsNotEmpty()
 	@IsOptional()
 	@ApiProperty({
 		required: false,
@@ -17,7 +16,6 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
 	name?: string;
 
 	@IsString()
-	@IsNotEmpty()
 	@IsOptional()
 	@ApiProperty({
 		required: false,

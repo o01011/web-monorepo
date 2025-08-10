@@ -11,11 +11,6 @@ export class UsersService {
 	) {}
 
 	async create(createUserDto: CreateUserDto): Promise<UserDto> {
-		// this.kafkaProducerService.produce({
-		// 	topic: 'create-user',
-		// 	messages: [{ value: JSON.stringify(createUserDto) }],
-		// });
-
 		return this.usersRepository.create(createUserDto);
 	}
 
@@ -23,7 +18,7 @@ export class UsersService {
 		return this.usersRepository.findAll();
 	}
 
-	async findOne(userId: string): Promise<UserDto> {
+	async findById(userId: string): Promise<UserDto> {
 		return this.usersRepository.findOne(userId);
 	}
 

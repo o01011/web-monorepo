@@ -2,12 +2,9 @@ import { UserDto } from '@modules/users/dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { Post } from '@prisma/client';
 import { POST_DESCRIPTION_MAX_LENGHT, POST_DESCRIPTION_MIN_LENGHT } from '../posts.constants';
+import { Exclude } from 'class-transformer';
 
 export class PostDto implements Post {
-	constructor(partial: Partial<PostDto>) {
-		Object.assign(this, partial);
-	}
-
 	@ApiProperty({
 		example: '550e8400-e29b-41d4-a716-446655440000',
 		description: 'Unique identifier of the post',
@@ -25,6 +22,7 @@ export class PostDto implements Post {
 	})
 	description: string;
 
+	@Exclude()
 	@ApiProperty({
 		example: '2022-02-26T16:37:48.244Z',
 		description: 'TImestamp when the post was created',
@@ -34,6 +32,7 @@ export class PostDto implements Post {
 	})
 	createdAt: Date;
 
+	@Exclude()
 	@ApiProperty({
 		example: '2022-02-26T16:37:48.244Z',
 		description: 'Timestamp when the post was updated',
@@ -43,6 +42,7 @@ export class PostDto implements Post {
 	})
 	updatedAt: Date;
 
+	@Exclude()
 	@ApiProperty({
 		example: '550e8400-e29b-41d4-a716-446655440000',
 		description: 'Unique identifier of the user',
@@ -51,10 +51,15 @@ export class PostDto implements Post {
 	})
 	userId: string;
 
+	@Exclude()
 	@ApiProperty({
 		type: () => UserDto,
 		description: 'User who created this post',
 		required: false,
 	})
-	user: UserDto;
+	user?: UserDto;
+
+	constructor(postDto: PostDto) {
+		Object.assign(this, postDto);
+	}
 }

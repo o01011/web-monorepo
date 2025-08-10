@@ -26,13 +26,10 @@ export class UsersController {
 		description: 'The user has been successfully created',
 		type: UserDto,
 	})
-	@ApiBadRequestResponse({
-		description: 'Invalid input data',
-	})
 	@ApiBody({
 		type: CreateUserDto,
 	})
-	create(@Body() createUserDto: CreateUserDto) {
+	create(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
 		return this.usersService.create(createUserDto);
 	}
 
@@ -45,7 +42,7 @@ export class UsersController {
 		description: 'List of users retrieved successfully',
 		type: [UserDto],
 	})
-	findAll() {
+	findAll(): Promise<UserDto[]> {
 		return this.usersService.findAll();
 	}
 
@@ -61,17 +58,14 @@ export class UsersController {
 	@ApiNotFoundResponse({
 		description: 'User not found',
 	})
-	@ApiBadRequestResponse({
-		description: 'Invalid user ID format',
-	})
 	@ApiParam({
 		name: 'userId',
 		type: String,
 		description: 'User ID',
 		example: '550e8400-e29b-41d4-a716-446655440000',
 	})
-	findOne(@Param('userId', ParseUUIDPipe) userId: string) {
-		return this.usersService.findOne(userId);
+	findOne(@Param('userId', ParseUUIDPipe) userId: string): Promise<UserDto> {
+		return this.usersService.findById(userId);
 	}
 
 	@Patch(':userId')
@@ -98,7 +92,10 @@ export class UsersController {
 	@ApiBody({
 		type: UpdateUserDto,
 	})
-	update(@Param('userId', ParseUUIDPipe) userId: string, @Body() updateUserDto: UpdateUserDto) {
+	update(
+		@Param('userId', ParseUUIDPipe) userId: string,
+		@Body() updateUserDto: UpdateUserDto,
+	): Promise<UserDto> {
 		return this.usersService.update(userId, updateUserDto);
 	}
 
@@ -113,16 +110,13 @@ export class UsersController {
 	@ApiNotFoundResponse({
 		description: 'User not found',
 	})
-	@ApiBadRequestResponse({
-		description: 'Invalid user ID format',
-	})
 	@ApiParam({
 		name: 'userId',
 		type: String,
 		description: 'User ID',
 		example: '550e8400-e29b-41d4-a716-446655440000',
 	})
-	remove(@Param('userId', ParseUUIDPipe) userId: string) {
+	remove(@Param('userId', ParseUUIDPipe) userId: string): Promise<UserDto> {
 		return this.usersService.remove(userId);
 	}
 }

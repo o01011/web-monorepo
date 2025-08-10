@@ -3,8 +3,8 @@ import { IsNotEmpty, IsString } from 'class-validator';
 import { POST_DESCRIPTION_MAX_LENGHT, POST_DESCRIPTION_MIN_LENGHT } from '../posts.constants';
 
 export class CreatePostDto {
-	@IsNotEmpty()
 	@IsString()
+	@IsNotEmpty()
 	@ApiProperty({
 		example: 'New post',
 		description: 'Description of the post',

@@ -18,13 +18,13 @@ export class PostsRepository implements IPostRepository {
 		return new PostDto(post);
 	}
 
-	async findAllByUser(userId: string): Promise<PostDto[]> {
+	async findAllByUserId(userId: string): Promise<PostDto[]> {
 		const posts = await this.prismaService.post.findMany({ where: { userId } });
 
 		return posts.map(post => new PostDto(post));
 	}
 
-	async findOne(postId: string): Promise<PostDto | null> {
+	async findById(postId: string): Promise<PostDto> {
 		const post = await this.prismaService.post.findUnique({
 			where: { id: postId },
 		});

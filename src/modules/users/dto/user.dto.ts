@@ -4,10 +4,6 @@ import { Exclude } from 'class-transformer';
 import { USER_NAME_MAX_LENGTH, USER_NAME_MIN_LENGTH } from '../users.constants';
 
 export class UserDto implements User {
-	constructor(partial: Partial<UserDto>) {
-		Object.assign(this, partial);
-	}
-
 	@ApiProperty({
 		example: '550e8400-e29b-41d4-a716-446655440000',
 		description: 'Unique identifier of the user',
@@ -34,11 +30,12 @@ export class UserDto implements User {
 	})
 	email: string;
 
+	@Exclude()
 	@ApiProperty({
 		example: '2022-02-26T16:37:48.244Z',
 		description: 'Create at date time',
-		type: String,
 		format: 'date-time',
+		type: String,
 	})
 	createdAt: Date;
 
@@ -46,9 +43,13 @@ export class UserDto implements User {
 	@ApiProperty({
 		example: '2022-02-27T10:15:30.000Z',
 		description: 'Timestamp when the user was last updated',
-		type: String,
 		format: 'date-time',
 		readOnly: true,
+		type: String,
 	})
 	updatedAt: Date;
+
+	constructor(userDto: UserDto) {
+		Object.assign(this, userDto);
+	}
 }
