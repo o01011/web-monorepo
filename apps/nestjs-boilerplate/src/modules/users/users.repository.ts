@@ -2,10 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { IUsersRepository } from '@modules/users/interfaces';
 import { PrismaService } from '@core/prisma/prisma.service';
 import { CreateUserDto, UserDto, UpdateUserDto } from '@modules/users/dto';
+import { I18nContext, I18nService } from 'nestjs-i18n';
 
 @Injectable()
 export class UsersRepository implements IUsersRepository {
-	constructor(private readonly prismaService: PrismaService) {}
+	constructor(
+		private readonly prismaService: PrismaService,
+		private readonly i18nService: I18nService,
+	) {}
 
 	async create(createUserDto: CreateUserDto): Promise<UserDto> {
 		const user = await this.prismaService.user.create({ data: createUserDto });
@@ -21,7 +25,11 @@ export class UsersRepository implements IUsersRepository {
 		const user = await this.prismaService.user.findUnique({ where: { id: userId } });
 
 		if (!user) {
-			throw new NotFoundException(`User with id ${userId} not found.`);
+			throw new NotFoundException(
+				this.i18nService.t('users.NOT_FOUND', {
+					lang: I18nContext.current().lang,
+				}),
+			);
 		}
 
 		return new UserDto(user);

@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { RedisModule } from '@core/redis/redis.module';
-import { LoggerModule } from '@core/logger/logger.module';
 import { HealthChecksModule } from '@core/health-checks/health-checks.module';
 import { ConfigModule } from '@core/config/config.module';
 import { MongoModule } from '@core/mongo/mongo.module';
@@ -14,15 +13,7 @@ import {
 import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
-	imports: [
-		ConfigModule,
-		HealthChecksModule,
-		LoggerModule,
-		RedisModule,
-		MongoModule,
-		KafkaModule,
-		PrismaModule,
-	],
+	imports: [ConfigModule, HealthChecksModule, RedisModule, MongoModule, KafkaModule, PrismaModule],
 	providers: [
 		{
 			provide: APP_INTERCEPTOR,

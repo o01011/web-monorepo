@@ -9,10 +9,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 			imports: [ConfigModule],
 			useFactory: (configService: ConfigService) => ({
 				type: 'single',
+				url: configService.get<string>('REDIS_URL'),
 				options: {
-					port: configService.get<number>('REDIS_PORT'),
-					host: configService.get<string>('REDIS_HOST'),
-					db: configService.get<number>('REDIS_DATABASES'),
 					keyPrefix: 'nestjs-boilerplate-cache:',
 				},
 			}),
