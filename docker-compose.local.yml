@@ -23,27 +23,6 @@ services:
       start_period: 30s
     hostname: nestjs-boilerplate-postgres
 
-  nestjs-boilerplate-mongo:
-    container_name: nestjs-boilerplate-mongo
-    image: mongo:8.0.10-noble
-    restart: always
-    ports:
-      - ${MONGO_PORT}:${MONGO_PORT}
-    volumes:
-      - nestjs-boilerplate-mongo-data:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
-    env_file: .env
-    networks:
-      - nestjs-boilerplate-network
-    command:
-      - '--storageEngine'
-      - wiredTiger
-      - '--auth'
-    hostname: nestjs-boilerplate-mongo
-
   nestjs-boilerplate-redis:
     container_name: nestjs-boilerplate-redis
     image: redis:8.0.2-alpine
@@ -135,9 +114,6 @@ volumes:
     driver: local
   nestjs-boilerplate-redis-insight-data:
     name: nestjs-boilerplate-redis-insight-data
-    driver: local
-  nestjs-boilerplate-mongo-data:
-    name: nestjs-boilerplate-mongo-data
     driver: local
 
 networks:

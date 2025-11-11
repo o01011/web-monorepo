@@ -1,8 +1,8 @@
-import { ConfigKeyEnum } from '@app/common/enums/config.enum';
 import { registerAs } from '@nestjs/config';
-import { IRedis } from '../interfaces/redis.interface';
+import { IRedisConfig } from '../interfaces/redis.interface';
+import { ConfigKeyEnum } from '@libs/common/enums';
 
-export const redisConfig = registerAs(ConfigKeyEnum.Redis, (): IRedis => {
+export const redisConfig = registerAs(ConfigKeyEnum.Redis, (): IRedisConfig => {
 	return {
 		redisUrl: process.env.REDIS_URL,
 	};

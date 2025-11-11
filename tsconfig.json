@@ -19,35 +19,23 @@
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
     "paths": {
-      "@common/*": [
-        "src/common/*"
-      ],
-      "@core/*": [
-        "src/core/*"
-      ],
-      "@modules/users/*": [
-        "src/modules/users/*"
-      ],
-      "@modules/posts/*": [
-        "src/modules/posts/*"
-      ],
-      "@app/initializers": [
-        "libs/initializers/src"
-      ],
-      "@app/initializers/*": [
-        "libs/initializers/src/*"
-      ],
-      "@app/common": [
-        "libs/common/src"
-      ],
-      "@app/common/*": [
+      "@libs/common/*": [
         "libs/common/src/*"
       ],
-      "@app/configs": [
-        "libs/configs/src"
+      "@libs/common": [
+        "libs/common/src"
       ],
-      "@app/configs/*": [
-        "libs/configs/src/*"
+      "@libs/core/*": [
+        "libs/core/src/*"
+      ],
+      "@libs/core": [
+        "libs/core/src"
+      ],
+      "@prisma/generated": [
+        "prisma/generated"
+      ],
+      "@prisma/generated/*": [
+        "prisma/generated/*"
       ],
       "@app/i18n": [
         "libs/i18n/src"

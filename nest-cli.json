@@ -1,22 +1,26 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/nestjs-boilerplate/src",
-  "compilerOptions": {
-    "deleteOutDir": true,
-    "webpack": true,
-    "tsConfigPath": "apps/nestjs-boilerplate/tsconfig.app.json"
-  },
   "monorepo": true,
-  "root": "apps/nestjs-boilerplate",
+  "compilerOptions": {
+    "webpack": false,
+    "deleteOutDir": false
+  },
   "projects": {
-    "nestjs-boilerplate": {
+    "nestjs-boilerplate-admin": {
       "type": "application",
-      "root": "apps/nestjs-boilerplate",
+      "root": "apps/nestjs-boilerplate-admin",
       "entryFile": "main",
-      "sourceRoot": "apps/nestjs-boilerplate/src",
+      "sourceRoot": "apps/nestjs-boilerplate-admin/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/nestjs-boilerplate/tsconfig.app.json"
+        "tsConfigPath": "apps/nestjs-boilerplate-admin/tsconfig.app.json",
+        "assets": [
+          {
+            "include": "../../../libs/i18n/src/**/*",
+            "outDir": "dist/apps/nestjs-boilerplate-admin/libs/i18n/src"
+          }
+        ],
+        "watchAssets": true
       }
     },
     "nestjs-boilerplate-mobile": {
@@ -25,16 +29,14 @@
       "entryFile": "main",
       "sourceRoot": "apps/nestjs-boilerplate-mobile/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/nestjs-boilerplate-mobile/tsconfig.app.json"
-      }
-    },
-    "initializers": {
-      "type": "library",
-      "root": "libs/initializers",
-      "entryFile": "index",
-      "sourceRoot": "libs/initializers/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/initializers/tsconfig.lib.json"
+        "tsConfigPath": "apps/nestjs-boilerplate-mobile/tsconfig.app.json",
+        "assets": [
+          {
+            "include": "../../../libs/i18n/src/**/*",
+            "outDir": "dist/apps/nestjs-boilerplate-mobile/libs/i18n/src"
+          }
+        ],
+        "watchAssets": true
       }
     },
     "common": {
@@ -53,6 +55,15 @@
       "sourceRoot": "libs/configs/src",
       "compilerOptions": {
         "tsConfigPath": "libs/configs/tsconfig.lib.json"
+      }
+    },
+    "core": {
+      "type": "library",
+      "root": "libs/core",
+      "entryFile": "index",
+      "sourceRoot": "libs/core/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/core/tsconfig.lib.json"
       }
     },
     "i18n": {

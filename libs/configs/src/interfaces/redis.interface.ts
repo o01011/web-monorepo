@@ -1,3 +1,3 @@
-export interface IRedis {
+export interface IRedisConfig {
 	redisUrl: string;
 }
