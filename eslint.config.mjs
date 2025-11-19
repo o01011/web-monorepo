@@ -9,9 +9,8 @@ export default defineConfig([
 		files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
 		plugins: { js },
 		extends: ['js/recommended'],
-		ignores: '**/*.js',
 	},
-	{ files: ['**/*.{js,mjs,cjs,ts,mts,cts}'], languageOptions: { globals: globals.browser }, ignores: '**/*.js' },
+	{ files: ['**/*.{js,mjs,cjs,ts,mts,cts}'], languageOptions: { globals: globals.browser } },
 	tseslint.configs.recommended,
 	eslintPluginPrettierRecommended,
 ]);
