@@ -2,6 +2,7 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { UserDto, CreateUserDto, UpdateUserDto } from './dto';
 import { I18nContext, I18nService } from 'nestjs-i18n';
+import { I18nTranslations } from '@app/i18n/generated/i18n.generated';
 // import { KafkaProducerService } from '@core/kafka/producer/kafka-producer.service';
 
 @Injectable()
@@ -10,7 +11,7 @@ export class UserService {
 
 	constructor(
 		private readonly userRepository: UserRepository,
-		private readonly i18nService: I18nService,
+		private readonly i18nService: I18nService<I18nTranslations>,
 		// private readonly kafkaProducerService: KafkaProducerService,
 	) {}
 

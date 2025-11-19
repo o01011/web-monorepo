@@ -3,8 +3,21 @@
   "collection": "@nestjs/schematics",
   "monorepo": true,
   "compilerOptions": {
-    "webpack": false,
-    "deleteOutDir": false
+    "builder": {
+      "type": "swc",
+      "options": {
+        "swcrcPath": ".swcrc",
+        "extensions": [".ts", ".tsx", ".js", ".jsx"]
+      }
+    },
+    "typeCheck": true,
+    "assets": [
+      {
+        "include": "../../../libs/i18n/src/**/*",
+        "outDir": "dist/libs/i18n/src",
+        "watchAssets": true
+      }
+    ]
   },
   "projects": {
     "nestjs-boilerplate-admin": {
@@ -13,14 +26,7 @@
       "entryFile": "main",
       "sourceRoot": "apps/nestjs-boilerplate-admin/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/nestjs-boilerplate-admin/tsconfig.app.json",
-        "assets": [
-          {
-            "include": "../../../libs/i18n/src/**/*",
-            "outDir": "dist/apps/nestjs-boilerplate-admin/libs/i18n/src"
-          }
-        ],
-        "watchAssets": true
+        "tsConfigPath": "apps/nestjs-boilerplate-admin/tsconfig.app.json"
       }
     },
     "nestjs-boilerplate-mobile": {
@@ -29,14 +35,7 @@
       "entryFile": "main",
       "sourceRoot": "apps/nestjs-boilerplate-mobile/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/nestjs-boilerplate-mobile/tsconfig.app.json",
-        "assets": [
-          {
-            "include": "../../../libs/i18n/src/**/*",
-            "outDir": "dist/apps/nestjs-boilerplate-mobile/libs/i18n/src"
-          }
-        ],
-        "watchAssets": true
+        "tsConfigPath": "apps/nestjs-boilerplate-mobile/tsconfig.app.json"
       }
     },
     "common": {

@@ -7,11 +7,19 @@ import { join } from 'node:path';
 	imports: [
 		CoreI18nModule.forRootAsync({
 			useFactory: (configService: ConfigService) => ({
-				fallbackLanguage: configService.get<string>('FALLBACK_LANGUAGE'),
+				fallbackLanguage: configService.get<string>('I18N_FALLBACK_LANGUAGE'),
 				loaderOptions: {
 					path: join(process.cwd(), 'libs', 'i18n', 'src'),
 					watch: true,
 				},
+				typesOutputPath: join(
+					process.cwd(),
+					'libs',
+					'i18n',
+					'src',
+					'generated',
+					'i18n.generated.ts',
+				),
 			}),
 			resolvers: [
 				{

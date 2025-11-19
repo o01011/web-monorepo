@@ -7,11 +7,9 @@ import { Path } from "nestjs-i18n";
 export type I18nTranslations = {
     "posts": {
         "NOT_FOUND": string;
-        "POST_NOT_FOUND": string;
     };
     "users": {
         "NOT_FOUND": string;
-        "USER_NOT_FOUND": string;
     };
 };
 /* prettier-ignore */
