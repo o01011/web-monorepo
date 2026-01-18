@@ -27,7 +27,8 @@
     "docker:prod:down": "docker compose -f docker-compose.prod.yml down -v",
     "docker:prod:start": "docker compose -f docker-compose.prod.yml start",
     "docker:prod:stop": "docker compose -f docker-compose.prod.yml stop -t 10",
-    "prepare": "husky"
+    "prepare": "husky",
+    "knip": "knip"
   },
   "dependencies": {
     "@nestjs-modules/ioredis": "^2.0.2",
@@ -52,11 +53,10 @@
     "@eslint/js": "^9.39.2",
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
-    "@nestjs/testing": "^11.0.1",
     "@swc/cli": "^0.7.10",
     "@swc/core": "^1.15.8",
     "@types/express": "^5.0.0",
-    "@types/node": "^22.10.7",
+    "@types/node": "^22.19.7",
     "@types/supertest": "^6.0.2",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
@@ -64,6 +64,7 @@
     "globals": "^16.5.0",
     "husky": "^9.1.7",
     "joi": "^18.0.2",
+    "knip": "^5.82.0",
     "prettier": "^3.4.2",
     "prisma": "^7.2.0",
     "source-map-support": "^0.5.21",
@@ -71,7 +72,7 @@
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.7.3",
+    "typescript": "^5.9.3",
     "typescript-eslint": "^8.53.0"
   }
 }
