@@ -34,8 +34,8 @@
   },
   "lint-staged": {
     "src/**/*.ts": [
-      "eslint",
-      "prettier -c"
+      "eslint --fix",
+      "prettier --write"
     ]
   },
   "dependencies": {
