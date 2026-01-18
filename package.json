@@ -35,8 +35,7 @@
   "lint-staged": {
     "src/**/*.ts": [
       "npm run lint:check",
-      "npm run format:check",
-      "git add"
+      "npm run format:check"
     ]
   },
   "dependencies": {
