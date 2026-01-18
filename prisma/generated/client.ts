@@ -6,7 +6,7 @@
 /*
  * This file should be your main import to use Prisma. Through it you get access to all the models, enums, and input types.
  * If you're looking for something you can import in the client-side of your application, please refer to the `browser.ts` file instead.
- * 
+ *
  * 🟢 You can import this file directly.
  */
 
@@ -14,12 +14,12 @@ import * as process from 'node:process'
 import * as path from 'node:path'
 
 import * as runtime from "@prisma/client/runtime/client"
-import * as $Enums from "./enums"
-import * as $Class from "./internal/class"
-import * as Prisma from "./internal/prismaNamespace"
+import * as $Enums from "./enums.js"
+import * as $Class from "./internal/class.js"
+import * as Prisma from "./internal/prismaNamespace.js"
 
-export * as $Enums from './enums'
-export * from "./enums"
+export * as $Enums from './enums.js'
+export * from "./enums.js"
 /**
  * ## Prisma Client
  * 
@@ -27,25 +27,18 @@ export * from "./enums"
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Posts
- * const posts = await prisma.post.findMany()
+ * // Fetch zero or more Devices
+ * const devices = await prisma.device.findMany()
  * ```
  * 
- * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+ * Read more in our [docs](https://pris.ly/d/client).
  */
-export const PrismaClient = $Class.getPrismaClientClass(__dirname)
+export const PrismaClient = $Class.getPrismaClientClass()
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>
 export { Prisma }
 
-
-
 /**
- * Model Post
+ * Model Device
  * 
  */
-export type Post = Prisma.PostModel
-/**
- * Model User
- * 
- */
-export type User = Prisma.UserModel
+export type Device = Prisma.DeviceModel
