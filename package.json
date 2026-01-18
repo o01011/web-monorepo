@@ -34,8 +34,8 @@
   },
   "lint-staged": {
     "src/**/*.ts": [
-      "npm run lint:check --",
-      "npm run format:check --"
+      "eslint",
+      "prettier -c"
     ]
   },
   "dependencies": {
