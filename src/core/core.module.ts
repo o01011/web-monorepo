@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { ResponseTransformationInterceptor } from '../common/interceptors/response-transformation.interceptor';
-import { LoggingInterceptor } from '../common/interceptors/logger.interceptor';
-import { TimeoutInterceptor } from '../common/interceptors/timeout.interceptor';
+import { ResponseTransformationInterceptor } from '@src/common/interceptors/response-transformation.interceptor';
+import { LoggingInterceptor } from '@src/common/interceptors/logger.interceptor';
+import { TimeoutInterceptor } from '@src/common/interceptors/timeout.interceptor';
 import { ConfigModule } from './config/config.module';
 import { HealthChecksModule } from './health-checks/health-checks.module';
 import { I18nModule } from './i18n/i18n.module';

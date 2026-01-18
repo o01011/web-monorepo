@@ -8,7 +8,7 @@ import {
 import { Observable, tap } from 'rxjs';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
-import { EnviromentEnum } from '../enums/enviroments.enum';
+import { EnviromentEnum } from '@src/common/enums/enviroments.enum';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
@@ -18,7 +18,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
   constructor(private readonly configService: ConfigService) {
     this.isProduction =
-      this.configService.get<string>('NODE_ENV') === EnviromentEnum.Production;
+      this.configService.get<string>('NODE_ENV') === EnviromentEnum.PRODUCTION;
   }
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {

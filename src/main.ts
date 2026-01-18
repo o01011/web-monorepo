@@ -9,7 +9,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { ConfigService } from '@nestjs/config';
 import expressBasicAuth from 'express-basic-auth';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { EnviromentEnum } from './common/enums/enviroments.enum';
+import { EnviromentEnum } from '@src/common/enums/enviroments.enum';
 import { AppModule } from './app.module';
 
 const logger: Logger = new Logger('Bootstrap');
@@ -87,7 +87,7 @@ function validationPipeSetup(app: NestExpressApplication): void {
 
   const configService = app.get(ConfigService);
   const isProduction =
-    configService.get<string>('NODE_ENV') === EnviromentEnum.Production;
+    configService.get<string>('NODE_ENV') === EnviromentEnum.PRODUCTION;
 
   const appPost = configService.get<number>('APP_PORT') ?? 8000;
 

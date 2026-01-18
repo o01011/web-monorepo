@@ -8,9 +8,9 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import { PrismaStatusCodesEnum } from '../enums/prisma-status-codes.enum';
-import { IResponse } from '../interfaces/response.interface';
-import { ResponseStatusMessagesEnum } from '../enums/response-status-messages.enum';
+import { PrismaStatusCodesEnum } from '@src/common/enums/prisma-status-codes.enum';
+import { IResponse } from '@src/common/interfaces/response.interface';
+import { ResponseStatusMessagesEnum } from '@src/common/enums/response-status-messages.enum';
 import { Prisma } from '@prisma/generated/client';
 
 @Injectable()

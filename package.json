@@ -1,8 +1,8 @@
 {
-  "name": "migration-app",
+  "name": "nestjs-boilerplate",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "NestJS Boilerplate by maxondev",
+  "author": "maxondev",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -12,7 +12,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/src/main",
     "prisma:generate": "prisma generate",
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:migrate:deploy": "prisma migrate deploy",
@@ -26,7 +26,8 @@
     "docker:prod:up": "docker compose -f docker-compose.prod.yml up -d --no-color --timestamps --wait --wait-timeout 20",
     "docker:prod:down": "docker compose -f docker-compose.prod.yml down -v",
     "docker:prod:start": "docker compose -f docker-compose.prod.yml start",
-    "docker:prod:stop": "docker compose -f docker-compose.prod.yml stop -t 10"
+    "docker:prod:stop": "docker compose -f docker-compose.prod.yml stop -t 10",
+    "prepare": "husky"
   },
   "dependencies": {
     "@nestjs-modules/ioredis": "^2.0.2",
@@ -55,41 +56,22 @@
     "@swc/cli": "^0.7.10",
     "@swc/core": "^1.15.8",
     "@types/express": "^5.0.0",
-    "@types/jest": "^30.0.0",
     "@types/node": "^22.10.7",
     "@types/supertest": "^6.0.2",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "globals": "^16.5.0",
-    "jest": "^30.0.0",
+    "husky": "^9.1.7",
     "joi": "^18.0.2",
     "prettier": "^3.4.2",
     "prisma": "^7.2.0",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
-    "ts-jest": "^29.2.5",
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.53.0"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "testRegex": ".*\\.spec\\.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "collectCoverageFrom": [
-      "**/*.(t|j)s"
-    ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
   }
 }

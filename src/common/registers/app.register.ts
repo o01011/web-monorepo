@@ -1,8 +1,8 @@
-import { ConfigKeyEnum } from '../../common/enums/config.enum';
+import { ConfigKeyEnum } from '@src/common/enums/config.enum';
 import { registerAs } from '@nestjs/config';
-import { IAppConfig } from '../../common/interfaces/app-config.interface';
+import { IAppConfig } from '@src/common/interfaces/app-config.interface';
 
-export const appRegister = registerAs(ConfigKeyEnum.App, (): IAppConfig => {
+export const appRegister = registerAs(ConfigKeyEnum.APP, (): IAppConfig => {
   return {
     appPort: Number(process.env.APP_PORT),
     appName: process.env.APP_NAME ?? '',

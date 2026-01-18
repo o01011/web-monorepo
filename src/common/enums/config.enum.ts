@@ -1,4 +1,4 @@
 export enum ConfigKeyEnum {
-  Redis = 'redis',
-  App = 'app',
+  REDIS = 'redis',
+  APP = 'app',
 }
