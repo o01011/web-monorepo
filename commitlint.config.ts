@@ -1,15 +1,56 @@
-export default {
+import { type UserConfig, RuleConfigSeverity } from '@commitlint/types';
+
+const configuration: UserConfig = {
   extends: ['@commitlint/config-conventional'],
   rules: {
     'type-enum': [
-      2,
+      RuleConfigSeverity.Error,
       'always',
-      ['feat', 'fix', 'chore', 'docs', 'style', 'refactor', 'test'],
+      ['chore', 'ci', 'docs', 'feat', 'fix', 'refactor', 'test'],
     ],
-    'subject-case': [0], // allow any case
-    'scope-case': [2, 'always', 'snake-case'],
-    'subject-max-length': [2, 'always', 72],
-    'body-leading-blank': [1, 'always'],
-    'footer-leading-blank': [1, 'always'],
+    'type-case': [RuleConfigSeverity.Error, 'always', 'lower-case'],
+    'type-empty': [RuleConfigSeverity.Error, 'never'],
+    'type-min-length': [RuleConfigSeverity.Error, 'always', 3],
+    'type-max-length': [RuleConfigSeverity.Error, 'always', 10],
+    'scope-case': [RuleConfigSeverity.Error, 'always', 'kebab-case'],
+    'scope-empty': [RuleConfigSeverity.Error, 'always'],
+    'scope-enum': [
+      RuleConfigSeverity.Error,
+      'always',
+      ['common', 'core', 'i18n', 'modules', 'db', 'root'],
+    ],
+    'scope-delimiter-style': [RuleConfigSeverity.Error, 'always', ['/']],
+    'scope-min-length': [RuleConfigSeverity.Error, 'always', 2],
+    'scope-max-length': [RuleConfigSeverity.Error, 'always', 20],
+    'subject-empty': [RuleConfigSeverity.Error, 'never'],
+    'subject-case': [RuleConfigSeverity.Error, 'always', ['lower-case']],
+    'subject-full-stop': [RuleConfigSeverity.Error, 'never', '.'],
+    'subject-min-length': [RuleConfigSeverity.Error, 'always', 5],
+    'subject-max-length': [RuleConfigSeverity.Error, 'always', 50],
+    'body-leading-blank': [RuleConfigSeverity.Error, 'always'],
+    'body-empty': [RuleConfigSeverity.Disabled, 'always'],
+    'body-case': [RuleConfigSeverity.Warning, 'always', ['sentence-case']],
+    'body-full-stop': [RuleConfigSeverity.Error, 'never', '.'],
+    'body-min-length': [RuleConfigSeverity.Warning, 'always', 20],
+    'body-max-length': [RuleConfigSeverity.Error, 'always', 1000],
+    'body-max-line-length': [RuleConfigSeverity.Warning, 'always', 72],
+    'footer-leading-blank': [RuleConfigSeverity.Warning, 'always'],
+    'footer-empty': [RuleConfigSeverity.Disabled, 'always'],
+    'footer-min-length': [RuleConfigSeverity.Warning, 'always', 10],
+    'footer-max-length': [RuleConfigSeverity.Error, 'always', 500],
+    'footer-max-line-length': [RuleConfigSeverity.Error, 'always', 72],
+    'references-empty': [RuleConfigSeverity.Disabled, 'always'],
+    'signed-off-by': [RuleConfigSeverity.Warning, 'never', 'Signed-off-by:'],
+    'trailer-exists': [RuleConfigSeverity.Warning, 'never', 'Reviewed-by:'],
+    'header-case': [RuleConfigSeverity.Error, 'always', ['lower-case']],
+    'header-full-stop': [RuleConfigSeverity.Error, 'never', '.'],
+    'header-min-length': [RuleConfigSeverity.Error, 'always', 10],
+    'header-max-length': [RuleConfigSeverity.Error, 'always', 72],
+    'header-trim': [RuleConfigSeverity.Error, 'always'],
   },
+  defaultIgnores: true,
+  helpUrl:
+    'https://github.com/conventional-changelog/commitlint/#what-is-commitlint',
 };
+
+export default configuration;
