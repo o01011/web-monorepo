@@ -51,6 +51,35 @@ const configuration: UserConfig = {
   defaultIgnores: true,
   helpUrl:
     'https://github.com/conventional-changelog/commitlint/#what-is-commitlint',
+  prompt: {
+    questions: {
+      type: {
+        enum: {
+          chore: {
+            emoji: '⚙️ ',
+          },
+          ci: {
+            emoji: '⚙️ ',
+          },
+          docs: {
+            emoji: '⚙️ ',
+          },
+          feat: {
+            emoji: '⚙️ ',
+          },
+          fix: {
+            emoji: '⚙️ ',
+          },
+          refactor: {
+            emoji: '⚙️ ',
+          },
+          test: {
+            emoji: '⚙️ ',
+          },
+        },
+      },
+    },
+  },
 };
 
 export default configuration;
