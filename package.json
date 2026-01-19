@@ -2,9 +2,19 @@
   "name": "nestjs-boilerplate",
   "version": "0.0.1",
   "description": "NestJS Boilerplate by maxondev",
+  "keywords": [],
+  "homepage": "https://github.com/maxonchickdev/nestjs-boilerplate?tab=readme-ov-file#readme",
+  "bugs": {
+    "url": "https://github.com/maxonchickdev/nestjs-boilerplate/issues",
+    "email": "nestjs-boilerplate@gmail.com"
+  },
   "author": "maxondev",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxonchickdev/nestjs-boilerplate"
+  },
   "scripts": {
     "build": "nest build",
     "lint:check": "eslint \"src/**/*.ts\"",
@@ -31,12 +41,6 @@
     "docker:prod:stop": "docker compose -f docker-compose.prod.yml stop -t 10",
     "knip": "knip",
     "lint-staged": "lint-staged"
-  },
-  "lint-staged": {
-    "src/**/*.ts": [
-      "npm run lint:check",
-      "npm run format:check"
-    ]
   },
   "dependencies": {
     "@nestjs-modules/ioredis": "^2.0.2",
@@ -79,5 +83,24 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.53.0"
+  },
+  "os": [
+    "darwin",
+    "linux",
+    "!win32"
+  ],
+  "engines": {
+    "node": "22.22.0",
+    "npm": "10.9.4"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "onFail": "error"
+    },
+    "packageManager": {
+      "name": "npm",
+      "onFail": "error"
+    }
   }
 }
