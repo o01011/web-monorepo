@@ -39,8 +39,7 @@
     "docker:prod:down": "docker compose -f docker-compose.prod.yml down -v",
     "docker:prod:start": "docker compose -f docker-compose.prod.yml start",
     "docker:prod:stop": "docker compose -f docker-compose.prod.yml stop -t 10",
-    "knip": "knip",
-    "lint-staged": "lint-staged"
+    "git:precommit": "lint-staged && knip && node_modules/.bin/ls-lint"
   },
   "dependencies": {
     "@ls-lint/ls-lint": "^2.3.1",

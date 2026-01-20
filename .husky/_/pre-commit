@@ -9,4 +9,4 @@ if [ -f "$SIMPLE_GIT_HOOKS_RC" ]; then
     . "$SIMPLE_GIT_HOOKS_RC"
 fi
 
-npx lint-staged && npm run knip && node_modules/.bin/ls-lint
+npm run git:precommit
