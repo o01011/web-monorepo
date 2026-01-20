@@ -1,3 +1,0 @@
-npm run lint-staged
-npm run knip
-node_modules/.bin/ls-lint

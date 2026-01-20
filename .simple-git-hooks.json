@@ -1,0 +1,4 @@
+{
+  "pre-commit": "npx lint-staged && npm run knip && node_modules/.bin/ls-lint",
+  "pre-push": "npm run build"
+}
