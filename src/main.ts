@@ -12,6 +12,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { EnviromentEnum } from '@src/common/enums/enviroments.enum';
 import { AppModule } from './app.module';
 
+import { translate } from '@vitalets/google-translate-api';
+
 const logger: Logger = new Logger('Bootstrap');
 
 function swaggerSetup(
@@ -98,6 +100,9 @@ function validationPipeSetup(app: NestExpressApplication): void {
   validationPipeSetup(app);
 
   await app.listen(appPost);
+
+  const result = await translate(`I'm fine.`, { to: 'ja' });
+  console.log(result.text);
 
   logger.log(
     `Nestjs boilerplate admin application is running on: ${await app.getUrl()}`,
