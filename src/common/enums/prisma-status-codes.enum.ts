@@ -1,4 +1,4 @@
-import { HttpStatus } from '@nestjs/common';
+import { HttpStatus } from "@nestjs/common";
 
 export enum PrismaStatusCodesEnum {
   P2002 = HttpStatus.CONFLICT,

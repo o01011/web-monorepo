@@ -5,13 +5,13 @@ import {
   HttpStatus,
   Injectable,
   NestInterceptor,
-} from '@nestjs/common';
-import { Request, Response } from 'express';
-import { catchError, map, Observable, throwError } from 'rxjs';
-import { PrismaStatusCodesEnum } from '@src/common/enums/prisma-status-codes.enum';
-import { IResponse } from '@src/common/interfaces/response.interface';
-import { ResponseStatusMessagesEnum } from '@src/common/enums/response-status-messages.enum';
-import { Prisma } from '@prisma/generated/client';
+} from "@nestjs/common";
+import { Request, Response } from "express";
+import { catchError, map, Observable, throwError } from "rxjs";
+import { ResponseStatusMessagesEnum } from "../enums/response-status-messages.enum.js";
+import { PrismaStatusCodesEnum } from "../enums/prisma-status-codes.enum.js";
+import { IResponse } from "../interfaces/response.interface.js";
+import { Prisma } from "../../../prisma/generated/client.js";
 
 @Injectable()
 export class ResponseTransformationInterceptor implements NestInterceptor {
@@ -56,7 +56,8 @@ export class ResponseTransformationInterceptor implements NestInterceptor {
     request: Request,
   ): Observable<never> {
     const statusCode =
-      PrismaStatusCodesEnum[error.code] || HttpStatus.INTERNAL_SERVER_ERROR;
+      PrismaStatusCodesEnum[Number(error.code)] ||
+      HttpStatus.INTERNAL_SERVER_ERROR;
 
     const errorResponse: IResponse<null> = {
       statusCode: Number(statusCode),
@@ -65,7 +66,7 @@ export class ResponseTransformationInterceptor implements NestInterceptor {
       version: this.getApiVersion(request),
       path: request.url,
       error: {
-        message: error.meta?.cause || error.message,
+        message: error.meta?.["cause"] || error.message,
       },
       data: null,
     };
@@ -107,7 +108,7 @@ export class ResponseTransformationInterceptor implements NestInterceptor {
       version: this.getApiVersion(request),
       path: request.url,
       error: {
-        message: 'Internal server error',
+        message: "Internal server error",
       },
       data: null,
     };
@@ -118,7 +119,7 @@ export class ResponseTransformationInterceptor implements NestInterceptor {
   }
 
   private getApiVersion(request: Request): string {
-    const versionFromPath = request.path.split('/')[1];
-    return versionFromPath.startsWith('v') ? versionFromPath : 'v1';
+    const versionFromPath = request.path.split("/")[1];
+    return versionFromPath.startsWith("v") ? versionFromPath : "v1";
   }
 }

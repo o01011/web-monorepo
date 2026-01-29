@@ -1,19 +1,17 @@
-import { type Config } from 'prettier';
+import { type Config } from "prettier";
 
-const config: Config = {
-  arrowParens: 'always',
+export const config: Config = {
+  arrowParens: "always",
   bracketSpacing: true,
   semi: true,
   useTabs: false,
-  trailingComma: 'all',
+  trailingComma: "all",
   singleQuote: true,
   tabWidth: 2,
-  endOfLine: 'lf',
+  endOfLine: "lf",
   printWidth: 80,
-  quoteProps: 'consistent',
-  proseWrap: 'preserve',
-  embeddedLanguageFormatting: 'auto',
-  htmlWhitespaceSensitivity: 'strict',
+  quoteProps: "consistent",
+  proseWrap: "preserve",
+  embeddedLanguageFormatting: "auto",
+  htmlWhitespaceSensitivity: "strict",
 };
-
-export default config;

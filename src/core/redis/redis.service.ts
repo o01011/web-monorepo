@@ -1,6 +1,6 @@
-import { Injectable, OnModuleDestroy } from '@nestjs/common';
-import { InjectRedis } from '@nestjs-modules/ioredis';
-import Redis from 'ioredis';
+import { Injectable, OnModuleDestroy } from "@nestjs/common";
+import { InjectRedis } from "@nestjs-modules/ioredis";
+import { type Redis } from "ioredis";
 
 @Injectable()
 export class RedisService implements OnModuleDestroy {
@@ -18,7 +18,7 @@ export class RedisService implements OnModuleDestroy {
     const stringVal = JSON.stringify(val);
 
     if (ttl) {
-      await this.redis.set(key, stringVal, 'EX', ttl);
+      await this.redis.set(key, stringVal, "EX", ttl);
     } else {
       await this.redis.set(key, stringVal);
     }

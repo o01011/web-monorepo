@@ -1,34 +1,32 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory } from "@nestjs/core";
 import {
   Logger,
   ValidationPipe,
   ValidationPipeOptions,
   VersioningType,
-} from '@nestjs/common';
-import { NestExpressApplication } from '@nestjs/platform-express';
-import { ConfigService } from '@nestjs/config';
-import expressBasicAuth from 'express-basic-auth';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { EnviromentEnum } from '@src/common/enums/enviroments.enum';
-import { AppModule } from './app.module';
+} from "@nestjs/common";
+import { NestExpressApplication } from "@nestjs/platform-express";
+import { ConfigService } from "@nestjs/config";
+import expressBasicAuth from "express-basic-auth";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { EnviromentEnum } from "./common/enums/enviroments.enum.js";
+import { AppModule } from "./app.module.js";
 
-import { translate } from '@vitalets/google-translate-api';
-
-const logger: Logger = new Logger('Bootstrap');
+const logger: Logger = new Logger("Bootstrap");
 
 function swaggerSetup(
   app: NestExpressApplication,
   configService: ConfigService,
   appPort: number,
 ): void {
-  const swaggerPath: string = '/api/docs';
+  const swaggerPath: string = "/api/docs";
   const swaggerUsername: string =
-    configService.get<string>('SWAGGER_USERNAME') ?? '';
+    configService.get<string>("SWAGGER_USERNAME") ?? "";
   const swaggerPassword: string =
-    configService.get<string>('SWAGGER_PASSWORD') ?? '';
-  const appName: string = configService.get<string>('APP_NAME') ?? '';
+    configService.get<string>("SWAGGER_PASSWORD") ?? "";
+  const appName: string = configService.get<string>("APP_NAME") ?? "";
   const appDescription: string =
-    configService.get<string>('APP_DESCRIPTION') ?? '';
+    configService.get<string>("APP_DESCRIPTION") ?? "";
 
   app.use(
     [swaggerPath, `${swaggerPath}-json`, `${swaggerPath}-yaml`],
@@ -43,8 +41,8 @@ function swaggerSetup(
   const swaggerConfig = new DocumentBuilder()
     .setTitle(appName)
     .setDescription(appDescription)
-    .setVersion('1.0')
-    .addServer(`http://localhost:${appPort}`, 'development')
+    .setVersion("1.0")
+    .addServer(`http://localhost:${appPort}`, "development")
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig, {
@@ -54,7 +52,7 @@ function swaggerSetup(
   });
 
   SwaggerModule.setup(swaggerPath, app, document, {
-    customSiteTitle: 'Nestjs boilerplate',
+    customSiteTitle: "Nestjs boilerplate",
     explorer: true,
     jsonDocumentUrl: `${swaggerPath}/json`,
     yamlDocumentUrl: `${swaggerPath}/yaml`,
@@ -69,8 +67,8 @@ function swaggerSetup(
 function versioningSetup(app: NestExpressApplication): void {
   app.enableVersioning({
     type: VersioningType.URI,
-    defaultVersion: '1',
-    prefix: 'api/v',
+    defaultVersion: "1",
+    prefix: "api/v",
   });
 }
 
@@ -89,9 +87,9 @@ function validationPipeSetup(app: NestExpressApplication): void {
 
   const configService = app.get(ConfigService);
   const isProduction =
-    configService.get<string>('NODE_ENV') === EnviromentEnum.PRODUCTION;
+    configService.get<string>("NODE_ENV") === EnviromentEnum.PRODUCTION;
 
-  const appPost = configService.get<number>('APP_PORT') ?? 8000;
+  const appPost = configService.get<number>("APP_PORT") ?? 8000;
 
   versioningSetup(app);
 
@@ -100,9 +98,6 @@ function validationPipeSetup(app: NestExpressApplication): void {
   validationPipeSetup(app);
 
   await app.listen(appPost);
-
-  const result = await translate(`I'm fine.`, { to: 'ja' });
-  console.log(result.text);
 
   logger.log(
     `Nestjs boilerplate admin application is running on: ${await app.getUrl()}`,

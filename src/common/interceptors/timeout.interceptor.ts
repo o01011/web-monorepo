@@ -4,15 +4,15 @@ import {
   GatewayTimeoutException,
   Injectable,
   NestInterceptor,
-} from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+} from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import {
   catchError,
   Observable,
   throwError,
   timeout,
   TimeoutError,
-} from 'rxjs';
+} from "rxjs";
 
 @Injectable()
 export class TimeoutInterceptor implements NestInterceptor {
@@ -20,7 +20,7 @@ export class TimeoutInterceptor implements NestInterceptor {
 
   constructor(private readonly configService: ConfigService) {
     this.appRequestTimeout = Number(
-      this.configService.get<number>('APP_REQUEST_TIMEOUT'),
+      this.configService.get<number>("APP_REQUEST_TIMEOUT"),
     );
   }
 
@@ -32,7 +32,7 @@ export class TimeoutInterceptor implements NestInterceptor {
       timeout(this.appRequestTimeout),
       catchError((e) => {
         if (e instanceof TimeoutError) {
-          throw new GatewayTimeoutException('Timeout has occured');
+          throw new GatewayTimeoutException("Timeout has occured");
         }
         return throwError(() => e);
       }),

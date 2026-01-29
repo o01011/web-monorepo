@@ -1,13 +1,13 @@
-import { Module } from '@nestjs/common';
-import { APP_INTERCEPTOR } from '@nestjs/core';
-import { ResponseTransformationInterceptor } from '@src/common/interceptors/response-transformation.interceptor';
-import { LoggingInterceptor } from '@src/common/interceptors/logger.interceptor';
-import { TimeoutInterceptor } from '@src/common/interceptors/timeout.interceptor';
-import { ConfigModule } from './config/config.module';
-import { HealthChecksModule } from './health-checks/health-checks.module';
-import { I18nModule } from './i18n/i18n.module';
-import { PrismaModule } from './prisma/prisma.module';
-import { RedisModule } from './redis/redis.module';
+import { Module } from "@nestjs/common";
+import { APP_INTERCEPTOR } from "@nestjs/core";
+import { RedisModule } from "./redis/redis.module.js";
+import { PrismaModule } from "./prisma/prisma.module.js";
+import { I18nModule } from "./i18n/i18n.module.js";
+import { HealthChecksModule } from "./health-checks/health-checks.module.js";
+import { ConfigModule } from "./config/config.module.js";
+import { TimeoutInterceptor } from "../common/interceptors/timeout.interceptor.js";
+import { LoggingInterceptor } from "../common/interceptors/logger.interceptor.js";
+import { ResponseTransformationInterceptor } from "../common/interceptors/response-transformation.interceptor.js";
 
 @Module({
   imports: [

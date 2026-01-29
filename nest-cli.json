@@ -9,9 +9,11 @@
         "watchAssets": true
       }
     ],
-    "deleteOutDir": false,
+    "deleteOutDir": true,
     "builder": "tsc",
     "typeCheck": false,
-    "watchAssets": true
+    "watchAssets": true,
+    "tsConfigPath": "tsconfig.json",
+    "webpack": false
   }
 }

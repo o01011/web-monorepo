@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { RedisModule as CoreRedisModule } from '@nestjs-modules/ioredis';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RedisService } from './redis.service';
+import { Module } from "@nestjs/common";
+import { RedisModule as CoreRedisModule } from "@nestjs-modules/ioredis";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { RedisService } from "./redis.service.js";
 
 @Module({
   imports: [
@@ -9,10 +9,10 @@ import { RedisService } from './redis.service';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        type: 'single',
-        url: configService.get<string>('REDIS_URL'),
+        type: "single",
+        url: configService.get<string>("REDIS_URL"),
         options: {
-          keyPrefix: 'nestjs-boilerplate-cache:',
+          keyPrefix: "nestjs-boilerplate-cache:",
         },
       }),
     }),
