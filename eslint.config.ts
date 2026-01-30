@@ -3,18 +3,33 @@ import { defineConfig } from "eslint/config";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 
+const globalIgnores: string[] = ["**/dist/**", "**/*.d.ts"];
+
+const gloablExtends = [
+  tseslint.configs.recommended,
+  eslintPluginPrettierRecommended,
+  eslintConfigPrettier,
+];
+
 export default defineConfig([
   {
-    name: "Ignores",
-    ignores: ["dist"],
+    name: "Global ignores",
+    ignores: globalIgnores,
   },
   {
-    name: "Files",
-    files: ["src/**/*.ts"],
-    extends: [
-      tseslint.configs.recommended,
-      eslintPluginPrettierRecommended,
-      eslintConfigPrettier,
+    name: "Configuration files",
+    files: [
+      "commitlint.config.ts",
+      "eslint.config.ts",
+      "knip.config.ts",
+      "prettier.config.ts",
+      "prisma.config.ts",
     ],
+    extends: gloablExtends,
+  },
+  {
+    name: "Application files",
+    files: ["src/**/*.ts"],
+    extends: gloablExtends,
   },
 ]);

@@ -1,6 +1,6 @@
 import { registerAs } from "@nestjs/config";
-import { IRedisConfig } from "../interfaces/redis-config.interface.js";
-import { ConfigKeyEnum } from "../enums/config.enum.js";
+import { IRedisConfig } from "../interfaces/redis-config.interface";
+import { ConfigKeyEnum } from "../enums/config.enum";
 
 export const redisRegister = registerAs(
   ConfigKeyEnum.REDIS,

@@ -9,7 +9,7 @@ import {
   HealthIndicatorService,
 } from "@nestjs/terminus";
 import { type Redis } from "ioredis";
-import { PrismaService } from "../prisma/prisma.service.js";
+import { PrismaService } from "../prisma/prisma.service";
 
 @Injectable()
 export class HealthChecksService {

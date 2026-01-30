@@ -1,6 +1,6 @@
 import { registerAs } from "@nestjs/config";
-import { ConfigKeyEnum } from "../enums/config.enum.js";
-import { IAppConfig } from "../interfaces/app-config.interface.js";
+import { ConfigKeyEnum } from "../enums/config.enum";
+import { IAppConfig } from "../interfaces/app-config.interface";
 
 export const appRegister = registerAs(ConfigKeyEnum.APP, (): IAppConfig => {
   return {

@@ -9,8 +9,8 @@ import { NestExpressApplication } from "@nestjs/platform-express";
 import { ConfigService } from "@nestjs/config";
 import expressBasicAuth from "express-basic-auth";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { EnviromentEnum } from "./common/enums/enviroments.enum.js";
-import { AppModule } from "./app.module.js";
+import { EnviromentEnum } from "./common/enums/enviroments.enum";
+import { AppModule } from "./app.module";
 
 const logger: Logger = new Logger("Bootstrap");
 
