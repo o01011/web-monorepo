@@ -8,10 +8,10 @@ import {
 } from "@nestjs/common";
 import { Request, Response } from "express";
 import { catchError, map, Observable, throwError } from "rxjs";
-import { ResponseStatusMessagesEnum } from "../enums/response-status-messages.enum";
-import { PrismaStatusCodesEnum } from "../enums/prisma-status-codes.enum";
-import { IResponse } from "../interfaces/response.interface";
-import { Prisma } from "../../../prisma/generated/client";
+import { ResponseStatusMessagesEnum } from "../enums/response-status-messages.enum.ts";
+import { PrismaStatusCodesEnum } from "../enums/prisma-status-codes.enum.ts";
+import { IResponse } from "../interfaces/response.interface.ts";
+import { Prisma } from "../../../prisma/generated/client.ts";
 
 @Injectable()
 export class ResponseTransformationInterceptor implements NestInterceptor {

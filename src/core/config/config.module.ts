@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule as CoreConfigModule } from "@nestjs/config";
 import Joi from "joi";
-import { redisRegister } from "../../common/registers/redis.register";
-import { appRegister } from "../../common/registers/app.register";
+import { redisRegister } from "../../common/registers/redis.register.ts";
+import { appRegister } from "../../common/registers/app.register.ts";
 
 @Module({
   imports: [

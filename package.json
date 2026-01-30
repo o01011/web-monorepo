@@ -4,7 +4,6 @@
   "description": "NestJS Boilerplate by maxondev",
   "keywords": [],
   "homepage": "https://github.com/maxonchickdev/nestjs-boilerplate?tab=readme-ov-file#readme",
-  "type": "module",
   "bugs": {
     "url": "https://github.com/maxonchickdev/nestjs-boilerplate/issues",
     "email": "nestjs-boilerplate@gmail.com"

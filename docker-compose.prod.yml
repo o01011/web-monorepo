@@ -12,7 +12,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
       PGUSER: ${POSTGRES_USER}
-    env_file: .env
+    env_file: .env.prod
     networks:
       - nestjs-boilerplate-network
     healthcheck:
@@ -34,7 +34,7 @@ services:
     environment:
       REDIS_PORT: ${REDIS_PORT}
       REDIS_DATABASES: ${REDIS_DATABASES}
-    env_file: .env
+    env_file: .env.prod
     networks:
       - nestjs-boilerplate-network
     healthcheck:
@@ -58,7 +58,7 @@ services:
       - nestjs-boilerplate-redis-insight-data:/usr/src/app/redisinsight/api/data
     environment:
       REDISINSIGHT_DISABLE_ENCRYPTION: ${RI_DISABLE_ENCRYPTION}
-    env_file: .env
+    env_file: .env.prod
     networks:
       - nestjs-boilerplate-network
     command: |
@@ -66,44 +66,60 @@ services:
     hostname: nestjs-boilerplate-redis-insight
     user: "0:0"
 
-  nestjs-boilerplate-kafka-broker:
-    container_name: nestjs-boilerplate-kafka-broker
-    image: apache/kafka:latest
-    ports:
-      - ${KAFKA_PORT}:${KAFKA_PORT}
-      - ${KAFKA_CONTROLLER_PORT}:${KAFKA_CONTROLLER_PORT}
-    environment:
-      KAFKA_NODE_ID: ${KAFKA_NODE_ID}
-      KAFKA_PROCESS_ROLES: broker,controller
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:${KAFKA_PORT},CONTROLLER://0.0.0.0:${KAFKA_CONTROLLER_PORT}
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://nestjs-boilerplate-kafka-broker:${KAFKA_PORT}
-      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
-      KAFKA_CONTROLLER_QUORUM_VOTERS: ${KAFKA_NODE_ID}@nestjs-boilerplate-kafka-broker:${KAFKA_CONTROLLER_PORT}
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: ${KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR}
-      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: ${KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR}
-      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: ${KAFKA_TRANSACTION_STATE_LOG_MIN_ISR}
-      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: ${KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS}
-      KAFKA_NUM_PARTITIONS: ${KAFKA_NUM_PARTITIONS}
-    env_file: .env
-    networks:
-      - nestjs-boilerplate-network
-    hostname: nestjs-boilerplate-kafka-broker
+  # nestjs-boilerplate-kafka-broker:
+  #   container_name: nestjs-boilerplate-kafka-broker
+  #   image: apache/kafka:latest
+  #   ports:
+  #     - ${KAFKA_PORT}:${KAFKA_PORT}
+  #     - ${KAFKA_CONTROLLER_PORT}:${KAFKA_CONTROLLER_PORT}
+  #   environment:
+  #     KAFKA_NODE_ID: ${KAFKA_NODE_ID}
+  #     KAFKA_PROCESS_ROLES: broker,controller
+  #     KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:${KAFKA_PORT},CONTROLLER://0.0.0.0:${KAFKA_CONTROLLER_PORT}
+  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://nestjs-boilerplate-kafka-broker:${KAFKA_PORT}
+  #     KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+  #     KAFKA_CONTROLLER_QUORUM_VOTERS: ${KAFKA_NODE_ID}@nestjs-boilerplate-kafka-broker:${KAFKA_CONTROLLER_PORT}
+  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: ${KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR}
+  #     KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: ${KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR}
+  #     KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: ${KAFKA_TRANSACTION_STATE_LOG_MIN_ISR}
+  #     KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: ${KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS}
+  #     KAFKA_NUM_PARTITIONS: ${KAFKA_NUM_PARTITIONS}
+  #   env_file: .env
+  #   networks:
+  #     - nestjs-boilerplate-network
+  #   hostname: nestjs-boilerplate-kafka-broker
 
-  nestjs-boilerplate-kafka-ui:
-    container_name: nestjs-boilerplate-kafka-ui
-    image: provectuslabs/kafka-ui:latest
+  # nestjs-boilerplate-kafka-ui:
+  #   container_name: nestjs-boilerplate-kafka-ui
+  #   image: provectuslabs/kafka-ui:latest
+  #   depends_on:
+  #     - nestjs-boilerplate-kafka-broker
+  #   ports:
+  #     - ${KAFKA_UI_PORT}:${KAFKA_UI_PORT}
+  #   environment:
+  #     KAFKA_CLUSTERS_0_NAME: local
+  #     KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: nestjs-boilerplate-kafka-broker:${KAFKA_PORT}
+  #   env_file: .env
+  #   networks:
+  #     - nestjs-boilerplate-network
+  #   hostname: nestjs-boilerplate-kafka-ui
+
+  nestjs-boilerplate:
+    container_name: nestjs-boilerplate
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
     depends_on:
-      - nestjs-boilerplate-kafka-broker
-    ports:
-      - ${KAFKA_UI_PORT}:${KAFKA_UI_PORT}
-    environment:
-      KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: nestjs-boilerplate-kafka-broker:${KAFKA_PORT}
-    env_file: .env
+      nestjs-boilerplate-postgres:
+        condition: service_healthy
+      nestjs-boilerplate-redis:
+        condition: service_healthy
+    env_file: .env.prod
     networks:
       - nestjs-boilerplate-network
-    hostname: nestjs-boilerplate-kafka-ui
+    hostname: nestjs-boilerplate
 
 volumes:
   nestjs-boilerplate-postgres-data:

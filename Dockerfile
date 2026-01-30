@@ -11,13 +11,13 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 
 COPY --from=installer /app/node_modules ./node_modules
-COPY package*.json ./
+COPY package*.json prisma.config.ts ./
 COPY prisma ./prisma
 
 RUN npm run prisma:generate
 
 COPY src ./src
-COPY nest-cli.json tsconfig.json tsconfig.build.json ./
+COPY nest-cli.json tsconfig.json ./
 
 RUN npm run build
 
@@ -25,7 +25,7 @@ FROM node:22-alpine AS runner
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package*.json prisma.config.ts ./
 
 RUN npm ci
 
@@ -33,8 +33,6 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/prisma ./prisma
 
-COPY .env.prod ./
-
 EXPOSE 8000
 
-CMD sh -c "ls -la && npm run prisma:migrate:deploy && npm run start:prod"
+CMD sh -c "npm run prisma:migrate:deploy && npm run start:prod"

@@ -8,7 +8,7 @@ import {
 import { Observable, tap } from "rxjs";
 import { ConfigService } from "@nestjs/config";
 import { Request, Response } from "express";
-import { EnviromentEnum } from "../enums/enviroments.enum";
+import { EnviromentEnum } from "../enums/enviroments.enum.ts";
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
