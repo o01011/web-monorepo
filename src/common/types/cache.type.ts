@@ -1,3 +1,3 @@
-export type CacheConfigType = {
+export type CacheType = {
   redisUrl: string;
 };

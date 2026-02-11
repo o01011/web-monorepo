@@ -1,8 +1,8 @@
 import { registerAs } from "@nestjs/config";
 import { ConfigKeyEnum } from "../enums/config.enum.ts";
-import { AppConfigType } from "../types/app.type.ts";
+import { AppType } from "../types/app.type.ts";
 
-export const appRegister = registerAs(ConfigKeyEnum.APP, (): AppConfigType => {
+export const appRegister = registerAs(ConfigKeyEnum.APP, (): AppType => {
   return {
     appPort: Number(process.env["APP_PORT"]) ?? 0,
     appName: process.env["APP_NAME"] ?? "",

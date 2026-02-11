@@ -7,13 +7,16 @@ import {
 } from "nestjs-i18n";
 import { join } from "node:path";
 import { EnviromentEnum } from "../../common/enums/enviroments.enum.ts";
+import { ConfigKeyEnum } from "../../common/enums/config.enum.ts";
 
 @Module({
   imports: [
     CoreI18nModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         fallbackLanguage: String(
-          configService.get<string>("I18N_FALLBACK_LANGUAGE"),
+          configService.get<string>(
+            `${ConfigKeyEnum.I18N}.i18nFallbackLanguage`,
+          ),
         ),
         loaderOptions: {
           path:

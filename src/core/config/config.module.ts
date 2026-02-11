@@ -5,13 +5,20 @@ import { cacheRegister } from "../../common/registers/cache.register.ts";
 import { appRegister } from "../../common/registers/app.register.ts";
 import { dbRegister } from "../../common/registers/db.register.ts";
 import { environmentRegister } from "../../common/registers/environment.register.ts";
+import { i18nRegister } from "../../common/registers/i18n.register.ts";
 
 @Module({
   imports: [
     CoreConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ".env",
-      load: [cacheRegister, appRegister, dbRegister, environmentRegister],
+      load: [
+        cacheRegister,
+        appRegister,
+        dbRegister,
+        environmentRegister,
+        i18nRegister,
+      ],
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
           .valid("development", "production", "test")

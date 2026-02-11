@@ -1,4 +1,4 @@
-export interface IResponse<T> {
+export type ResponseType<T> = {
   statusCode: number;
   statusMessage: string;
   timestamp: string;
@@ -8,4 +8,4 @@ export interface IResponse<T> {
     message: string | unknown;
   } | null;
   data: T | null;
-}
+};

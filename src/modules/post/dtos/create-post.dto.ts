@@ -63,6 +63,12 @@ export class CreatePostDto {
   @Min(1, {
     message: "Author ID must be a positive number",
   })
-  @ApiProperty({ example: 1, minimum: 1, required: true, nullable: false })
+  @ApiProperty({
+    example: 1,
+    description: "Post author ID",
+    minimum: 1,
+    required: true,
+    nullable: false,
+  })
   authorId!: number;
 }

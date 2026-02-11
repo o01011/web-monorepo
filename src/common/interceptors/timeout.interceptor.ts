@@ -13,6 +13,7 @@ import {
   timeout,
   TimeoutError,
 } from "rxjs";
+import { ConfigKeyEnum } from "../enums/config.enum.ts";
 
 @Injectable()
 export class TimeoutInterceptor implements NestInterceptor {
@@ -20,7 +21,7 @@ export class TimeoutInterceptor implements NestInterceptor {
 
   constructor(private readonly configService: ConfigService) {
     this.appRequestTimeout = Number(
-      this.configService.get<number>("APP_REQUEST_TIMEOUT"),
+      this.configService.get<number>(`${ConfigKeyEnum.APP}.appRequestTimeout`),
     );
   }
 

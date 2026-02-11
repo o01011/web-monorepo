@@ -10,7 +10,7 @@ import { Request, Response } from "express";
 import { catchError, map, Observable, throwError } from "rxjs";
 import { ResponseStatusMessagesEnum } from "../enums/response-status-messages.enum.ts";
 import { PrismaStatusCodesEnum } from "../enums/prisma-status-codes.enum.ts";
-import { IResponse } from "../types/response.type.ts";
+import { ResponseType } from "../types/response.type.ts";
 import { Prisma } from "../../../prisma/generated/client.ts";
 
 @Injectable()
@@ -21,10 +21,10 @@ export class ResponseTransformationInterceptor implements NestInterceptor {
     const response = ctx.getResponse<Response>();
 
     return next.handle().pipe(
-      map((data): IResponse<typeof data> => {
+      map((data): ResponseType<typeof data> => {
         const statusCode = response.statusCode;
         const isErrorStatus = statusCode >= HttpStatus.BAD_REQUEST;
-        const successResponse: IResponse<typeof data> = {
+        const successResponse: ResponseType<typeof data> = {
           statusCode,
           statusMessage: isErrorStatus
             ? ResponseStatusMessagesEnum.ERROR
@@ -59,7 +59,7 @@ export class ResponseTransformationInterceptor implements NestInterceptor {
       PrismaStatusCodesEnum[Number(error.code)] ||
       HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const errorResponse: IResponse<null> = {
+    const errorResponse: ResponseType<null> = {
       statusCode: Number(statusCode),
       statusMessage: ResponseStatusMessagesEnum.ERROR,
       timestamp: new Date().toISOString(),
@@ -82,7 +82,7 @@ export class ResponseTransformationInterceptor implements NestInterceptor {
   ): Observable<never> {
     const statusCode = e.getStatus();
 
-    const errorResponse: IResponse<null> = {
+    const errorResponse: ResponseType<null> = {
       statusCode,
       statusMessage: ResponseStatusMessagesEnum.ERROR,
       timestamp: new Date().toISOString(),
@@ -101,7 +101,7 @@ export class ResponseTransformationInterceptor implements NestInterceptor {
     error: Error,
     request: Request,
   ): Observable<never> {
-    const errorResponse: IResponse<null> = {
+    const errorResponse: ResponseType<null> = {
       statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
       statusMessage: ResponseStatusMessagesEnum.ERROR,
       timestamp: new Date().toISOString(),

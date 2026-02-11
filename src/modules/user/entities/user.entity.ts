@@ -1,26 +1,61 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { User } from "../../../../prisma/generated/client.ts";
+import { USER_VALIDATION } from "../constants/user-validation.constant.ts";
 
 export class UserEntity implements User {
-  @ApiProperty({ required: true, nullable: false })
+  @ApiProperty({ description: "User ID", required: true, nullable: false })
   id!: number;
 
-  @ApiProperty({ required: true, nullable: false })
+  @ApiProperty({
+    example: "Eldred_Ondricka",
+    description: "Unique username",
+    minLength: USER_VALIDATION.USERNAME.MIN_LENGTH,
+    maxLength: USER_VALIDATION.USERNAME.MAX_LENGTH,
+    required: true,
+    nullable: false,
+  })
   username!: string;
 
-  @ApiProperty({ required: true, nullable: false })
+  @ApiProperty({
+    example: "Paige",
+    description: "User first name",
+    minLength: USER_VALIDATION.FIRSTNAME.MIN_LENGTH,
+    maxLength: USER_VALIDATION.FIRSTNAME.MAX_LENGTH,
+    required: true,
+    nullable: false,
+  })
   firstName!: string;
 
-  @ApiProperty({ required: true, nullable: false })
+  @ApiProperty({
+    example: "Altenwerth",
+    description: "User last name",
+    minLength: USER_VALIDATION.LASTNAME.MIN_LENGTH,
+    maxLength: USER_VALIDATION.LASTNAME.MAX_LENGTH,
+    required: true,
+    nullable: false,
+  })
   lastName!: string;
 
-  @ApiProperty({ required: true, nullable: false })
+  @ApiProperty({
+    example: "Horacio4@hotmail.com",
+    description: "user email",
+    required: true,
+    nullable: false,
+  })
   email!: string;
 
-  @ApiProperty({ required: true, nullable: false })
+  @ApiProperty({
+    description: "User created at",
+    required: true,
+    nullable: false,
+  })
   createAt!: Date;
 
-  @ApiProperty({ required: true, nullable: false })
+  @ApiProperty({
+    description: "User updated at",
+    required: true,
+    nullable: false,
+  })
   updatedAt!: Date;
 
   constructor(partial: Partial<UserEntity>) {

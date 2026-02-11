@@ -12,6 +12,7 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AppModule } from "./app.module.ts";
 import { EnviromentEnum } from "./common/enums/enviroments.enum.ts";
 import { PrismaClientExceptionFilter } from "./common/filters/prisma-client-exception.filter.ts";
+import { ConfigKeyEnum } from "./common/enums/config.enum.ts";
 
 const logger: Logger = new Logger("Bootstrap");
 
@@ -27,7 +28,7 @@ const swaggerSetup = (
     configService.get<string>("SWAGGER_PASSWORD") ?? "";
   const appName: string = configService.get<string>("APP_NAME") ?? "";
   const appDescription: string =
-    configService.get<string>("APP_DESCRIPTION") ?? "";
+    configService.get<string>(`${ConfigKeyEnum.APP}.appDescription`) ?? "";
 
   app.use(
     [swaggerPath, `${swaggerPath}-json`, `${swaggerPath}-yaml`],
@@ -93,17 +94,19 @@ const globalExceptionFiltersSetup = (app: NestExpressApplication): void => {
 
   const configService = app.get(ConfigService);
   const isProduction =
-    configService.get<string>("NODE_ENV") === EnviromentEnum.PRODUCTION;
+    configService.get<string>(`${ConfigKeyEnum.ENVIRONMENT}.nodeEnv`) ===
+    EnviromentEnum.PRODUCTION;
 
-  const appPost = configService.get<number>("APP_PORT") ?? 8000;
+  const appPort =
+    configService.get<number>(`${ConfigKeyEnum.APP}.appPort`) ?? 8000;
 
   versioningSetup(app);
   globalExceptionFiltersSetup(app);
   validationPipeSetup(app);
 
-  if (!isProduction) swaggerSetup(app, configService, appPost);
+  if (!isProduction) swaggerSetup(app, configService, appPort);
 
-  await app.listen(appPost);
+  await app.listen(appPort);
 
   logger.log(
     `Nestjs boilerplate admin application is running on: ${await app.getUrl()}`,

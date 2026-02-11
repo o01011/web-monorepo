@@ -1,3 +1,3 @@
-export interface IEnvironment {
+export type EnvironmentType = {
   nodeEnv: string;
-}
+};
