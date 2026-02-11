@@ -1,33 +1,66 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { CreateUserDto } from "./dto/create-user.dto.ts";
-import { UpdateUserDto } from "./dto/update-user.dto.ts";
-import { PrismaService } from "../../core/prisma/prisma.service.ts";
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from "@nestjs/common";
+import { CreateUserDto } from "./dtos/create-user.dto.ts";
+import { UpdateUserDto } from "./dtos/update-user.dto.ts";
+import { UserRepository } from "./user.repository.ts";
+import { UserEntity } from "./entities/user.entity.ts";
 
 @Injectable()
 export class UserService {
   private readonly logger = new Logger(UserService.name);
 
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
-  create(createUserDto: CreateUserDto) {
-    console.log(createUserDto);
-    return "This action adds a new user";
+  create(createUserDto: CreateUserDto): Promise<UserEntity> {
+    try {
+      return this.userRepository.create(createUserDto);
+    } catch (e) {
+      this.logger.error(`Error during create user: ${e}`);
+      throw new InternalServerErrorException();
+    }
   }
 
-  findAll() {
-    return `This action returns all user`;
+  findAll(): Promise<UserEntity[]> {
+    try {
+      return this.userRepository.findAll();
+    } catch (e) {
+      this.logger.error(`Error during find all users: ${e}`);
+      throw new InternalServerErrorException();
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number): Promise<UserEntity | null> {
+    try {
+      const user = await this.userRepository.findOne(id);
+
+      if (!user) throw new NotFoundException(`User with id ${id} not found.`);
+
+      return user;
+    } catch (e) {
+      this.logger.error(`Error during find one user: ${e}`);
+      throw new InternalServerErrorException();
+    }
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    console.log(updateUserDto);
-    return `This action updates a #${id} user`;
+  update(id: number, updateUserDto: UpdateUserDto): Promise<UserEntity> {
+    try {
+      return this.userRepository.update(id, updateUserDto);
+    } catch (e) {
+      this.logger.error(`Error during update user: ${e}`);
+      throw new InternalServerErrorException();
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  remove(id: number): Promise<UserEntity> {
+    try {
+      return this.userRepository.remove(id);
+    } catch (e) {
+      this.logger.error(`Error during remove user: ${e}`);
+      throw new InternalServerErrorException();
+    }
   }
 }

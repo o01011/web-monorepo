@@ -1,29 +1,26 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { User } from "../../../../prisma/generated/client.ts";
+import { Post } from "../../../../prisma/generated/client.ts";
 
-export class UserEntity implements User {
+export class PostEntity implements Post {
   @ApiProperty({ required: true, nullable: false })
   id!: number;
 
   @ApiProperty({ required: true, nullable: false })
-  username!: string;
+  title!: string;
 
   @ApiProperty({ required: true, nullable: false })
-  firstName!: string;
+  description!: string;
 
   @ApiProperty({ required: true, nullable: false })
-  lastName!: string;
-
-  @ApiProperty({ required: true, nullable: false })
-  email!: string;
-
-  @ApiProperty({ required: true, nullable: false })
-  createAt!: Date;
+  createdAt!: Date;
 
   @ApiProperty({ required: true, nullable: false })
   updatedAt!: Date;
 
-  constructor(partial: Partial<UserEntity>) {
+  @ApiProperty({ required: true, nullable: false })
+  authorId!: number;
+
+  constructor(partial: Partial<PostEntity>) {
     Object.assign(this, partial);
   }
 }

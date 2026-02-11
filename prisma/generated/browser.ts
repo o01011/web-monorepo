@@ -22,3 +22,8 @@ export * from './enums.ts';
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model Post
+ * 
+ */
+export type Post = Prisma.PostModel

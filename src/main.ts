@@ -1,4 +1,4 @@
-import { NestFactory } from "@nestjs/core";
+import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import {
   Logger,
   ValidationPipe,
@@ -11,14 +11,15 @@ import expressBasicAuth from "express-basic-auth";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AppModule } from "./app.module.ts";
 import { EnviromentEnum } from "./common/enums/enviroments.enum.ts";
+import { PrismaClientExceptionFilter } from "./common/filters/prisma-client-exception.filter.ts";
 
 const logger: Logger = new Logger("Bootstrap");
 
-function swaggerSetup(
+const swaggerSetup = (
   app: NestExpressApplication,
   configService: ConfigService,
   appPort: number,
-): void {
+): void => {
   const swaggerPath: string = "/api/docs";
   const swaggerUsername: string =
     configService.get<string>("SWAGGER_USERNAME") ?? "";
@@ -62,17 +63,17 @@ function swaggerSetup(
       persistAuthorization: true,
     },
   });
-}
+};
 
-function versioningSetup(app: NestExpressApplication): void {
+const versioningSetup = (app: NestExpressApplication): void => {
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: "1",
     prefix: "api/v",
   });
-}
+};
 
-function validationPipeSetup(app: NestExpressApplication): void {
+const validationPipeSetup = (app: NestExpressApplication): void => {
   const validationPipeConfig: ValidationPipeOptions = {
     transform: true,
     whitelist: true,
@@ -80,7 +81,12 @@ function validationPipeSetup(app: NestExpressApplication): void {
   };
 
   app.useGlobalPipes(new ValidationPipe(validationPipeConfig));
-}
+};
+
+const globalExceptionFiltersSetup = (app: NestExpressApplication): void => {
+  const { httpAdapter } = app.get(HttpAdapterHost);
+  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
+};
 
 (async (): Promise<void> => {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -92,10 +98,10 @@ function validationPipeSetup(app: NestExpressApplication): void {
   const appPost = configService.get<number>("APP_PORT") ?? 8000;
 
   versioningSetup(app);
+  globalExceptionFiltersSetup(app);
+  validationPipeSetup(app);
 
   if (!isProduction) swaggerSetup(app, configService, appPost);
-
-  validationPipeSetup(app);
 
   await app.listen(appPost);
 

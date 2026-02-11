@@ -2,11 +2,11 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
-  NotFoundException,
 } from "@nestjs/common";
 import { PrismaService } from "../../core/prisma/prisma.service.ts";
-import { CreateUserDto } from "./dto/create-user.dto.ts";
+import { CreateUserDto } from "./dtos/create-user.dto.ts";
 import { UserEntity } from "./entities/user.entity.ts";
+import { UpdateUserDto } from "./dtos/update-user.dto.ts";
 
 @Injectable()
 export class UserRepository {
@@ -14,7 +14,7 @@ export class UserRepository {
 
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     try {
       const user = await this.prismaService.user.create({
         data: createUserDto,
@@ -38,13 +38,11 @@ export class UserRepository {
     }
   }
 
-  async findOne(id: number): Promise<UserEntity> {
+  async findOne(id: number): Promise<UserEntity | null> {
     try {
       const user = await this.prismaService.user.findUnique({
         where: { id },
       });
-
-      if (!user) throw new NotFoundException(`User with id ${id} not found.`);
 
       return user;
     } catch (e) {
@@ -53,7 +51,30 @@ export class UserRepository {
     }
   }
 
-  // update(id: number, updateUserDto: UpdateUserDto) {}
+  async update(id: number, updateUserDto: UpdateUserDto): Promise<UserEntity> {
+    try {
+      const user = await this.prismaService.user.update({
+        where: { id },
+        data: updateUserDto,
+      });
 
-  // remove(id: number) {}
+      return user;
+    } catch (e) {
+      this.logger.error(`Error during update user: ${e}`);
+      throw new InternalServerErrorException();
+    }
+  }
+
+  async remove(id: number): Promise<UserEntity> {
+    try {
+      const user = await this.prismaService.user.delete({
+        where: { id },
+      });
+
+      return user;
+    } catch (e) {
+      this.logger.error(`Error during remove user: ${e}`);
+      throw new InternalServerErrorException();
+    }
+  }
 }
