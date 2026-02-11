@@ -1,8 +1,14 @@
+#
 # Dependencies
-**/node_modules
-
+#
+node_modules
+#
 # Git
-**/.git
-
+#
+.git
+#
 # Prisma
-**/prisma
+#
+prisma/generated
+prisma/migrations
+prisma/schema.prisma

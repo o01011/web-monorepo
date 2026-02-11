@@ -1,4 +1,6 @@
 export enum ConfigKeyEnum {
-  REDIS = "redis",
+  CACHE = "cache",
   APP = "app",
+  ENVIRONMENT = "environment",
+  DB = "db",
 }

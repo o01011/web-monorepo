@@ -29,8 +29,12 @@
     "strictPropertyInitialization": true,
     "useUnknownInCatchVariables": true,
     "allowImportingTsExtensions": true,
-    "rewriteRelativeImportExtensions": true
+    "rewriteRelativeImportExtensions": true,
+    "paths": {
+      "@prisma/generated": ["./prisma/generated"],
+      "@prisma/generated/*": ["./prisma/generated/*"]
+    }
   },
-  "include": ["src/**/*", "prisma/generated/**/*"],
-  "exclude": ["dist"]
+  "include": ["src/**/*", "prisma/**/*", "prisma.config.ts"],
+  "exclude": ["dist", "node_modules"]
 }

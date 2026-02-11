@@ -1,15 +1,17 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule as CoreConfigModule } from "@nestjs/config";
 import Joi from "joi";
-import { redisRegister } from "../../common/registers/redis.register.ts";
+import { cacheRegister } from "../../common/registers/cache.register.ts";
 import { appRegister } from "../../common/registers/app.register.ts";
+import { dbRegister } from "../../common/registers/db.register.ts";
+import { environmentRegister } from "../../common/registers/environment.register.ts";
 
 @Module({
   imports: [
     CoreConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ".env",
-      load: [redisRegister, appRegister],
+      load: [cacheRegister, appRegister, dbRegister, environmentRegister],
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
           .valid("development", "production", "test")

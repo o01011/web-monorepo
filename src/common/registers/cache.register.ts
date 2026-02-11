@@ -1,10 +1,10 @@
 import { registerAs } from "@nestjs/config";
-import { IRedisConfig } from "../interfaces/redis-config.interface.ts";
+import { CacheConfigType } from "../types/cache.type.ts";
 import { ConfigKeyEnum } from "../enums/config.enum.ts";
 
-export const redisRegister = registerAs(
-  ConfigKeyEnum.REDIS,
-  (): IRedisConfig => {
+export const cacheRegister = registerAs(
+  ConfigKeyEnum.CACHE,
+  (): CacheConfigType => {
     return {
       redisUrl: process.env["REDIS_URL"] ?? "",
     };

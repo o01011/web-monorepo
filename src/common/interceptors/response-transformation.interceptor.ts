@@ -10,7 +10,7 @@ import { Request, Response } from "express";
 import { catchError, map, Observable, throwError } from "rxjs";
 import { ResponseStatusMessagesEnum } from "../enums/response-status-messages.enum.ts";
 import { PrismaStatusCodesEnum } from "../enums/prisma-status-codes.enum.ts";
-import { IResponse } from "../interfaces/response.interface.ts";
+import { IResponse } from "../types/response.type.ts";
 import { Prisma } from "../../../prisma/generated/client.ts";
 
 @Injectable()

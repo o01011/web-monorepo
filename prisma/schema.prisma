@@ -17,7 +17,12 @@ datasource db {
   provider = "postgresql"
 }
 
-model Device {
-  id   Int    @id @default(autoincrement())
-  name String
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  firstName String
+  lastName  String
+  email     String   @unique
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
