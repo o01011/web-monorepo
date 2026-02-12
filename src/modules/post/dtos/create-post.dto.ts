@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiSchema } from "@nestjs/swagger";
 import {
   IsInt,
   IsNotEmpty,
@@ -9,6 +9,10 @@ import {
 } from "class-validator";
 import { POST_VALIDATION } from "../constants/post-validation.constant.ts";
 
+@ApiSchema({
+  name: "CreatePostDto",
+  description: "Create new post data transfer object",
+})
 export class CreatePostDto {
   @IsString({
     message: "Title must be a string",
@@ -29,6 +33,7 @@ export class CreatePostDto {
     maxLength: POST_VALIDATION.TITLE.MAX_LENGTH,
     required: true,
     nullable: false,
+    type: String,
   })
   title!: string;
 
@@ -51,6 +56,7 @@ export class CreatePostDto {
     maxLength: POST_VALIDATION.DESCRIPTION.MAX_LENGTH,
     required: true,
     nullable: false,
+    type: String,
   })
   description!: string;
 
@@ -69,6 +75,7 @@ export class CreatePostDto {
     minimum: 1,
     required: true,
     nullable: false,
+    type: Number,
   })
   authorId!: number;
 }

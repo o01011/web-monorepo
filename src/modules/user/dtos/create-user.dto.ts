@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiSchema } from "@nestjs/swagger";
 import {
   IsEmail,
   IsNotEmpty,
@@ -8,6 +8,10 @@ import {
 } from "class-validator";
 import { USER_VALIDATION } from "../constants/user-validation.constant.ts";
 
+@ApiSchema({
+  name: "CreateUserDto",
+  description: "Create new user data transfer object",
+})
 export class CreateUserDto {
   @IsString({
     message: "Username must be a string",
@@ -28,6 +32,7 @@ export class CreateUserDto {
     maxLength: USER_VALIDATION.USERNAME.MAX_LENGTH,
     required: true,
     nullable: false,
+    type: String,
   })
   username!: string;
 
@@ -50,6 +55,7 @@ export class CreateUserDto {
     maxLength: USER_VALIDATION.FIRSTNAME.MAX_LENGTH,
     required: true,
     nullable: false,
+    type: String,
   })
   firstName!: string;
 
@@ -72,6 +78,7 @@ export class CreateUserDto {
     maxLength: USER_VALIDATION.LASTNAME.MAX_LENGTH,
     required: true,
     nullable: false,
+    type: String,
   })
   lastName!: string;
 
@@ -87,6 +94,7 @@ export class CreateUserDto {
     description: "user email",
     required: true,
     nullable: false,
+    type: String,
   })
   email!: string;
 }

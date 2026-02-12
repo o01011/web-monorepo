@@ -1,3 +1,4 @@
+// TODO: add posiible responses for swagger docs
 import {
   Controller,
   Get,
@@ -11,22 +12,34 @@ import {
 import { PostService } from "./post.service.ts";
 import { CreatePostDto } from "./dtos/create-post.dto.ts";
 import { UpdatePostDto } from "./dtos/update-post.dto.ts";
-import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBody, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { PostEntity } from "./entities/post.entity.ts";
 
-@Controller("post")
-@ApiTags("Posts")
+@Controller("posts")
+@ApiTags("posts")
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
   @Post()
-  @ApiCreatedResponse({ type: PostEntity })
+  @ApiBody({
+    type: CreatePostDto,
+  })
+  @ApiOperation({
+    summary: "Create new post with authod ID",
+  })
   create(@Body() createPostDto: CreatePostDto): Promise<PostEntity> {
     return this.postService.create(createPostDto);
   }
 
   @Get(":authorId")
-  @ApiOkResponse({ type: PostEntity, isArray: true })
+  @ApiParam({
+    name: "authorId",
+    description: "Author ID",
+    type: Number,
+  })
+  @ApiOperation({
+    summary: "Find all posts by author ID",
+  })
   findAll(
     @Param("authorId", ParseIntPipe) authodId: number,
   ): Promise<PostEntity[]> {
@@ -34,7 +47,19 @@ export class PostController {
   }
 
   @Get(":authorId/:id")
-  @ApiOkResponse({ type: PostEntity })
+  @ApiParam({
+    name: "authorId",
+    description: "Author ID",
+    type: Number,
+  })
+  @ApiParam({
+    name: "id",
+    type: Number,
+    description: "Post ID",
+  })
+  @ApiOperation({
+    summary: "Find one post by ID and author ID",
+  })
   findOne(
     @Param("authorId", ParseIntPipe) authorId: number,
     @Param("id", ParseIntPipe) id: number,
@@ -43,11 +68,24 @@ export class PostController {
   }
 
   @Patch(":authorId/:id")
-  @ApiOkResponse({
-    type: PostEntity,
+  @ApiParam({
+    name: "authorId",
+    description: "Author ID",
+    type: Number,
+  })
+  @ApiParam({
+    name: "id",
+    description: "Post ID",
+    type: Number,
+  })
+  @ApiBody({
+    type: UpdatePostDto,
+  })
+  @ApiOperation({
+    summary: "Update post by post ID and author ID",
   })
   update(
-    @Param("iauthorId", ParseIntPipe) authorId: number,
+    @Param("authorId", ParseIntPipe) authorId: number,
     @Param("id", ParseIntPipe) id: number,
     @Body() updatePostDto: UpdatePostDto,
   ): Promise<PostEntity> {
@@ -55,7 +93,19 @@ export class PostController {
   }
 
   @Delete(":authorId/:id")
-  @ApiOkResponse({ type: PostEntity })
+  @ApiParam({
+    name: "authorId",
+    description: "Author ID",
+    type: Number,
+  })
+  @ApiParam({
+    name: "id",
+    description: "Post ID",
+    type: Number,
+  })
+  @ApiOperation({
+    summary: "Remove post by ID and authod ID",
+  })
   remove(
     @Param("authorId", ParseIntPipe) authorId: number,
     @Param("id", ParseIntPipe) id: number,

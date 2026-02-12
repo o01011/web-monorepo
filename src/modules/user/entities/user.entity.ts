@@ -1,9 +1,18 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiSchema } from "@nestjs/swagger";
 import { User } from "../../../../prisma/generated/client.ts";
 import { USER_VALIDATION } from "../constants/user-validation.constant.ts";
 
+@ApiSchema({
+  name: "UserEntity",
+  description: "User model",
+})
 export class UserEntity implements User {
-  @ApiProperty({ description: "User ID", required: true, nullable: false })
+  @ApiProperty({
+    description: "User ID",
+    required: true,
+    nullable: false,
+    type: Number,
+  })
   id!: number;
 
   @ApiProperty({
@@ -13,6 +22,7 @@ export class UserEntity implements User {
     maxLength: USER_VALIDATION.USERNAME.MAX_LENGTH,
     required: true,
     nullable: false,
+    type: String,
   })
   username!: string;
 
@@ -23,6 +33,7 @@ export class UserEntity implements User {
     maxLength: USER_VALIDATION.FIRSTNAME.MAX_LENGTH,
     required: true,
     nullable: false,
+    type: String,
   })
   firstName!: string;
 
@@ -33,6 +44,7 @@ export class UserEntity implements User {
     maxLength: USER_VALIDATION.LASTNAME.MAX_LENGTH,
     required: true,
     nullable: false,
+    type: String,
   })
   lastName!: string;
 
@@ -41,6 +53,7 @@ export class UserEntity implements User {
     description: "user email",
     required: true,
     nullable: false,
+    type: String,
   })
   email!: string;
 
@@ -48,6 +61,7 @@ export class UserEntity implements User {
     description: "User created at",
     required: true,
     nullable: false,
+    type: Date,
   })
   createAt!: Date;
 
@@ -55,6 +69,7 @@ export class UserEntity implements User {
     description: "User updated at",
     required: true,
     nullable: false,
+    type: Date,
   })
   updatedAt!: Date;
 
