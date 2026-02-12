@@ -11,6 +11,7 @@ generator client {
   runtime                = "nodejs"
   moduleFormat           = "cjs"
   generatedFileExtension = "ts"
+  compilerBuild          = "fast"
 }
 
 datasource db {
