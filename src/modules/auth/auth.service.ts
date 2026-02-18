@@ -1,7 +1,6 @@
 import {
   ConflictException,
   Injectable,
-  InternalServerErrorException,
   Logger,
   NotFoundException,
 } from "@nestjs/common";
@@ -10,8 +9,6 @@ import { JwtService } from "@nestjs/jwt";
 import { AuthRdo } from "./rdos/auth.entity.ts";
 import { SignInDto } from "./dtos/sign-in.dto.ts";
 import { SignUpDto } from "./dtos/sign-up.dto.ts";
-import { MessageRdo } from "../../common/rdos/message.rdo.ts";
-import { SIGN_UP_RESPONSE_MESSAGE } from "./constants/sign-up-response-message.ts";
 import { I18nService } from "nestjs-i18n";
 import { I18nTranslations } from "../../generated/i18n.generated.ts";
 import { AuthRepository } from "./auth.repository.ts";
@@ -45,43 +42,43 @@ export class AuthService {
       });
 
       if (!user || !(await compare(signInDto.password, user.password))) {
-        throw new NotFoundException();
+        throw new NotFoundException("not founded");
       }
 
       const token = this.generateToken(user.id);
 
       return new AuthRdo(token);
     } catch (e) {
-      this.logger.error(
-        `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
-      );
-      throw new InternalServerErrorException(
-        this.i18nService.t("auth.INTERNAL_SERVER_ERROR"),
-      );
+      this.logger.error(`Internal server error during check permissions: ${e}`);
+      throw e;
     }
   }
 
-  public async signUp(signUpDto: SignUpDto): Promise<MessageRdo> {
+  public async signUp(signUpDto: SignUpDto): Promise<AuthRdo> {
     try {
-      const hashedPassword = await this.hashPassword(signUpDto.password);
-
-      const user = await this.authRepository.create({
-        ...signUpDto,
-        password: hashedPassword,
+      const user = await this.prismaService.user.findUnique({
+        where: {
+          email: signUpDto.email,
+        },
       });
 
       if (user) {
         throw new ConflictException();
       }
 
-      return new MessageRdo(SIGN_UP_RESPONSE_MESSAGE);
+      const hashedPassword = await this.hashPassword(signUpDto.password);
+
+      const newUser = await this.authRepository.create({
+        ...signUpDto,
+        password: hashedPassword,
+      });
+
+      const token = this.generateToken(newUser.id);
+
+      return new AuthRdo(token);
     } catch (e) {
-      this.logger.error(
-        `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
-      );
-      throw new InternalServerErrorException(
-        this.i18nService.t("auth.INTERNAL_SERVER_ERROR"),
-      );
+      this.logger.error(`Internal server error during check permissions: ${e}`);
+      throw e;
     }
   }
 
@@ -96,10 +93,8 @@ export class AuthService {
         userId: authPayload.userId,
       };
     } catch (e) {
-      this.logger.error(
-        `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
-      );
-      throw new InternalServerErrorException();
+      this.logger.error(`Internal server error during check permissions: ${e}`);
+      throw e;
     }
   }
 
