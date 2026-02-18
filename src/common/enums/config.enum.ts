@@ -4,4 +4,5 @@ export enum ConfigKeyEnum {
   ENVIRONMENT = "environment",
   DB = "db",
   I18N = "i18n",
+  JWT = "jwt",
 }

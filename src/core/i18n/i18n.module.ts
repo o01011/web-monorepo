@@ -25,6 +25,7 @@ import { ConfigKeyEnum } from "../../common/enums/config.enum.ts";
               : join(process.cwd(), "src", "i18n"),
           watch: true,
         },
+        typesOutputPath: join("src/generated/i18n.generated.ts"),
       }),
       resolvers: [
         {

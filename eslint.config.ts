@@ -3,7 +3,7 @@ import { defineConfig } from "eslint/config";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 
-const globalIgnores: string[] = ["**/dist/**", "**/*.d.ts"];
+const globalIgnores: string[] = ["**/dist/**", "**/*.d.ts", "src/generated"];
 
 const gloablExtends = [
   tseslint.configs.recommended,

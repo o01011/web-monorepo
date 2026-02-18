@@ -15,8 +15,8 @@ import { UpdatePostDto } from "./dtos/update-post.dto.ts";
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { PostEntity } from "./entities/post.entity.ts";
 
+@ApiTags("Posts")
 @Controller("posts")
-@ApiTags("posts")
 export class PostController {
   constructor(private readonly postService: PostService) {}
 

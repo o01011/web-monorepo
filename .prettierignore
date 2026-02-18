@@ -12,3 +12,15 @@ node_modules
 prisma/generated
 prisma/migrations
 prisma/schema.prisma
+#
+# I18N
+#
+src/generated
+#
+# Documentation
+#
+documentation
+#
+# Build
+#
+dist

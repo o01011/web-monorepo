@@ -6,6 +6,7 @@ import { appRegister } from "../../common/registers/app.register.ts";
 import { dbRegister } from "../../common/registers/db.register.ts";
 import { environmentRegister } from "../../common/registers/environment.register.ts";
 import { i18nRegister } from "../../common/registers/i18n.register.ts";
+import { jwtRegister } from "../../common/registers/jwt.register.ts";
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { i18nRegister } from "../../common/registers/i18n.register.ts";
         dbRegister,
         environmentRegister,
         i18nRegister,
+        jwtRegister,
       ],
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()

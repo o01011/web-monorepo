@@ -5,6 +5,7 @@ const config: KnipConfig = {
   project: ["src/**/*.ts"],
   ignoreDependencies: ["tsconfig-paths", "@commitlint/cli", "pg"],
   ignoreMembers: ["DEVELOPMENT", "STAGING", "P2002", "P2025"],
+  ignore: ["src/generated/**"],
 };
 
 export default config;

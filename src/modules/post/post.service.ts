@@ -6,8 +6,8 @@ import {
 } from "@nestjs/common";
 import { CreatePostDto } from "./dtos/create-post.dto.ts";
 import { UpdatePostDto } from "./dtos/update-post.dto.ts";
-import { PostRepository } from "./post.repository.ts";
 import { PostEntity } from "./entities/post.entity.ts";
+import { PostRepository } from "./post.repository.ts";
 
 @Injectable()
 export class PostService {

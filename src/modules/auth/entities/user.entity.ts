@@ -1,6 +1,5 @@
 import { ApiProperty, ApiSchema } from "@nestjs/swagger";
 import { User } from "../../../../prisma/generated/client.ts";
-import { USER_VALIDATION } from "../constants/user-validation.constant.ts";
 
 @ApiSchema({
   name: "UserEntity",
@@ -13,67 +12,94 @@ export class UserEntity implements User {
     nullable: false,
     type: Number,
   })
-  id!: number;
+  id: number;
 
   @ApiProperty({
     example: "Eldred_Ondricka",
     description: "Unique username",
-    minLength: USER_VALIDATION.USERNAME.MIN_LENGTH,
-    maxLength: USER_VALIDATION.USERNAME.MAX_LENGTH,
+    minLength: 5,
+    maxLength: 15,
     required: true,
     nullable: false,
     type: String,
   })
-  username!: string;
+  username: string;
 
   @ApiProperty({
     example: "Paige",
     description: "User first name",
-    minLength: USER_VALIDATION.FIRSTNAME.MIN_LENGTH,
-    maxLength: USER_VALIDATION.FIRSTNAME.MAX_LENGTH,
+    minLength: 5,
+    maxLength: 30,
     required: true,
     nullable: false,
     type: String,
   })
-  firstName!: string;
+  firstName: string;
 
   @ApiProperty({
     example: "Altenwerth",
     description: "User last name",
-    minLength: USER_VALIDATION.LASTNAME.MIN_LENGTH,
-    maxLength: USER_VALIDATION.LASTNAME.MAX_LENGTH,
+    minLength: 5,
+    maxLength: 30,
     required: true,
     nullable: false,
     type: String,
   })
-  lastName!: string;
+  lastName: string;
 
   @ApiProperty({
     example: "Horacio4@hotmail.com",
-    description: "user email",
+    description: "User email",
     required: true,
     nullable: false,
     type: String,
   })
-  email!: string;
+  email: string;
 
   @ApiProperty({
+    example: "",
+    description: "User password",
+    required: true,
+    nullable: false,
+    type: String,
+  })
+  password: string;
+
+  @ApiProperty({
+    example: "",
     description: "User created at",
     required: true,
     nullable: false,
     type: Date,
   })
-  createAt!: Date;
+  createAt: Date;
 
   @ApiProperty({
+    example: "",
     description: "User updated at",
     required: true,
     nullable: false,
     type: Date,
   })
-  updatedAt!: Date;
+  updatedAt: Date;
 
-  constructor(partial: Partial<UserEntity>) {
-    Object.assign(this, partial);
+  constructor(
+    id: number,
+    username: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+    createdAt: Date,
+    updatedAt: Date,
+  ) {
+    this.id = id;
+    this.username = username;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.password = password;
+    this.createAt = createdAt;
+    this.updatedAt = updatedAt;
   }
 }

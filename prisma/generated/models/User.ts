@@ -40,6 +40,7 @@ export type UserMinAggregateOutputType = {
   firstName: string | null
   lastName: string | null
   email: string | null
+  password: string | null
   createAt: Date | null
   updatedAt: Date | null
 }
@@ -50,6 +51,7 @@ export type UserMaxAggregateOutputType = {
   firstName: string | null
   lastName: string | null
   email: string | null
+  password: string | null
   createAt: Date | null
   updatedAt: Date | null
 }
@@ -60,6 +62,7 @@ export type UserCountAggregateOutputType = {
   firstName: number
   lastName: number
   email: number
+  password: number
   createAt: number
   updatedAt: number
   _all: number
@@ -80,6 +83,7 @@ export type UserMinAggregateInputType = {
   firstName?: true
   lastName?: true
   email?: true
+  password?: true
   createAt?: true
   updatedAt?: true
 }
@@ -90,6 +94,7 @@ export type UserMaxAggregateInputType = {
   firstName?: true
   lastName?: true
   email?: true
+  password?: true
   createAt?: true
   updatedAt?: true
 }
@@ -100,6 +105,7 @@ export type UserCountAggregateInputType = {
   firstName?: true
   lastName?: true
   email?: true
+  password?: true
   createAt?: true
   updatedAt?: true
   _all?: true
@@ -197,6 +203,7 @@ export type UserGroupByOutputType = {
   firstName: string
   lastName: string
   email: string
+  password: string
   createAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
@@ -230,6 +237,7 @@ export type UserWhereInput = {
   firstName?: Prisma.StringFilter<"User"> | string
   lastName?: Prisma.StringFilter<"User"> | string
   email?: Prisma.StringFilter<"User"> | string
+  password?: Prisma.StringFilter<"User"> | string
   createAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   posts?: Prisma.PostListRelationFilter
@@ -241,6 +249,7 @@ export type UserOrderByWithRelationInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   createAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   posts?: Prisma.PostOrderByRelationAggregateInput
@@ -255,6 +264,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   firstName?: Prisma.StringFilter<"User"> | string
   lastName?: Prisma.StringFilter<"User"> | string
+  password?: Prisma.StringFilter<"User"> | string
   createAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   posts?: Prisma.PostListRelationFilter
@@ -266,6 +276,7 @@ export type UserOrderByWithAggregationInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   createAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -284,6 +295,7 @@ export type UserScalarWhereWithAggregatesInput = {
   firstName?: Prisma.StringWithAggregatesFilter<"User"> | string
   lastName?: Prisma.StringWithAggregatesFilter<"User"> | string
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
+  password?: Prisma.StringWithAggregatesFilter<"User"> | string
   createAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -293,6 +305,7 @@ export type UserCreateInput = {
   firstName: string
   lastName: string
   email: string
+  password: string
   createAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
@@ -304,6 +317,7 @@ export type UserUncheckedCreateInput = {
   firstName: string
   lastName: string
   email: string
+  password: string
   createAt?: Date | string
   updatedAt?: Date | string
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
@@ -314,6 +328,7 @@ export type UserUpdateInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
@@ -325,6 +340,7 @@ export type UserUncheckedUpdateInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
@@ -336,6 +352,7 @@ export type UserCreateManyInput = {
   firstName: string
   lastName: string
   email: string
+  password: string
   createAt?: Date | string
   updatedAt?: Date | string
 }
@@ -345,6 +362,7 @@ export type UserUpdateManyMutationInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -355,6 +373,7 @@ export type UserUncheckedUpdateManyInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -365,6 +384,7 @@ export type UserCountOrderByAggregateInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   createAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -379,6 +399,7 @@ export type UserMaxOrderByAggregateInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   createAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -389,6 +410,7 @@ export type UserMinOrderByAggregateInput = {
   firstName?: Prisma.SortOrder
   lastName?: Prisma.SortOrder
   email?: Prisma.SortOrder
+  password?: Prisma.SortOrder
   createAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -437,6 +459,7 @@ export type UserCreateWithoutPostsInput = {
   firstName: string
   lastName: string
   email: string
+  password: string
   createAt?: Date | string
   updatedAt?: Date | string
 }
@@ -447,6 +470,7 @@ export type UserUncheckedCreateWithoutPostsInput = {
   firstName: string
   lastName: string
   email: string
+  password: string
   createAt?: Date | string
   updatedAt?: Date | string
 }
@@ -472,6 +496,7 @@ export type UserUpdateWithoutPostsInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -482,6 +507,7 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   firstName?: Prisma.StringFieldUpdateOperationsInput | string
   lastName?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
   createAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -523,6 +549,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   firstName?: boolean
   lastName?: boolean
   email?: boolean
+  password?: boolean
   createAt?: boolean
   updatedAt?: boolean
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
@@ -535,6 +562,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   firstName?: boolean
   lastName?: boolean
   email?: boolean
+  password?: boolean
   createAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -545,6 +573,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   firstName?: boolean
   lastName?: boolean
   email?: boolean
+  password?: boolean
   createAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -555,11 +584,12 @@ export type UserSelectScalar = {
   firstName?: boolean
   lastName?: boolean
   email?: boolean
+  password?: boolean
   createAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "firstName" | "lastName" | "email" | "createAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "username" | "firstName" | "lastName" | "email" | "password" | "createAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -578,6 +608,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     firstName: string
     lastName: string
     email: string
+    password: string
     createAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -1009,6 +1040,7 @@ export interface UserFieldRefs {
   readonly firstName: Prisma.FieldRef<"User", 'String'>
   readonly lastName: Prisma.FieldRef<"User", 'String'>
   readonly email: Prisma.FieldRef<"User", 'String'>
+  readonly password: Prisma.FieldRef<"User", 'String'>
   readonly createAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
