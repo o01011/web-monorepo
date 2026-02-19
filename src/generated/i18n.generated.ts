@@ -7,6 +7,9 @@ import type { Path } from "nestjs-i18n";
 export type I18nTranslations = {
     "auth": {
         "INTERNAL_SERVER_ERROR": string;
+        "NOT_FOUND": string;
+        "INCORRECT_CREDENTIALS": string;
+        "USER_EXISTS": string;
     };
     "posts": {
         "NOT_FOUND": string;

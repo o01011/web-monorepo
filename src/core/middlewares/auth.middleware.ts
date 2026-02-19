@@ -30,13 +30,17 @@ export class AuthMiddleware implements NestMiddleware {
     const authHeader = req.headers["authorization"];
 
     if (!authHeader) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(
+        this.i18nService.t("auth.INCORRECT_CREDENTIALS"),
+      );
     }
 
     const token = authHeader.split(" ")[1];
 
     if (!token) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException(
+        this.i18nService.t("auth.INCORRECT_CREDENTIALS"),
+      );
     }
 
     try {
@@ -49,7 +53,9 @@ export class AuthMiddleware implements NestMiddleware {
       this.logger.error(
         `${this.i18nService.t(`auth.INTERNAL_SERVER_ERROR`)}: ${e}`,
       );
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(
+        this.i18nService.t("auth.INTERNAL_SERVER_ERROR"),
+      );
     }
   }
 }

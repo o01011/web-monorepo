@@ -18,14 +18,24 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AuthMiddleware)
-      .exclude({
-        path: join(
-          "api/v1",
-          AuthControllerConst.PATH,
-          AuthControllerConst.ROUTES.SIGN_IN,
-        ),
-        method: RequestMethod.POST,
-      })
+      .exclude(
+        {
+          path: join(
+            "api/v1",
+            AuthControllerConst.PATH,
+            AuthControllerConst.ROUTES.SIGN_UP,
+          ),
+          method: RequestMethod.POST,
+        },
+        {
+          path: join(
+            "api/v1",
+            AuthControllerConst.PATH,
+            AuthControllerConst.ROUTES.SIGN_IN,
+          ),
+          method: RequestMethod.POST,
+        },
+      )
       .forRoutes("*");
   }
 }
