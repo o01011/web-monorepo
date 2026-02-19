@@ -6,13 +6,13 @@
     "assets": [
       {
         "include": "i18n/**/*",
-        "watchAssets": true
+        "watchAssets": false
       }
     ],
     "deleteOutDir": true,
     "builder": "tsc",
     "typeCheck": false,
-    "watchAssets": true,
+    "watchAssets": false,
     "tsConfigPath": "tsconfig.json",
     "webpack": false
   }
