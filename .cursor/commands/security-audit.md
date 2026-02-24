@@ -1,30 +1,45 @@
 # Security Audit
 
-## Overview
+Run a practical security audit for this NestJS + Prisma project.
 
-Comprehensive security review to identify and fix vulnerabilities in the codebase.
+## Rules
 
-## Steps
+- Do not expose secrets in output.
+- Prioritize exploitable issues first.
+- Include remediation steps and owner-friendly actions.
 
-1. **Dependency audit**
-   - Check for known vulnerabilities
-   - Update outdated packages
-   - Review third-party dependencies
+## Audit Steps
 
-2. **Code security review**
-   - Check for common vulnerabilities
-   - Review authentication/authorization
-   - Audit data handling practices
+1. Dependency posture
+   - `npm audit`
+   - Check outdated critical dependencies.
+2. Secret exposure checks
+   - Verify `.env` and sensitive files are ignored.
+   - Scan for hardcoded credentials/tokens.
+3. Auth and authorization review
+   - Verify JWT handling, token expiry, and guard usage.
+   - Verify role/permission checks on protected routes.
+4. Input and output hardening
+   - Validate DTOs and request payloads.
+   - Confirm no sensitive fields leak in API responses.
+5. Infra and runtime hardening
+   - Check security headers/CORS defaults.
+   - Check rate limiting and brute-force protections.
 
-3. **Infrastructure security**
-   - Review environment variables
-   - Check access controls
-   - Audit network security
+## Output Format
 
-## Security Checklist
+### Findings
 
-- [ ] Dependencies updated and secure
-- [ ] No hardcoded secrets
-- [ ] Input validation implemented
-- [ ] Authentication secure
-- [ ] Authorization properly configured
+- Severity: <Critical|High|Medium|Low>
+- Area: <dependency|auth|validation|secrets|infra>
+- Issue:
+- Impact:
+- Fix:
+
+### Quick Wins
+
+- <safe fix that can be done immediately>
+
+### Follow-up Tasks
+
+- <deeper improvements>
