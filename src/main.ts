@@ -7,7 +7,6 @@ import {
 } from "@nestjs/common";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { ConfigService } from "@nestjs/config";
-import expressBasicAuth from "express-basic-auth";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AppModule } from "./app.module.ts";
 import { EnviromentEnum } from "./common/enums/enviroments.enum.ts";
@@ -22,29 +21,27 @@ const swaggerSetup = (
   appPort: number,
 ): void => {
   const swaggerPath: string = "/api/docs";
-  const swaggerUsername: string =
-    configService.get<string>("SWAGGER_USERNAME") ?? "";
-  const swaggerPassword: string =
-    configService.get<string>("SWAGGER_PASSWORD") ?? "";
   const appName: string = configService.get<string>("APP_NAME") ?? "";
   const appDescription: string =
     configService.get<string>(`${ConfigKeyEnum.APP}.appDescription`) ?? "";
-
-  app.use(
-    [swaggerPath, `${swaggerPath}-json`, `${swaggerPath}-yaml`],
-    expressBasicAuth({
-      challenge: true,
-      users: {
-        [swaggerUsername]: swaggerPassword,
-      },
-    }),
-  );
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle(appName)
     .setDescription(appDescription)
     .setVersion("1.0")
     .addServer(`http://localhost:${appPort}`, "development")
+    .addBearerAuth(
+      {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+        name: "Authorization",
+        description: "Enter JWT token",
+        in: "header",
+      },
+      "Bearer",
+    )
+    .addSecurityRequirements("Bearer")
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig, {
@@ -61,7 +58,6 @@ const swaggerSetup = (
     swaggerOptions: {
       filter: true,
       showRequestDuration: true,
-      persistAuthorization: true,
     },
   });
 };

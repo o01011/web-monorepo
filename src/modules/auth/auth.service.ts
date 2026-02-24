@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  InternalServerErrorException,
   Logger,
   NotFoundException,
 } from "@nestjs/common";
@@ -41,16 +42,26 @@ export class AuthService {
         },
       });
 
-      if (!user || !(await compare(signInDto.password, user.password))) {
-        throw new NotFoundException("not founded");
+      if (!user) {
+        throw new NotFoundException(this.i18nService.t("auth.NOT_FOUND"));
+      }
+
+      if (!(await compare(signInDto.password, user.password))) {
+        throw new ConflictException(
+          this.i18nService.t("auth.INCORRECT_CREDENTIALS"),
+        );
       }
 
       const token = this.generateToken(user.id);
 
       return new AuthRdo(token);
     } catch (e) {
-      this.logger.error(`Internal server error during check permissions: ${e}`);
-      throw e;
+      this.logger.error(
+        `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
+      );
+      throw new InternalServerErrorException(
+        this.i18nService.t("auth.INTERNAL_SERVER_ERROR"),
+      );
     }
   }
 
@@ -63,7 +74,7 @@ export class AuthService {
       });
 
       if (user) {
-        throw new ConflictException();
+        throw new ConflictException(this.i18nService.t("auth.USER_EXISTS"));
       }
 
       const hashedPassword = await this.hashPassword(signUpDto.password);
@@ -77,8 +88,12 @@ export class AuthService {
 
       return new AuthRdo(token);
     } catch (e) {
-      this.logger.error(`Internal server error during check permissions: ${e}`);
-      throw e;
+      this.logger.error(
+        `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
+      );
+      throw new InternalServerErrorException(
+        this.i18nService.t("auth.INTERNAL_SERVER_ERROR"),
+      );
     }
   }
 
@@ -93,8 +108,12 @@ export class AuthService {
         userId: authPayload.userId,
       };
     } catch (e) {
-      this.logger.error(`Internal server error during check permissions: ${e}`);
-      throw e;
+      this.logger.error(
+        `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
+      );
+      throw new InternalServerErrorException(
+        this.i18nService.t("auth.INTERNAL_SERVER_ERROR"),
+      );
     }
   }
 
