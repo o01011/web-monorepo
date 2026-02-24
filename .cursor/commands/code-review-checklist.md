@@ -1,29 +1,41 @@
 # Code Review Checklist
 
-## Overview
+Perform a rigorous code review focused on behavior, risk, and maintainability.
 
-Comprehensive checklist for conducting thorough code reviews to ensure quality, security, and maintainability.
+## Rules
 
-## Review Categories
+- Prioritize findings by severity: Critical, High, Medium, Low.
+- Focus on bugs, regressions, security risks, and missing test coverage.
+- Keep summary brief; findings come first.
 
-### Functionality
+## Review Scope
 
-- [ ] Code does what it's supposed to do
-- [ ] Edge cases are handled
-- [ ] Error handling is appropriate
-- [ ] No obvious bugs or logic errors
+1. Functionality and correctness
+2. Edge cases and error handling
+3. Security and input validation
+4. Data consistency and migration safety
+5. API contracts and backward compatibility
+6. Performance concerns (N+1, heavy loops, slow I/O)
+7. Test coverage and test quality
 
-### Code Quality
+## Output Format
 
-- [ ] Code is readable and well-structured
-- [ ] Functions are small and focused
-- [ ] Variable names are descriptive
-- [ ] No code duplication
-- [ ] Follows project conventions
+### Findings
 
-### Security
+- Severity: <Critical|High|Medium|Low>
+- File: `<path>`
+- Issue: <what is wrong>
+- Impact: <why this matters>
+- Recommendation: <specific fix>
 
-- [ ] No obvious security vulnerabilities
-- [ ] Input validation is present
-- [ ] Sensitive data is handled properly
-- [ ] No hardcoded secrets
+### Open Questions
+
+- <unknowns needing clarification>
+
+### Residual Risks
+
+- <remaining risk even after fixes>
+
+### Change Summary
+
+- <2-4 bullets max>
