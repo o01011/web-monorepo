@@ -8,15 +8,25 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  UseGuards,
 } from "@nestjs/common";
 import { PostService } from "./post.service.ts";
 import { CreatePostDto } from "./dtos/create-post.dto.ts";
 import { UpdatePostDto } from "./dtos/update-post.dto.ts";
-import { ApiBody, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBody,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+  ApiTags,
+} from "@nestjs/swagger";
 import { PostEntity } from "./entities/post.entity.ts";
+import { JwtGuard } from "../../common/guards/auth.guard.ts";
+import { UserId } from "../../common/decorators/user-id.decorator.ts";
 
 @ApiTags("Posts")
 @Controller("posts")
+@UseGuards(JwtGuard)
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
@@ -25,54 +35,40 @@ export class PostController {
     type: CreatePostDto,
   })
   @ApiOperation({
-    summary: "Create new post with authod ID",
+    summary: "Create new post",
   })
   create(@Body() createPostDto: CreatePostDto): Promise<PostEntity> {
     return this.postService.create(createPostDto);
   }
 
-  @Get(":authorId")
-  @ApiParam({
-    name: "authorId",
-    description: "Author ID",
-    type: Number,
-  })
+  @Get()
   @ApiOperation({
-    summary: "Find all posts by author ID",
+    summary: "Find all posts",
   })
-  findAll(
-    @Param("authorId", ParseIntPipe) authodId: number,
-  ): Promise<PostEntity[]> {
-    return this.postService.findAll(authodId);
+  @ApiOkResponse({
+    type: [PostEntity],
+  })
+  findAll(@UserId() userId: number): Promise<PostEntity[]> {
+    return this.postService.findAll(userId);
   }
 
-  @Get(":authorId/:id")
-  @ApiParam({
-    name: "authorId",
-    description: "Author ID",
-    type: Number,
-  })
+  @Get(":id")
   @ApiParam({
     name: "id",
     type: Number,
     description: "Post ID",
   })
   @ApiOperation({
-    summary: "Find one post by ID and author ID",
+    summary: "Find one post by ID",
   })
   findOne(
-    @Param("authorId", ParseIntPipe) authorId: number,
+    @UserId() userId: number,
     @Param("id", ParseIntPipe) id: number,
   ): Promise<PostEntity | null> {
-    return this.postService.findOne(id, authorId);
+    return this.postService.findOne(id, userId);
   }
 
-  @Patch(":authorId/:id")
-  @ApiParam({
-    name: "authorId",
-    description: "Author ID",
-    type: Number,
-  })
+  @Patch(":id")
   @ApiParam({
     name: "id",
     description: "Post ID",
@@ -82,34 +78,29 @@ export class PostController {
     type: UpdatePostDto,
   })
   @ApiOperation({
-    summary: "Update post by post ID and author ID",
+    summary: "Update post by post ID",
   })
   update(
-    @Param("authorId", ParseIntPipe) authorId: number,
+    @UserId() userId: number,
     @Param("id", ParseIntPipe) id: number,
     @Body() updatePostDto: UpdatePostDto,
   ): Promise<PostEntity> {
-    return this.postService.update(id, authorId, updatePostDto);
+    return this.postService.update(id, userId, updatePostDto);
   }
 
-  @Delete(":authorId/:id")
-  @ApiParam({
-    name: "authorId",
-    description: "Author ID",
-    type: Number,
-  })
+  @Delete(":id")
   @ApiParam({
     name: "id",
     description: "Post ID",
     type: Number,
   })
   @ApiOperation({
-    summary: "Remove post by ID and authod ID",
+    summary: "Remove post by ID",
   })
   remove(
-    @Param("authorId", ParseIntPipe) authorId: number,
+    @UserId() userId: number,
     @Param("id", ParseIntPipe) id: number,
   ): Promise<PostEntity> {
-    return this.postService.remove(id, authorId);
+    return this.postService.remove(id, userId);
   }
 }

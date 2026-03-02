@@ -1,3 +1,4 @@
+// TODO: Mark some data as sensitive
 import {
   CallHandler,
   ExecutionContext,
@@ -10,6 +11,8 @@ import { ConfigService } from "@nestjs/config";
 import { Request, Response } from "express";
 import { EnviromentEnum } from "../enums/enviroments.enum.ts";
 import { ConfigKeyEnum } from "../enums/config.enum.ts";
+
+type LoggerExpressionType = "incomming" | "error" | "success";
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
@@ -30,83 +33,66 @@ export class LoggingInterceptor implements NestInterceptor {
     const request = httpContext.getRequest<Request>();
     const response = httpContext.getResponse<Response>();
 
-    const start = Date.now();
-    const { method, originalUrl, headers, query, params, body } = request;
+    const { method, originalUrl } = request;
 
-    this.logRequestDetails(method, originalUrl, {
-      params,
-      query,
-      headers,
-      body,
-    });
+    const start = Date.now();
+
+    this.logResponse("incomming", method, originalUrl);
 
     return next.handle().pipe(
       tap({
         next: () => {
           const duration = Date.now() - start;
           const { statusCode } = response;
-          this.logResponseSuccess(method, originalUrl, statusCode, duration);
+
+          this.logResponse(
+            "success",
+            method,
+            originalUrl,
+            statusCode,
+            duration,
+          );
         },
         error: (e) => {
           const duration = Date.now() - start;
           const statusCode = response.statusCode;
-          this.logResponseError(method, originalUrl, statusCode, duration, e);
+          this.logResponse(
+            "error",
+            method,
+            originalUrl,
+            statusCode,
+            duration,
+            e,
+          );
         },
       }),
     );
   }
 
-  private logRequestDetails(
+  private logResponse(
+    loggerExpressionType: LoggerExpressionType,
     method: string,
     url: string,
-    details: {
-      params: unknown;
-      query: unknown;
-      headers: unknown;
-      body: unknown;
-    },
+    statusCode?: number,
+    duration?: number,
+    error?: unknown,
   ): void {
-    this.logger.debug(`[${this.className}] Incoming Request`, {
-      method,
-      url,
-      params: details.params,
-      query: details.query,
-      headers: details.headers,
-      body: details.body,
-    });
-  }
+    switch (loggerExpressionType) {
+      case "incomming":
+        this.logger.debug(`[Incoming] - [Method: ${method}] - [Url: ${url}]`);
+        break;
 
-  private logResponseSuccess(
-    method: string,
-    url: string,
-    statusCode: number,
-    duration: number,
-  ): void {
-    this.logger.debug(`[${this.className}] Request Completed`, {
-      method,
-      url,
-      statusCode,
-      duration: `${duration}ms`,
-    });
-  }
+      case "success":
+        this.logger.debug(
+          `[Completed] - [Method: ${method}] - [Url: ${url}] - [Status: ${statusCode}] - [Duration: ${duration}ms]`,
+        );
+        break;
 
-  private logResponseError(
-    method: string,
-    url: string,
-    statusCode: number,
-    duration: number,
-    e: {
-      name: string;
-      message: string;
-      details?: string | null;
-    } | null,
-  ): void {
-    this.logger.error(`[${this.className}] Request Failed`, {
-      method,
-      url,
-      statusCode,
-      duration: `${duration}ms`,
-      error: e,
-    });
+      case "error":
+        this.logger.error(
+          `[Failed] - [Method: ${method}] - [Url: ${url}] - [Status: ${statusCode}] - [Duration: ${duration}ms] - [Error: ${error}]`,
+        );
+        break;
+    }
   }
 }

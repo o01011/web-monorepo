@@ -21,8 +21,42 @@ export class AuthRepository {
 
   public async create(signUpDto: SignUpDto): Promise<UserEntity> {
     try {
-      return this.prismaService.user.create({
+      return await this.prismaService.user.create({
         data: signUpDto,
+      });
+    } catch (e) {
+      this.logger.error(
+        `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
+      );
+      throw new InternalServerErrorException(
+        this.i18nService.t("auth.INTERNAL_SERVER_ERROR"),
+      );
+    }
+  }
+
+  public async findOneByEmail(email: string): Promise<UserEntity | null> {
+    try {
+      return await this.prismaService.user.findUnique({
+        where: {
+          email,
+        },
+      });
+    } catch (e) {
+      this.logger.error(
+        `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
+      );
+      throw new InternalServerErrorException(
+        this.i18nService.t("auth.INTERNAL_SERVER_ERROR"),
+      );
+    }
+  }
+
+  public async findOneById(id: number): Promise<UserEntity | null> {
+    try {
+      return await this.prismaService.user.findUnique({
+        where: {
+          id,
+        },
       });
     } catch (e) {
       this.logger.error(

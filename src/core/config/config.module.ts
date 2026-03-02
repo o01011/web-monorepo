@@ -39,34 +39,23 @@ import { jwtRegister } from "../../common/registers/jwt.register.ts";
         APP_DESCRIPTION: Joi.string(),
         APP_LOG_LEVEL: Joi.number().required().description("Logging level"),
 
-        SWAGGER_USERNAME: Joi.string().description(
-          "Swagger UI authentication username",
-        ),
-        SWAGGER_PASSWORD: Joi.string().description(
-          "Swagger UI authentication password",
-        ),
-
         POSTGRES_URL: Joi.string()
           .uri({ scheme: ["postgresql", "postgres"] })
           .required()
           .description("Postgres connection URL"),
 
-        // KAFKA_PORT: Joi.number().port().default(19092).description('Kafka port'),
-        // KAFKA_USER: Joi.string().required().description('Kafka username'),
-        // KAFKA_PASSWORD: Joi.string().min(3).required().description('Kafka password'),
-        // KAFKA_CFG_NODE_ID: Joi.string(),
-        // KAFKA_CFG_PROCESS_ROLES: Joi.string(),
-        // KAFKA_CFG_LISTENERS: Joi.string(),
-        // KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: Joi.string(),
-        // KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: Joi.string(),
-        // KAFKA_CFG_CONTROLLER_LISTENER_NAMES: Joi.string(),
-
         REDIS_URL: Joi.string()
           .uri({ scheme: ["redis"] })
           .required()
           .description("Redis connection URL"),
-      }).with("SWAGGER_USERNAME", "SWAGGER_PASSWORD"),
-      // .with('KAFKA_USER', 'KAFKA_PASSWORD'
+
+        I18N_FALLBACK_LANGUAGE: Joi.string()
+          .required()
+          .description("I18N fallback language"),
+
+        JWT_SECRET: Joi.string().required().description("JWT secret"),
+        JWT_EXPIRES_IN: Joi.string().required().description("JWT expires in"),
+      }),
     }),
   ],
 })

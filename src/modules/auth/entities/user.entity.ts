@@ -72,7 +72,7 @@ export class UserEntity implements User {
     nullable: false,
     type: Date,
   })
-  createAt: Date;
+  createdAt: Date;
 
   @ApiProperty({
     example: "",
@@ -99,7 +99,7 @@ export class UserEntity implements User {
     this.lastName = lastName;
     this.email = email;
     this.password = password;
-    this.createAt = createdAt;
+    this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }
 }

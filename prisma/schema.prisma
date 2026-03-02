@@ -9,7 +9,7 @@ generator client {
   output   = "generated"
 
   runtime                = "nodejs"
-  moduleFormat           = "cjs"
+  moduleFormat           = "esm"
   generatedFileExtension = "ts"
   compilerBuild          = "fast"
 }
@@ -25,7 +25,7 @@ model User {
   lastName  String
   email     String   @unique
   password  String
-  createAt  DateTime @default(now())
+  createdAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   posts Post[]

@@ -6,7 +6,7 @@ export const environmentRegister = registerAs(
   ConfigKeyEnum.ENVIRONMENT,
   (): EnvironmentType => {
     return {
-      nodeEnv: String(process.env["NODE_ENV"]),
+      nodeEnv: process.env["NODE_ENV"] || "",
     };
   },
 );

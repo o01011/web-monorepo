@@ -5,7 +5,6 @@ import {
   Logger,
   NotFoundException,
 } from "@nestjs/common";
-import { PrismaService } from "../../core/prisma/prisma.service.ts";
 import { JwtService } from "@nestjs/jwt";
 import { AuthRdo } from "./rdos/auth.entity.ts";
 import { SignInDto } from "./dtos/sign-in.dto.ts";
@@ -20,27 +19,23 @@ import { AuthPayloadType } from "../../common/types/auth-payload.type.ts";
 
 @Injectable()
 export class AuthService {
-  private readonly logger;
-  private readonly jwtSecret;
+  private readonly logger: Logger;
+  private readonly jwtSecret: string;
 
   constructor(
-    private readonly prismaService: PrismaService,
     private readonly jwtService: JwtService,
     private readonly authRepository: AuthRepository,
     private readonly i18nService: I18nService<I18nTranslations>,
     private readonly configService: ConfigService,
   ) {
     this.logger = new Logger(AuthService.name);
-    this.jwtSecret = this.configService.get(`${ConfigKeyEnum.JWT}.secret`);
+    this.jwtSecret =
+      this.configService.get<string>(`${ConfigKeyEnum.JWT}.secret`) ?? "";
   }
 
   public async signIn(signInDto: SignInDto): Promise<AuthRdo> {
     try {
-      const user = await this.prismaService.user.findUnique({
-        where: {
-          email: signInDto.email,
-        },
-      });
+      const user = await this.authRepository.findOneByEmail(signInDto.email);
 
       if (!user) {
         throw new NotFoundException(this.i18nService.t("auth.NOT_FOUND"));
@@ -67,11 +62,7 @@ export class AuthService {
 
   public async signUp(signUpDto: SignUpDto): Promise<AuthRdo> {
     try {
-      const user = await this.prismaService.user.findUnique({
-        where: {
-          email: signUpDto.email,
-        },
-      });
+      const user = await this.authRepository.findOneByEmail(signUpDto.email);
 
       if (user) {
         throw new ConflictException(this.i18nService.t("auth.USER_EXISTS"));
@@ -99,10 +90,12 @@ export class AuthService {
 
   public async validateToken(token: string): Promise<AuthPayloadType> {
     try {
-      const authPayload = (await this.jwtService.verifyAsync(
+      const authPayload = await this.jwtService.verifyAsync<AuthPayloadType>(
         token,
-        this.jwtSecret,
-      )) as AuthPayloadType;
+        {
+          secret: this.jwtSecret,
+        },
+      );
 
       return {
         userId: authPayload.userId,

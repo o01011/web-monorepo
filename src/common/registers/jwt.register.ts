@@ -4,7 +4,7 @@ import { JwtType } from "../types/jwt.type.ts";
 
 export const jwtRegister = registerAs(ConfigKeyEnum.JWT, (): JwtType => {
   return {
-    secret: String(process.env["JWT_SECRET"]),
-    expiresIn: Number(process.env["JWT_EXPIRES_IN"]),
+    secret: process.env["JWT_SECRET"] || "",
+    expiresIn: Number(process.env["JWT_EXPIRES_IN"]) || 0,
   };
 });

@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import { AuthService } from "./auth.service.ts";
 import { AuthRdo } from "./rdos/auth.entity.ts";
 import { SignInDto } from "./dtos/sign-in.dto.ts";
@@ -20,7 +20,7 @@ export class AuthController {
   }
 
   @Post(AuthControllerConst.ROUTES.SIGN_UP)
-  @ApiOkResponse({
+  @ApiCreatedResponse({
     type: AuthRdo,
   })
   public signUp(@Body() signUpDto: SignUpDto): Promise<AuthRdo> {

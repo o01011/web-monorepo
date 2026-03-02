@@ -12,8 +12,8 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
     host: ArgumentsHost,
   ) {
     const ctx = host.switchToHttp();
+    const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
-    const request = ctx.getResponse<Request>();
 
     let status: HttpStatus;
     let message: string;

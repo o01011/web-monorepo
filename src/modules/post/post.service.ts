@@ -15,25 +15,28 @@ export class PostService {
 
   constructor(private readonly postRepository: PostRepository) {}
 
-  create(createPostDto: CreatePostDto): Promise<PostEntity> {
+  public async create(createPostDto: CreatePostDto): Promise<PostEntity> {
     try {
-      return this.postRepository.create(createPostDto);
+      return await this.postRepository.create(createPostDto);
     } catch (e) {
       this.logger.error(`Error during create post: ${e}`);
       throw new InternalServerErrorException();
     }
   }
 
-  findAll(authorId: number): Promise<PostEntity[]> {
+  public async findAll(authorId: number): Promise<PostEntity[]> {
     try {
-      return this.postRepository.findAll(authorId);
+      return await this.postRepository.findAll(authorId);
     } catch (e) {
       this.logger.error(`Error during find all posts: ${e}`);
       throw new InternalServerErrorException();
     }
   }
 
-  async findOne(id: number, authorId: number): Promise<PostEntity | null> {
+  public async findOne(
+    id: number,
+    authorId: number,
+  ): Promise<PostEntity | null> {
     try {
       const post = await this.postRepository.findOne(id, authorId);
 
@@ -49,18 +52,22 @@ export class PostService {
     }
   }
 
-  update(id: number, authorId: number, updatePostDto: UpdatePostDto) {
+  public async update(
+    id: number,
+    authorId: number,
+    updatePostDto: UpdatePostDto,
+  ) {
     try {
-      return this.postRepository.update(id, authorId, updatePostDto);
+      return await this.postRepository.update(id, authorId, updatePostDto);
     } catch (e) {
       this.logger.error(`Error during update post: ${e}`);
       throw new InternalServerErrorException();
     }
   }
 
-  remove(id: number, authorId: number) {
+  public async remove(id: number, authorId: number) {
     try {
-      return this.postRepository.remove(id, authorId);
+      return await this.postRepository.remove(id, authorId);
     } catch (e) {
       this.logger.error(`Error during remove post: ${e}`);
       throw new InternalServerErrorException();

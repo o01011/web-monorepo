@@ -14,7 +14,7 @@ COPY --from=installer /app/node_modules ./node_modules
 COPY package*.json prisma.config.ts ./
 COPY prisma ./prisma
 
-RUN npm run prisma:generate
+RUN npm run db:generate
 
 COPY src ./src
 COPY nest-cli.json tsconfig.json ./
@@ -35,4 +35,4 @@ COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 8000
 
-CMD sh -c "npm run prisma:migrate:deploy && npm run start:prod"
+CMD sh -c "npm run db:migrate:deploy && npm run start:prod"

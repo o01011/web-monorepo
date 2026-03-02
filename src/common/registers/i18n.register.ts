@@ -6,7 +6,7 @@ export const i18nRegister = registerAs(
   ConfigKeyEnum.I18N,
   (): LocalizationType => {
     return {
-      i18nFallbackLanguage: String(process.env["I18N_FALLBACK_LANGUAGE"]),
+      i18nFallbackLanguage: process.env["I18N_FALLBACK_LANGUAGE"] || "",
     };
   },
 );

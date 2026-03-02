@@ -14,7 +14,7 @@ export class PostRepository {
 
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create(createPostDto: CreatePostDto): Promise<PostEntity> {
+  public async create(createPostDto: CreatePostDto): Promise<PostEntity> {
     try {
       const post = await this.prismaService.post.create({
         data: createPostDto,
@@ -27,7 +27,7 @@ export class PostRepository {
     }
   }
 
-  async findAll(authorId: number): Promise<PostEntity[]> {
+  public async findAll(authorId: number): Promise<PostEntity[]> {
     try {
       const posts = await this.prismaService.post.findMany({
         where: { authorId },
@@ -40,7 +40,10 @@ export class PostRepository {
     }
   }
 
-  async findOne(id: number, authorId: number): Promise<PostEntity | null> {
+  public async findOne(
+    id: number,
+    authorId: number,
+  ): Promise<PostEntity | null> {
     try {
       const post = await this.prismaService.post.findUnique({
         where: { id, authorId },
@@ -53,7 +56,7 @@ export class PostRepository {
     }
   }
 
-  async update(
+  public async update(
     id: number,
     authorId: number,
     updatePostDto: UpdatePostDto,
@@ -71,7 +74,7 @@ export class PostRepository {
     }
   }
 
-  async remove(id: number, authorId: number): Promise<PostEntity> {
+  public async remove(id: number, authorId: number): Promise<PostEntity> {
     try {
       const post = await this.prismaService.post.delete({
         where: { id, authorId },
