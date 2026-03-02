@@ -13,7 +13,7 @@ export class PostEntity implements Post {
     nullable: false,
     type: Number,
   })
-  id!: number;
+  id: number;
 
   @ApiProperty({
     example: "Tess of the d'Urbervilles",
@@ -24,7 +24,7 @@ export class PostEntity implements Post {
     nullable: false,
     type: String,
   })
-  title!: string;
+  title: string;
 
   @ApiProperty({
     example: "Umquam viscus consectetur deripio curis.",
@@ -35,7 +35,7 @@ export class PostEntity implements Post {
     nullable: false,
     type: String,
   })
-  description!: string;
+  description: string;
 
   @ApiProperty({
     description: "Post created at",
@@ -43,7 +43,7 @@ export class PostEntity implements Post {
     nullable: false,
     type: Date,
   })
-  createdAt!: Date;
+  createdAt: Date;
 
   @ApiProperty({
     description: "Post updated at",
@@ -51,7 +51,7 @@ export class PostEntity implements Post {
     nullable: false,
     type: Date,
   })
-  updatedAt!: Date;
+  updatedAt: Date;
 
   @ApiProperty({
     example: 1,
@@ -61,9 +61,21 @@ export class PostEntity implements Post {
     nullable: false,
     type: Number,
   })
-  authorId!: number;
+  authorId: number;
 
-  constructor(partial: Partial<PostEntity>) {
-    Object.assign(this, partial);
+  constructor(
+    id: number,
+    title: string,
+    description: string,
+    createdAt: Date,
+    updatedAt: Date,
+    authorId: number,
+  ) {
+    this.id = id;
+    this.title = title;
+    this.description = description;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.authorId = authorId;
   }
 }

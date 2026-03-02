@@ -1,5 +1,6 @@
 import { ApiProperty, ApiSchema } from "@nestjs/swagger";
 import { User } from "../../../../prisma/generated/client.ts";
+import { Exclude } from "class-transformer";
 
 @ApiSchema({
   name: "UserEntity",
@@ -56,6 +57,7 @@ export class UserEntity implements User {
   })
   email: string;
 
+  @Exclude()
   @ApiProperty({
     example: "",
     description: "User password",

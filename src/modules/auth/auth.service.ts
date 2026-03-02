@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  HttpException,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -51,6 +52,9 @@ export class AuthService {
 
       return new AuthRdo(token);
     } catch (e) {
+      if (e instanceof HttpException) {
+        throw e;
+      }
       this.logger.error(
         `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
       );
@@ -79,6 +83,9 @@ export class AuthService {
 
       return new AuthRdo(token);
     } catch (e) {
+      if (e instanceof HttpException) {
+        throw e;
+      }
       this.logger.error(
         `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
       );
@@ -101,6 +108,9 @@ export class AuthService {
         userId: authPayload.userId,
       };
     } catch (e) {
+      if (e instanceof HttpException) {
+        throw e;
+      }
       this.logger.error(
         `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
       );

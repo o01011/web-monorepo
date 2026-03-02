@@ -35,7 +35,7 @@ export class CreatePostDto {
     nullable: false,
     type: String,
   })
-  title!: string;
+  title: string;
 
   @IsString({
     message: "Description must be a string",
@@ -58,7 +58,7 @@ export class CreatePostDto {
     nullable: false,
     type: String,
   })
-  description!: string;
+  description: string;
 
   @IsInt({
     message: "Author ID must be an integer",
@@ -77,5 +77,11 @@ export class CreatePostDto {
     nullable: false,
     type: Number,
   })
-  authorId!: number;
+  authorId: number;
+
+  constructor(title: string, description: string, authorId: number) {
+    this.title = title;
+    this.description = description;
+    this.authorId = authorId;
+  }
 }

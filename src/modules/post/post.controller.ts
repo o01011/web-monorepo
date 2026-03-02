@@ -37,8 +37,11 @@ export class PostController {
   @ApiOperation({
     summary: "Create new post",
   })
-  create(@Body() createPostDto: CreatePostDto): Promise<PostEntity> {
-    return this.postService.create(createPostDto);
+  create(
+    @UserId() userId: number,
+    @Body() createPostDto: CreatePostDto,
+  ): Promise<PostEntity> {
+    return this.postService.create({ ...createPostDto, authorId: userId });
   }
 
   @Get()
