@@ -1,3 +1,4 @@
+// TODO: check if needed to try catch here (maybe go to GEF)
 import {
   Injectable,
   InternalServerErrorException,
@@ -5,8 +6,8 @@ import {
 } from "@nestjs/common";
 import { PrismaService } from "../../core/prisma/prisma.service.ts";
 import { CreatePostDto } from "./dtos/create-post.dto.ts";
-import { PostEntity } from "./entities/post.entity.ts";
 import { UpdatePostDto } from "./dtos/update-post.dto.ts";
+import { PostRdo } from "./rdos/post.rdo.ts";
 
 @Injectable()
 export class PostRepository {
@@ -14,7 +15,7 @@ export class PostRepository {
 
   constructor(private readonly prismaService: PrismaService) {}
 
-  public async create(createPostDto: CreatePostDto): Promise<PostEntity> {
+  public async create(createPostDto: CreatePostDto): Promise<PostRdo> {
     try {
       const post = await this.prismaService.post.create({
         data: createPostDto,
@@ -27,7 +28,7 @@ export class PostRepository {
     }
   }
 
-  public async findAll(authorId: number): Promise<PostEntity[]> {
+  public async findAll(authorId: number): Promise<PostRdo[]> {
     try {
       const posts = await this.prismaService.post.findMany({
         where: { authorId },
@@ -40,10 +41,7 @@ export class PostRepository {
     }
   }
 
-  public async findOne(
-    id: number,
-    authorId: number,
-  ): Promise<PostEntity | null> {
+  public async findOne(id: number, authorId: number): Promise<PostRdo | null> {
     try {
       const post = await this.prismaService.post.findUnique({
         where: { id, authorId },
@@ -60,7 +58,7 @@ export class PostRepository {
     id: number,
     authorId: number,
     updatePostDto: UpdatePostDto,
-  ): Promise<PostEntity> {
+  ): Promise<PostRdo> {
     try {
       const post = await this.prismaService.post.update({
         where: { id, authorId },
@@ -74,7 +72,7 @@ export class PostRepository {
     }
   }
 
-  public async remove(id: number, authorId: number): Promise<PostEntity> {
+  public async remove(id: number, authorId: number): Promise<PostRdo> {
     try {
       const post = await this.prismaService.post.delete({
         where: { id, authorId },

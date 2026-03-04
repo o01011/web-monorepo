@@ -22,8 +22,9 @@ export class LoggingInterceptor implements NestInterceptor {
 
   constructor(private readonly configService: ConfigService) {
     this.isProduction =
-      this.configService.get<string>(`${ConfigKeyEnum.ENVIRONMENT}.nodeEnv`) ===
-      EnviromentEnum.PRODUCTION;
+      this.configService.getOrThrow<string>(
+        `${ConfigKeyEnum.ENVIRONMENT}.nodeEnv`,
+      ) === EnviromentEnum.PRODUCTION;
   }
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {

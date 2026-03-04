@@ -11,7 +11,7 @@ export class PrismaService
 {
   constructor(private readonly configService: ConfigService) {
     const adapter: PrismaPg = new PrismaPg({
-      connectionString: configService.get<string>(
+      connectionString: configService.getOrThrow<string>(
         `${ConfigKeyEnum.DB}.postgresUrl`,
       ),
     });

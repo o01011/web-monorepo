@@ -14,7 +14,7 @@ import { ConfigKeyEnum } from "../../common/enums/config.enum.ts";
     CoreI18nModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         fallbackLanguage: String(
-          configService.get<string>(
+          configService.getOrThrow<string>(
             `${ConfigKeyEnum.I18N}.i18nFallbackLanguage`,
           ),
         ),

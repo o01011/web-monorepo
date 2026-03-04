@@ -8,7 +8,7 @@ import { JwtStrategy } from "../../common/strategies/jwt.strategy.ts";
 
 @Module({
   imports: [JwtModule, PassportModule],
-  providers: [AuthService, AuthRepository, JwtStrategy],
+  providers: [AuthService, AuthRepository, JwtStrategy], // TODO: check if this correct module to include JwtStrategy
   controllers: [AuthController],
   exports: [AuthService, AuthRepository],
 })

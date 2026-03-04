@@ -20,9 +20,9 @@ import {
   ApiParam,
   ApiTags,
 } from "@nestjs/swagger";
-import { PostEntity } from "./entities/post.entity.ts";
 import { JwtGuard } from "../../common/guards/auth.guard.ts";
 import { UserId } from "../../common/decorators/user-id.decorator.ts";
+import { PostRdo } from "./rdos/post.rdo.ts";
 
 @ApiTags("Posts")
 @Controller("posts")
@@ -40,7 +40,7 @@ export class PostController {
   create(
     @UserId() userId: number,
     @Body() createPostDto: CreatePostDto,
-  ): Promise<PostEntity> {
+  ): Promise<PostRdo> {
     return this.postService.create({ ...createPostDto, authorId: userId });
   }
 
@@ -49,9 +49,9 @@ export class PostController {
     summary: "Find all posts",
   })
   @ApiOkResponse({
-    type: [PostEntity],
+    type: [PostRdo],
   })
-  findAll(@UserId() userId: number): Promise<PostEntity[]> {
+  findAll(@UserId() userId: number): Promise<PostRdo[]> {
     return this.postService.findAll(userId);
   }
 
@@ -67,7 +67,7 @@ export class PostController {
   findOne(
     @UserId() userId: number,
     @Param("id", ParseIntPipe) id: number,
-  ): Promise<PostEntity | null> {
+  ): Promise<PostRdo | null> {
     return this.postService.findOne(id, userId);
   }
 
@@ -87,7 +87,7 @@ export class PostController {
     @UserId() userId: number,
     @Param("id", ParseIntPipe) id: number,
     @Body() updatePostDto: UpdatePostDto,
-  ): Promise<PostEntity> {
+  ): Promise<PostRdo> {
     return this.postService.update(id, userId, updatePostDto);
   }
 
@@ -103,7 +103,7 @@ export class PostController {
   remove(
     @UserId() userId: number,
     @Param("id", ParseIntPipe) id: number,
-  ): Promise<PostEntity> {
+  ): Promise<PostRdo> {
     return this.postService.remove(id, userId);
   }
 }

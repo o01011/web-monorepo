@@ -1,10 +1,9 @@
 import {
-  ConflictException,
   HttpException,
   Injectable,
   InternalServerErrorException,
   Logger,
-  NotFoundException,
+  UnauthorizedException,
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { AuthRdo } from "./rdos/auth.entity.ts";
@@ -30,8 +29,9 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {
     this.logger = new Logger(AuthService.name);
-    this.jwtSecret =
-      this.configService.get<string>(`${ConfigKeyEnum.JWT}.secret`) ?? "";
+    this.jwtSecret = this.configService.getOrThrow<string>(
+      `${ConfigKeyEnum.JWT}.secret`,
+    );
   }
 
   public async signIn(signInDto: SignInDto): Promise<AuthRdo> {
@@ -39,11 +39,13 @@ export class AuthService {
       const user = await this.authRepository.findOneByEmail(signInDto.email);
 
       if (!user) {
-        throw new NotFoundException(this.i18nService.t("auth.NOT_FOUND"));
+        throw new UnauthorizedException(this.i18nService.t("auth.NOT_FOUND"));
       }
 
-      if (!(await compare(signInDto.password, user.password))) {
-        throw new ConflictException(
+      const isPasswordValid = await compare(signInDto.password, user.password);
+
+      if (!isPasswordValid) {
+        throw new UnauthorizedException(
           this.i18nService.t("auth.INCORRECT_CREDENTIALS"),
         );
       }
@@ -52,15 +54,15 @@ export class AuthService {
 
       return new AuthRdo(token);
     } catch (e) {
-      if (e instanceof HttpException) {
-        throw e;
+      if (!(e instanceof HttpException)) {
+        this.logger.error(
+          `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
+        );
+        throw new InternalServerErrorException(
+          this.i18nService.t("auth.INTERNAL_SERVER_ERROR"),
+        );
       }
-      this.logger.error(
-        `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
-      );
-      throw new InternalServerErrorException(
-        this.i18nService.t("auth.INTERNAL_SERVER_ERROR"),
-      );
+      throw e;
     }
   }
 
@@ -69,7 +71,7 @@ export class AuthService {
       const user = await this.authRepository.findOneByEmail(signUpDto.email);
 
       if (user) {
-        throw new ConflictException(this.i18nService.t("auth.USER_EXISTS"));
+        throw new UnauthorizedException(this.i18nService.t("auth.USER_EXISTS"));
       }
 
       const hashedPassword = await this.hashPassword(signUpDto.password);

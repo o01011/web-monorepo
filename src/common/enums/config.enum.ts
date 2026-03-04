@@ -5,4 +5,5 @@ export enum ConfigKeyEnum {
   DB = "db",
   I18N = "i18n",
   JWT = "jwt",
+  RATE_LIMIT = "rate-limit",
 }

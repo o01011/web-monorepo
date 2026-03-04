@@ -6,8 +6,8 @@ import {
 } from "@nestjs/common";
 import { CreatePostDto } from "./dtos/create-post.dto.ts";
 import { UpdatePostDto } from "./dtos/update-post.dto.ts";
-import { PostEntity } from "./entities/post.entity.ts";
 import { PostRepository } from "./post.repository.ts";
+import { PostRdo } from "./rdos/post.rdo.ts";
 
 @Injectable()
 export class PostService {
@@ -15,7 +15,7 @@ export class PostService {
 
   constructor(private readonly postRepository: PostRepository) {}
 
-  public async create(createPostDto: CreatePostDto): Promise<PostEntity> {
+  public async create(createPostDto: CreatePostDto): Promise<PostRdo> {
     try {
       return await this.postRepository.create(createPostDto);
     } catch (e) {
@@ -24,7 +24,8 @@ export class PostService {
     }
   }
 
-  public async findAll(authorId: number): Promise<PostEntity[]> {
+  public async findAll(authorId: number): Promise<PostRdo[]> {
+    // TODO: add pagination
     try {
       return await this.postRepository.findAll(authorId);
     } catch (e) {
@@ -33,10 +34,7 @@ export class PostService {
     }
   }
 
-  public async findOne(
-    id: number,
-    authorId: number,
-  ): Promise<PostEntity | null> {
+  public async findOne(id: number, authorId: number): Promise<PostRdo | null> {
     try {
       const post = await this.postRepository.findOne(id, authorId);
 

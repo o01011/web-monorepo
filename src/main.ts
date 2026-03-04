@@ -1,3 +1,4 @@
+// TODO: add unit and end to end tests
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import {
   Logger,
@@ -12,6 +13,7 @@ import { AppModule } from "./app.module.ts";
 import { EnviromentEnum } from "./common/enums/enviroments.enum.ts";
 import { PrismaClientExceptionFilter } from "./common/filters/prisma-client-exception.filter.ts";
 import { ConfigKeyEnum } from "./common/enums/config.enum.ts";
+import helmet from "helmet";
 
 const logger: Logger = new Logger("Bootstrap");
 
@@ -21,9 +23,10 @@ const swaggerSetup = (
   appPort: number,
 ): void => {
   const swaggerPath: string = "/api/docs";
-  const appName: string = configService.get<string>("APP_NAME") ?? "";
-  const appDescription: string =
-    configService.get<string>(`${ConfigKeyEnum.APP}.appDescription`) ?? "";
+  const appName: string = configService.getOrThrow<string>("APP_NAME");
+  const appDescription: string = configService.getOrThrow<string>(
+    `${ConfigKeyEnum.APP}.appDescription`,
+  );
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle(appName)
@@ -90,17 +93,24 @@ const globalExceptionFiltersSetup = (app: NestExpressApplication): void => {
 
   const configService = app.get(ConfigService);
   const isProduction =
-    configService.get<string>(`${ConfigKeyEnum.ENVIRONMENT}.nodeEnv`) ===
+    configService.getOrThrow<string>(`${ConfigKeyEnum.ENVIRONMENT}.nodeEnv`) ===
     EnviromentEnum.PRODUCTION;
 
-  const appPort =
-    configService.get<number>(`${ConfigKeyEnum.APP}.appPort`) ?? 8000;
+  const appPort = configService.getOrThrow<number>(
+    `${ConfigKeyEnum.APP}.appPort`,
+  );
 
   versioningSetup(app);
   globalExceptionFiltersSetup(app);
   validationPipeSetup(app);
 
   if (!isProduction) swaggerSetup(app, configService, appPort);
+
+  app.enableCors();
+
+  app.use(helmet());
+
+  app.enableShutdownHooks();
 
   await app.listen(appPort);
 

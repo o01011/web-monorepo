@@ -3,10 +3,10 @@ import { Post } from "../../../../prisma/generated/client.ts";
 import { POST_VALIDATION } from "../constants/post-validation.constant.ts";
 
 @ApiSchema({
-  name: "PostEntity",
-  description: "Post entity model",
+  name: "PostRdo",
+  description: "Post RDO",
 })
-export class PostEntity implements Post {
+export class PostRdo implements Post {
   @ApiProperty({
     description: "Post ID",
     required: true,

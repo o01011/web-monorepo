@@ -7,6 +7,7 @@ import { dbRegister } from "../../common/registers/db.register.ts";
 import { environmentRegister } from "../../common/registers/environment.register.ts";
 import { i18nRegister } from "../../common/registers/i18n.register.ts";
 import { jwtRegister } from "../../common/registers/jwt.register.ts";
+import { rateLimitRegister } from "../../common/registers/rate-limit.register.ts";
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { jwtRegister } from "../../common/registers/jwt.register.ts";
         environmentRegister,
         i18nRegister,
         jwtRegister,
+        rateLimitRegister,
       ],
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
@@ -55,6 +57,11 @@ import { jwtRegister } from "../../common/registers/jwt.register.ts";
 
         JWT_SECRET: Joi.string().required().description("JWT secret"),
         JWT_EXPIRES_IN: Joi.string().required().description("JWT expires in"),
+
+        THROTTLE_TTL: Joi.number().required().description("Rate limiting TTL"),
+        THROTTLE_LIMIT: Joi.number()
+          .required()
+          .description("Rate limiting limit"),
       }),
     }),
   ],

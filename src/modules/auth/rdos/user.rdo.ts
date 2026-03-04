@@ -3,10 +3,10 @@ import { User } from "../../../../prisma/generated/client.ts";
 import { Exclude } from "class-transformer";
 
 @ApiSchema({
-  name: "UserEntity",
-  description: "User model",
+  name: "UserRdo",
+  description: "User RDO",
 })
-export class UserEntity implements User {
+export class UserRdo implements User {
   @ApiProperty({
     description: "User ID",
     required: true,

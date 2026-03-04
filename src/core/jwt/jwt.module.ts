@@ -9,9 +9,9 @@ import { ConfigKeyEnum } from "../../common/enums/config.enum.ts";
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService): JwtModuleOptions => ({
-        secret: configService.get<string>(`${ConfigKeyEnum.JWT}.secret`),
+        secret: configService.getOrThrow<string>(`${ConfigKeyEnum.JWT}.secret`),
         signOptions: {
-          expiresIn: configService.get<number>(
+          expiresIn: configService.getOrThrow<number>(
             `${ConfigKeyEnum.JWT}.expiresIn`,
           ),
         },

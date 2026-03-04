@@ -11,7 +11,9 @@ import { ConfigKeyEnum } from "../../common/enums/config.enum.ts";
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: "single",
-        url: configService.get<string>(`${ConfigKeyEnum.CACHE}.redisUrl`),
+        url: configService.getOrThrow<string>(
+          `${ConfigKeyEnum.CACHE}.redisUrl`,
+        ),
         options: {
           keyPrefix: "nestjs-boilerplate-cache:",
         },

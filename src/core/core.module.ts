@@ -8,6 +8,7 @@ import { ConfigModule } from "./config/config.module.ts";
 import { TimeoutInterceptor } from "../common/interceptors/timeout.interceptor.ts";
 import { LoggingInterceptor } from "../common/interceptors/logger.interceptor.ts";
 import { JwtModule } from "./jwt/jwt.module.ts";
+import { RateLimitModule } from "./rate-limit/rate-limit.module.ts";
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { JwtModule } from "./jwt/jwt.module.ts";
     PrismaModule,
     RedisModule,
     JwtModule,
+    RateLimitModule,
   ],
   providers: [
     {

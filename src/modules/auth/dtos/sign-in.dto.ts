@@ -9,8 +9,8 @@ export class SignInDto {
     nullable: false,
     type: String,
   })
-  @IsEmail({}, { message: "Please provide a valid email address" })
-  @IsNotEmpty({ message: "Email is required" })
+  @IsEmail({}, { message: "" })
+  @IsNotEmpty({ message: "" })
   email: string;
 
   @ApiProperty({
@@ -20,8 +20,8 @@ export class SignInDto {
     nullable: false,
     type: String,
   })
-  @IsString({ message: "Password must be a string" })
-  @IsNotEmpty({ message: "Password is required" })
+  @IsString({ message: "" })
+  @IsNotEmpty({ message: "" })
   password: string;
 
   constructor(email: string, password: string) {
