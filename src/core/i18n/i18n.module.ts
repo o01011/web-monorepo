@@ -6,7 +6,7 @@ import {
   AcceptLanguageResolver,
 } from "nestjs-i18n";
 import { join } from "node:path";
-import { EnviromentEnum } from "../../common/enums/enviroments.enum.ts";
+import { EnvironmentsEnum } from "../../common/enums/environments.enum.ts";
 import { ConfigKeyEnum } from "../../common/enums/config.enum.ts";
 
 @Module({
@@ -20,7 +20,7 @@ import { ConfigKeyEnum } from "../../common/enums/config.enum.ts";
         ),
         loaderOptions: {
           path:
-            process.env["NODE_ENV"] === EnviromentEnum.PRODUCTION
+            process.env["NODE_ENV"] === EnvironmentsEnum.PRODUCTION
               ? join(process.cwd(), "dist", "i18n")
               : join(process.cwd(), "src", "i18n"),
           watch: true,

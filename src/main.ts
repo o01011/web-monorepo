@@ -10,10 +10,11 @@ import { NestExpressApplication } from "@nestjs/platform-express";
 import { ConfigService } from "@nestjs/config";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AppModule } from "./app.module.ts";
-import { EnviromentEnum } from "./common/enums/enviroments.enum.ts";
+import { EnvironmentsEnum } from "./common/enums/environments.enum.ts";
 import { PrismaClientExceptionFilter } from "./common/filters/prisma-client-exception.filter.ts";
 import { ConfigKeyEnum } from "./common/enums/config.enum.ts";
 import helmet from "helmet";
+import { CatchEverythingFilter } from "./common/filters/catch-everything.filter.ts";
 
 const logger: Logger = new Logger("Bootstrap");
 
@@ -84,8 +85,13 @@ const validationPipeSetup = (app: NestExpressApplication): void => {
 };
 
 const globalExceptionFiltersSetup = (app: NestExpressApplication): void => {
-  const { httpAdapter } = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
+  const httpAdapterHost = app.get(HttpAdapterHost);
+  const httpAdapter = httpAdapterHost.httpAdapter;
+
+  app.useGlobalFilters(
+    new PrismaClientExceptionFilter(httpAdapter),
+    new CatchEverythingFilter(httpAdapterHost),
+  );
 };
 
 (async (): Promise<void> => {
@@ -94,7 +100,7 @@ const globalExceptionFiltersSetup = (app: NestExpressApplication): void => {
   const configService = app.get(ConfigService);
   const isProduction =
     configService.getOrThrow<string>(`${ConfigKeyEnum.ENVIRONMENT}.nodeEnv`) ===
-    EnviromentEnum.PRODUCTION;
+    EnvironmentsEnum.PRODUCTION;
 
   const appPort = configService.getOrThrow<number>(
     `${ConfigKeyEnum.APP}.appPort`,
@@ -121,5 +127,5 @@ const globalExceptionFiltersSetup = (app: NestExpressApplication): void => {
   if (!isProduction)
     logger.log(`Swagger docs available at: ${await app.getUrl()}`);
 })().catch((e) => {
-  logger.error(`Faild to start nestjs boilerplate admin application: ${e}`);
+  logger.error(`Failed to start nestjs boilerplate admin application: ${e}`);
 });

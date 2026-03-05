@@ -1,9 +1,5 @@
 // TODO: check if needed to try catch here (maybe go to GEF)
-import {
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-} from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { PrismaService } from "../../core/prisma/prisma.service.ts";
 import { SignUpDto } from "./dtos/sign-up.dto.ts";
 import { I18nService } from "nestjs-i18n";
@@ -21,51 +17,24 @@ export class AuthRepository {
   }
 
   public async create(signUpDto: SignUpDto): Promise<UserRdo> {
-    try {
-      return await this.prismaService.user.create({
-        data: signUpDto,
-      });
-    } catch (e) {
-      this.logger.error(
-        `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
-      );
-      throw new InternalServerErrorException(
-        this.i18nService.t("auth.INTERNAL_SERVER_ERROR"),
-      );
-    }
+    return await this.prismaService.user.create({
+      data: signUpDto,
+    });
   }
 
   public async findOneByEmail(email: string): Promise<UserRdo | null> {
-    try {
-      return await this.prismaService.user.findUnique({
-        where: {
-          email,
-        },
-      });
-    } catch (e) {
-      this.logger.error(
-        `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
-      );
-      throw new InternalServerErrorException(
-        this.i18nService.t("auth.INTERNAL_SERVER_ERROR"),
-      );
-    }
+    return await this.prismaService.user.findUnique({
+      where: {
+        email,
+      },
+    });
   }
 
   public async findOneById(id: number): Promise<UserRdo | null> {
-    try {
-      return await this.prismaService.user.findUnique({
-        where: {
-          id,
-        },
-      });
-    } catch (e) {
-      this.logger.error(
-        `${this.i18nService.t("auth.INTERNAL_SERVER_ERROR")}: ${e}`,
-      );
-      throw new InternalServerErrorException(
-        this.i18nService.t("auth.INTERNAL_SERVER_ERROR"),
-      );
-    }
+    return await this.prismaService.user.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 }

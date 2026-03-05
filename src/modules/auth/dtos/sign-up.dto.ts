@@ -24,6 +24,12 @@ export class SignUpDto {
   @IsNotEmpty({
     message: "",
   })
+  @MinLength(5, {
+    message: "",
+  })
+  @MaxLength(15, {
+    message: "",
+  })
   username: string;
 
   @ApiProperty({
@@ -41,6 +47,12 @@ export class SignUpDto {
   @IsNotEmpty({
     message: "",
   })
+  @MinLength(5, {
+    message: "",
+  })
+  @MaxLength(30, {
+    message: "",
+  })
   firstName: string;
 
   @ApiProperty({
@@ -56,6 +68,12 @@ export class SignUpDto {
     message: "",
   })
   @IsNotEmpty({
+    message: "",
+  })
+  @MinLength(5, {
+    message: "",
+  })
+  @MaxLength(30, {
     message: "",
   })
   lastName: string;
@@ -84,6 +102,8 @@ export class SignUpDto {
   @ApiProperty({
     example: "Pa$$wor1",
     description: "User password",
+    minLength: 5,
+    maxLength: 100,
     required: true,
     nullable: false,
     type: String,
@@ -101,6 +121,7 @@ export class SignUpDto {
     message: "",
   })
   @Matches(/A-z/, {
+    // TODO: add correct regex
     message: "",
   })
   password: string;

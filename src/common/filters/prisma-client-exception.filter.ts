@@ -32,6 +32,7 @@ export class PrismaClientExceptionFilter extends BaseExceptionFilter {
       case "P2003": {
         status = HttpStatus.BAD_REQUEST;
         message = "Foreign key constraint failed";
+        console.log(exception);
         break;
       }
       default:

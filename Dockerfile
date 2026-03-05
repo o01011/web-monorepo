@@ -27,12 +27,10 @@ WORKDIR /app
 
 COPY package*.json prisma.config.ts ./
 
-RUN npm ci
-
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 8000
 
-CMD sh -c "npm run db:migrate:deploy && npm run start:prod"
+CMD [ "sh", "-c", "npm run db:migrate:deploy && npm run start:prod" ]

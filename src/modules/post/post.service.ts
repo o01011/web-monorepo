@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  Logger,
-  NotFoundException,
-} from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreatePostDto } from "./dtos/create-post.dto.ts";
 import { UpdatePostDto } from "./dtos/update-post.dto.ts";
 import { PostRepository } from "./post.repository.ts";
@@ -11,43 +6,26 @@ import { PostRdo } from "./rdos/post.rdo.ts";
 
 @Injectable()
 export class PostService {
-  private readonly logger = new Logger(PostService.name);
-
   constructor(private readonly postRepository: PostRepository) {}
 
   public async create(createPostDto: CreatePostDto): Promise<PostRdo> {
-    try {
-      return await this.postRepository.create(createPostDto);
-    } catch (e) {
-      this.logger.error(`Error during create post: ${e}`);
-      throw new InternalServerErrorException();
-    }
+    return await this.postRepository.create(createPostDto);
   }
 
   public async findAll(authorId: number): Promise<PostRdo[]> {
     // TODO: add pagination
-    try {
-      return await this.postRepository.findAll(authorId);
-    } catch (e) {
-      this.logger.error(`Error during find all posts: ${e}`);
-      throw new InternalServerErrorException();
-    }
+    return await this.postRepository.findAll(authorId);
   }
 
   public async findOne(id: number, authorId: number): Promise<PostRdo | null> {
-    try {
-      const post = await this.postRepository.findOne(id, authorId);
+    const post = await this.postRepository.findOne(id, authorId);
 
-      if (!post)
-        throw new NotFoundException(
-          `Post with id ${id} not found for user with id ${authorId}`,
-        );
+    if (!post)
+      throw new NotFoundException(
+        `Post with id ${id} not found for user with id ${authorId}`,
+      );
 
-      return post;
-    } catch (e) {
-      this.logger.error(`Error during find one post: ${e}`);
-      throw new InternalServerErrorException();
-    }
+    return post;
   }
 
   public async update(
@@ -55,20 +33,10 @@ export class PostService {
     authorId: number,
     updatePostDto: UpdatePostDto,
   ) {
-    try {
-      return await this.postRepository.update(id, authorId, updatePostDto);
-    } catch (e) {
-      this.logger.error(`Error during update post: ${e}`);
-      throw new InternalServerErrorException();
-    }
+    return await this.postRepository.update(id, authorId, updatePostDto);
   }
 
   public async remove(id: number, authorId: number) {
-    try {
-      return await this.postRepository.remove(id, authorId);
-    } catch (e) {
-      this.logger.error(`Error during remove post: ${e}`);
-      throw new InternalServerErrorException();
-    }
+    return await this.postRepository.remove(id, authorId);
   }
 }

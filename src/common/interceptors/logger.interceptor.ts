@@ -1,4 +1,3 @@
-// TODO: Mark some data as sensitive
 import {
   CallHandler,
   ExecutionContext,
@@ -9,22 +8,21 @@ import {
 import { Observable, tap } from "rxjs";
 import { ConfigService } from "@nestjs/config";
 import { Request, Response } from "express";
-import { EnviromentEnum } from "../enums/enviroments.enum.ts";
+import { EnvironmentsEnum } from "../enums/environments.enum.ts";
 import { ConfigKeyEnum } from "../enums/config.enum.ts";
 
-type LoggerExpressionType = "incomming" | "error" | "success";
+type LoggerExpressionType = "incoming" | "error" | "success";
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
   private readonly logger = new Logger(LoggingInterceptor.name);
-  private readonly className = LoggingInterceptor.name;
   private readonly isProduction: boolean;
 
   constructor(private readonly configService: ConfigService) {
     this.isProduction =
       this.configService.getOrThrow<string>(
         `${ConfigKeyEnum.ENVIRONMENT}.nodeEnv`,
-      ) === EnviromentEnum.PRODUCTION;
+      ) === EnvironmentsEnum.PRODUCTION;
   }
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
@@ -38,7 +36,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
     const start = Date.now();
 
-    this.logResponse("incomming", method, originalUrl);
+    this.logResponse("incoming", method, originalUrl);
 
     return next.handle().pipe(
       tap({
@@ -79,7 +77,7 @@ export class LoggingInterceptor implements NestInterceptor {
     error?: unknown,
   ): void {
     switch (loggerExpressionType) {
-      case "incomming":
+      case "incoming":
         this.logger.debug(`[Incoming] - [Method: ${method}] - [Url: ${url}]`);
         break;
 
