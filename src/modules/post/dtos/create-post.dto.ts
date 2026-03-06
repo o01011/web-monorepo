@@ -4,10 +4,9 @@ import {
   IsNotEmpty,
   IsString,
   MaxLength,
-  Min,
   MinLength,
 } from "class-validator";
-import { POST_VALIDATION } from "../constants/post-validation.constant.ts";
+import { i18nValidationMessage } from "nestjs-i18n";
 
 @ApiSchema({
   name: "CreatePostDto",
@@ -17,46 +16,46 @@ export class CreatePostDto {
   @ApiProperty({
     example: "Tess of the d'Urbervilles",
     description: "Post title",
-    minLength: POST_VALIDATION.TITLE.MIN_LENGTH,
-    maxLength: POST_VALIDATION.TITLE.MAX_LENGTH,
+    minLength: 5,
+    maxLength: 30,
     required: true,
     nullable: false,
     type: String,
   })
   @IsString({
-    message: "",
+    message: i18nValidationMessage("dtos-validation.STRING"),
   })
   @IsNotEmpty({
-    message: "",
+    message: i18nValidationMessage("dtos-validation.EMPTY"),
   })
-  @MinLength(POST_VALIDATION.TITLE.MIN_LENGTH, {
-    message: "",
+  @MinLength(5, {
+    message: i18nValidationMessage("dtos-validation.MIN"),
   })
-  @MaxLength(POST_VALIDATION.TITLE.MAX_LENGTH, {
-    message: "",
+  @MaxLength(30, {
+    message: i18nValidationMessage("dtos-validation.MAX"),
   })
   title: string;
 
   @ApiProperty({
     example: "Umquam viscus consectetur deripio curis.",
     description: "Post description",
-    minLength: POST_VALIDATION.DESCRIPTION.MIN_LENGTH,
-    maxLength: POST_VALIDATION.DESCRIPTION.MAX_LENGTH,
+    minLength: 5,
+    maxLength: 100,
     required: true,
     nullable: false,
     type: String,
   })
   @IsString({
-    message: "",
+    message: i18nValidationMessage("dtos-validation.STRING"),
   })
   @IsNotEmpty({
-    message: "",
+    message: i18nValidationMessage("dtos-validation.EMPTY"),
   })
-  @MinLength(POST_VALIDATION.DESCRIPTION.MIN_LENGTH, {
-    message: "",
+  @MinLength(5, {
+    message: i18nValidationMessage("dtos-validation.MIN"),
   })
-  @MaxLength(POST_VALIDATION.DESCRIPTION.MAX_LENGTH, {
-    message: "",
+  @MaxLength(100, {
+    message: i18nValidationMessage("dtos-validation.MAX"),
   })
   description: string;
 
@@ -69,13 +68,10 @@ export class CreatePostDto {
     type: Number,
   })
   @IsInt({
-    message: "",
+    message: i18nValidationMessage("dtos-validation.INT"),
   })
   @IsNotEmpty({
-    message: "",
-  })
-  @Min(1, {
-    message: "",
+    message: i18nValidationMessage("dtos-validation.EMPTY"),
   })
   authorId: number;
 

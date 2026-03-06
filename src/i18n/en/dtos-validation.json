@@ -1,0 +1,9 @@
+{
+  "EMAIL": "{property} is invalid",
+  "STRING": "{property} is not a string",
+  "EMPTY": "{property} must be not empty",
+  "MIN": "{property} with value: \"{value}\" needs to be at least {constraints.0}",
+  "MAX": "{property} with value: \"{value}\" needs to be less than {constraints.0}",
+  "MATCHES": "{property} is not matched pattern",
+  "INT": "{property} is not a number"
+}

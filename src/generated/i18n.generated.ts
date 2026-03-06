@@ -5,14 +5,21 @@
 import type { Path } from "nestjs-i18n";
 /* prettier-ignore */
 export type I18nTranslations = {
-    "auth": {
+    "business-logic-exceptions": {
         "INTERNAL_SERVER_ERROR": string;
         "NOT_FOUND": string;
         "INCORRECT_CREDENTIALS": string;
         "USER_EXISTS": string;
+        "INVALID_EMAIL": string;
     };
-    "posts": {
-        "NOT_FOUND": string;
+    "dtos-validation": {
+        "EMAIL": string;
+        "STRING": string;
+        "EMPTY": string;
+        "MIN": string;
+        "MAX": string;
+        "MATCHES": string;
+        "INT": string;
     };
 };
 /* prettier-ignore */

@@ -30,14 +30,16 @@ export class AuthService {
     const user = await this.authRepository.findOneByEmail(signInDto.email);
 
     if (!user) {
-      throw new UnauthorizedException(this.i18nService.t("auth.NOT_FOUND"));
+      throw new UnauthorizedException(
+        this.i18nService.t("business-logic-exceptions.NOT_FOUND"),
+      );
     }
 
     const isPasswordValid = await compare(signInDto.password, user.password);
 
     if (!isPasswordValid) {
       throw new UnauthorizedException(
-        this.i18nService.t("auth.INCORRECT_CREDENTIALS"),
+        this.i18nService.t("business-logic-exceptions.INCORRECT_CREDENTIALS"),
       );
     }
 
@@ -50,7 +52,9 @@ export class AuthService {
     const user = await this.authRepository.findOneByEmail(signUpDto.email);
 
     if (user) {
-      throw new UnauthorizedException(this.i18nService.t("auth.USER_EXISTS"));
+      throw new UnauthorizedException(
+        this.i18nService.t("business-logic-exceptions.USER_EXISTS"),
+      );
     }
 
     const hashedPassword = await this.hashPassword(signUpDto.password);

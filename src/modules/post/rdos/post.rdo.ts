@@ -1,6 +1,5 @@
 import { ApiProperty, ApiSchema } from "@nestjs/swagger";
 import { Post } from "../../../../prisma/generated/client.ts";
-import { POST_VALIDATION } from "../constants/post-validation.constant.ts";
 
 @ApiSchema({
   name: "PostRdo",
@@ -18,8 +17,8 @@ export class PostRdo implements Post {
   @ApiProperty({
     example: "Tess of the d'Urbervilles",
     description: "Post title",
-    minLength: POST_VALIDATION.TITLE.MIN_LENGTH,
-    maxLength: POST_VALIDATION.TITLE.MAX_LENGTH,
+    minLength: 5,
+    maxLength: 30,
     required: true,
     nullable: false,
     type: String,
@@ -29,8 +28,8 @@ export class PostRdo implements Post {
   @ApiProperty({
     example: "Umquam viscus consectetur deripio curis.",
     description: "Post description",
-    minLength: POST_VALIDATION.DESCRIPTION.MIN_LENGTH,
-    maxLength: POST_VALIDATION.DESCRIPTION.MAX_LENGTH,
+    minLength: 5,
+    maxLength: 100,
     required: true,
     nullable: false,
     type: String,

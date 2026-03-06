@@ -1,0 +1,9 @@
+{
+  "EMAIL": "{property} is ongeldig",
+  "STRING": "{property} is geen tekst",
+  "EMPTY": "{property} mag niet leeg zijn",
+  "MIN": "{property} met waarde \"{value}\" moet minimaal {constraints.0}",
+  "MAX": "{property} met waarde \"{value}\" moet minder zijn dan {constraints.0}",
+  "MATCHES": "{property} voldoet niet aan het vereiste patroon",
+  "INT": "{property} is geen getal"
+}

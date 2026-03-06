@@ -1,10 +1,6 @@
 import { Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import {
-  I18nModule as CoreI18nModule,
-  QueryResolver,
-  AcceptLanguageResolver,
-} from "nestjs-i18n";
+import { I18nModule as CoreI18nModule, HeaderResolver } from "nestjs-i18n";
 import { join } from "node:path";
 import { EnvironmentsEnum } from "../../common/enums/environments.enum.ts";
 import { ConfigKeyEnum } from "../../common/enums/config.enum.ts";
@@ -27,13 +23,7 @@ import { ConfigKeyEnum } from "../../common/enums/config.enum.ts";
         },
         typesOutputPath: join("src/generated/i18n.generated.ts"),
       }),
-      resolvers: [
-        {
-          use: QueryResolver,
-          options: ["lang"],
-        },
-        AcceptLanguageResolver,
-      ],
+      resolvers: [new HeaderResolver(["x-lang"])],
       inject: [ConfigService],
     }),
   ],

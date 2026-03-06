@@ -1,98 +1,19 @@
 // TODO: add unit and end to end tests
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
-import {
-  Logger,
-  ValidationPipe,
-  ValidationPipeOptions,
-  VersioningType,
-} from "@nestjs/common";
+import { Logger, VersioningType } from "@nestjs/common";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { ConfigService } from "@nestjs/config";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { AppModule } from "./app.module.ts";
 import { EnvironmentsEnum } from "./common/enums/environments.enum.ts";
-import { PrismaClientExceptionFilter } from "./common/filters/prisma-client-exception.filter.ts";
 import { ConfigKeyEnum } from "./common/enums/config.enum.ts";
 import helmet from "helmet";
+import { I18nValidationExceptionFilter, I18nValidationPipe } from "nestjs-i18n";
+import { TimeoutInterceptor } from "./common/interceptors/timeout.interceptor.ts";
+import { LoggingInterceptor } from "./common/interceptors/logger.interceptor.ts";
 import { CatchEverythingFilter } from "./common/filters/catch-everything.filter.ts";
 
 const logger: Logger = new Logger("Bootstrap");
-
-const swaggerSetup = (
-  app: NestExpressApplication,
-  configService: ConfigService,
-  appPort: number,
-): void => {
-  const swaggerPath: string = "/api/docs";
-  const appName: string = configService.getOrThrow<string>("APP_NAME");
-  const appDescription: string = configService.getOrThrow<string>(
-    `${ConfigKeyEnum.APP}.appDescription`,
-  );
-
-  const swaggerConfig = new DocumentBuilder()
-    .setTitle(appName)
-    .setDescription(appDescription)
-    .setVersion("1.0")
-    .addServer(`http://localhost:${appPort}`, "development")
-    .addBearerAuth(
-      {
-        type: "http",
-        scheme: "bearer",
-        bearerFormat: "JWT",
-        name: "Authorization",
-        description: "Enter JWT token",
-        in: "header",
-      },
-      "Bearer",
-    )
-    .addSecurityRequirements("Bearer")
-    .build();
-
-  const document = SwaggerModule.createDocument(app, swaggerConfig, {
-    operationIdFactory: (controllerKey: string, methodKey: string) => methodKey,
-    ignoreGlobalPrefix: false,
-    deepScanRoutes: true,
-  });
-
-  SwaggerModule.setup(swaggerPath, app, document, {
-    customSiteTitle: "Nestjs boilerplate",
-    explorer: true,
-    jsonDocumentUrl: `${swaggerPath}/json`,
-    yamlDocumentUrl: `${swaggerPath}/yaml`,
-    swaggerOptions: {
-      filter: true,
-      showRequestDuration: true,
-    },
-  });
-};
-
-const versioningSetup = (app: NestExpressApplication): void => {
-  app.enableVersioning({
-    type: VersioningType.URI,
-    defaultVersion: "1",
-    prefix: "api/v",
-  });
-};
-
-const validationPipeSetup = (app: NestExpressApplication): void => {
-  const validationPipeConfig: ValidationPipeOptions = {
-    transform: true,
-    whitelist: true,
-    forbidNonWhitelisted: true,
-  };
-
-  app.useGlobalPipes(new ValidationPipe(validationPipeConfig));
-};
-
-const globalExceptionFiltersSetup = (app: NestExpressApplication): void => {
-  const httpAdapterHost = app.get(HttpAdapterHost);
-  const httpAdapter = httpAdapterHost.httpAdapter;
-
-  app.useGlobalFilters(
-    new PrismaClientExceptionFilter(httpAdapter),
-    new CatchEverythingFilter(httpAdapterHost),
-  );
-};
 
 (async (): Promise<void> => {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -106,17 +27,92 @@ const globalExceptionFiltersSetup = (app: NestExpressApplication): void => {
     `${ConfigKeyEnum.APP}.appPort`,
   );
 
-  versioningSetup(app);
-  globalExceptionFiltersSetup(app);
-  validationPipeSetup(app);
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: "1",
+    prefix: "api/v",
+  });
 
-  if (!isProduction) swaggerSetup(app, configService, appPort);
+  app.useGlobalPipes(
+    new I18nValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+
+  if (!isProduction) {
+    const swaggerPath: string = "/api/docs";
+    const appName: string = configService.getOrThrow<string>("APP_NAME");
+    const appDescription: string = configService.getOrThrow<string>(
+      `${ConfigKeyEnum.APP}.appDescription`,
+    );
+
+    const swaggerConfig = new DocumentBuilder()
+      .setTitle(appName)
+      .setDescription(appDescription)
+      .setVersion("1.0")
+      .addServer(`http://localhost:${appPort}`, "development")
+      .addBearerAuth(
+        {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+          name: "Authorization",
+          description: "Enter JWT token",
+          in: "header",
+        },
+        "Bearer",
+      )
+      .addGlobalParameters({
+        in: "header",
+        required: false,
+        name: "x-lang",
+        schema: {
+          example: "en",
+        },
+      })
+      .addSecurityRequirements("Bearer")
+      .build();
+
+    const document = SwaggerModule.createDocument(app, swaggerConfig, {
+      operationIdFactory: (controllerKey: string, methodKey: string) =>
+        methodKey,
+      ignoreGlobalPrefix: false,
+      deepScanRoutes: true,
+    });
+
+    SwaggerModule.setup(swaggerPath, app, document, {
+      customSiteTitle: "Nestjs boilerplate",
+      explorer: true,
+      jsonDocumentUrl: `${swaggerPath}/json`,
+      yamlDocumentUrl: `${swaggerPath}/yaml`,
+      swaggerOptions: {
+        filter: true,
+        showRequestDuration: true,
+      },
+    });
+  }
+
+  const httpAdapterHost = app.get(HttpAdapterHost);
+
+  app.useGlobalFilters(
+    new I18nValidationExceptionFilter({
+      detailedErrors: false,
+    }),
+    new CatchEverythingFilter(httpAdapterHost, configService),
+  );
 
   app.enableCors();
 
   app.use(helmet());
 
   app.enableShutdownHooks();
+
+  app.useGlobalInterceptors(
+    new TimeoutInterceptor(configService),
+    new LoggingInterceptor(configService),
+  );
 
   await app.listen(appPort);
 
