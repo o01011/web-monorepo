@@ -1,30 +1,3 @@
-// TODO:
-// 9. No Token Revocation / Blacklisting
-// JWTs cannot be invalidated before expiry. There is no logout mechanism.
-// Fix: Add a token blacklist in Redis, checked by JwtStrategy.validate().
-
-// TODO:
-// 8. No Refresh Token Flow
-// Only access tokens are issued. When they expire, users must re-authenticate. No refresh token mechanism exists.
-// Fix: Implement refresh tokens (stored in Redis or DB) with a /auth/refresh endpoint.
-
-// TODO:
-// 31. No Password Reset Flow
-// No forgot-password, reset-password, or email verification.
-
-// TODO:
-// 33. No ClassSerializerInterceptor
-// @Exclude() on UserRdo.password only works if ClassSerializerInterceptor is active globally. It is not registered in main.ts.
-
-// TODO:
-// 34. Swagger Incomplete
-// No @ApiResponse decorators for error codes (400, 401, 404, 409, 500)
-// No DTO examples
-// Auth endpoints appear as requiring Bearer token in Swagger even though they are public
-
-// TODO:
-// 40. No Account Lockout
-// No mechanism to lock accounts after repeated failed login attempts.
 import {
   Body,
   Controller,

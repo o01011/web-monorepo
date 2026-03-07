@@ -1,6 +1,3 @@
-// TODO:
-// 36. No HTTP Caching
-// Redis is wired but not used for response caching. No CacheInterceptor or cache-aside pattern in services.
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreatePostDto } from "./dtos/create-post.dto.js";
 import { UpdatePostDto } from "./dtos/update-post.dto.js";
@@ -18,10 +15,6 @@ export class PostService {
     return await this.postRepository.create(createPostDto, authorId);
   }
 
-  // TODO:
-  // 18. Missing Pagination
-  // PostService.findAll returns all posts for a user with no pagination, sorting, or filtering. This will not scale.
-  // Fix: Add cursor-based or offset pagination with configurable page size.
   public async findAll(authorId: number): Promise<PostRdo[]> {
     return await this.postRepository.findAll(authorId);
   }
@@ -42,7 +35,7 @@ export class PostService {
     id: number,
     authorId: number,
     updatePostDto: UpdatePostDto,
-  ) {
+  ): Promise<PostRdo> {
     const post = await this.postRepository.findOne(id, authorId);
 
     if (!post) {
@@ -54,7 +47,7 @@ export class PostService {
     return await this.postRepository.update(id, authorId, updatePostDto);
   }
 
-  public async remove(id: number, authorId: number) {
+  public async remove(id: number, authorId: number): Promise<PostRdo> {
     const post = await this.postRepository.findOne(id, authorId);
 
     if (!post) {

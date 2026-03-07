@@ -1,4 +1,3 @@
-// TODO: check if needed to try catch here (maybe go to GEF)
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../../core/prisma/prisma.service.js";
 import { SignUpDto } from "./dtos/sign-up.dto.js";

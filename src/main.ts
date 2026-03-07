@@ -1,6 +1,3 @@
-// TODO:
-// 30. No Role-Based Access Control (RBAC)
-// No roles, permissions, or authorization beyond "is authenticated."
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import { Logger, VersioningType } from "@nestjs/common";
 import { NestExpressApplication } from "@nestjs/platform-express";
@@ -105,10 +102,6 @@ const logger: Logger = new Logger("Bootstrap");
     new CatchEverythingFilter(httpAdapterHost, configService),
   );
 
-  // TODO:
-  //   6. CORS is Wide Open
-  // app.enableCors() in [main.ts](src/main.ts) uses defaults -- allows all origins, methods, and headers.
-  // Fix: Configure explicit origin, methods, credentials, and allowedHeaders for production.
   app.enableCors({
     origin: "https://example.com",
     methods: "GET,POST,PUT,DELETE",

@@ -122,7 +122,6 @@ export class SignUpDto {
     message: i18nValidationMessage("dtos-validation.MAX"),
   })
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{5,}$/, {
-    // TODO: add correct regex
     message: i18nValidationMessage("dtos-validation.MATCHES"),
   })
   password: string;

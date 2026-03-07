@@ -1,6 +1,3 @@
-// TODO:
-// 32. No Request ID / Correlation ID
-// No way to trace a request through logs and error responses.
 import {
   CallHandler,
   ExecutionContext,
