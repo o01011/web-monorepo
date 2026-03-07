@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
-import { CoreModule } from "./core/core.module.ts";
-import { PostModule } from "./modules/post/post.module.ts";
-import { AuthModule } from "./modules/auth/auth.module.ts";
+import { CoreModule } from "./core/core.module.js";
+import { PostModule } from "./modules/post/post.module.js";
+import { AuthModule } from "./modules/auth/auth.module.js";
 
 @Module({
   imports: [CoreModule, PostModule, AuthModule],

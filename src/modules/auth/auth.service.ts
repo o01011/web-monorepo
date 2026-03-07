@@ -1,15 +1,14 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { ConflictException, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { AuthRdo } from "./rdos/auth.rdo.ts";
-import { SignInDto } from "./dtos/sign-in.dto.ts";
-import { SignUpDto } from "./dtos/sign-up.dto.ts";
+import { AuthRdo } from "./rdos/auth.rdo.js";
+import { SignUpDto } from "./dtos/sign-up.dto.js";
 import { I18nService } from "nestjs-i18n";
-import { I18nTranslations } from "../../generated/i18n.generated.ts";
-import { AuthRepository } from "./auth.repository.ts";
-import { genSalt, hash, compare } from "bcrypt";
+import { I18nTranslations } from "../../generated/i18n.generated.js";
+import { AuthRepository } from "./auth.repository.js";
+import { genSalt, hash } from "bcrypt";
 import { ConfigService } from "@nestjs/config";
-import { ConfigKeyEnum } from "../../common/enums/config.enum.ts";
-import { AuthPayloadType } from "../../common/types/auth-payload.type.ts";
+import { ConfigKeyEnum } from "../../common/enums/config.enum.js";
+import { AuthPayloadType } from "../../common/types/auth-payload.type.js";
 
 @Injectable()
 export class AuthService {
@@ -26,24 +25,8 @@ export class AuthService {
     );
   }
 
-  public async signIn(signInDto: SignInDto): Promise<AuthRdo> {
-    const user = await this.authRepository.findOneByEmail(signInDto.email);
-
-    if (!user) {
-      throw new UnauthorizedException(
-        this.i18nService.t("business-logic-exceptions.NOT_FOUND"),
-      );
-    }
-
-    const isPasswordValid = await compare(signInDto.password, user.password);
-
-    if (!isPasswordValid) {
-      throw new UnauthorizedException(
-        this.i18nService.t("business-logic-exceptions.INCORRECT_CREDENTIALS"),
-      );
-    }
-
-    const token = this.generateToken(user.id);
+  public async signIn(userId: number): Promise<AuthRdo> {
+    const token = this.generateToken(userId);
 
     return new AuthRdo(token);
   }
@@ -52,7 +35,7 @@ export class AuthService {
     const user = await this.authRepository.findOneByEmail(signUpDto.email);
 
     if (user) {
-      throw new UnauthorizedException(
+      throw new ConflictException(
         this.i18nService.t("business-logic-exceptions.USER_EXISTS"),
       );
     }

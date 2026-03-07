@@ -9,9 +9,10 @@ generator client {
   output   = "generated"
 
   runtime                = "nodejs"
-  moduleFormat           = "esm"
-  generatedFileExtension = "ts"
-  compilerBuild          = "fast"
+  moduleFormat            = "esm"
+  generatedFileExtension  = "ts"
+  importFileExtension     = "js"
+  compilerBuild           = "fast"
 }
 
 datasource db {

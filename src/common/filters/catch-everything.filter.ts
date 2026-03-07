@@ -8,13 +8,13 @@ import {
 } from "@nestjs/common";
 import { HttpAdapterHost } from "@nestjs/core";
 import { ConfigService } from "@nestjs/config";
-import { Prisma } from "../../../prisma/generated/client.ts";
 import type {
   ErrorResponseBody,
   HttpExceptionResponse,
-} from "../types/error-response.type.ts";
-import { ConfigKeyEnum } from "../enums/config.enum.ts";
-import { EnvironmentsEnum } from "../enums/environments.enum.ts";
+} from "../types/error-response.type.js";
+import { ConfigKeyEnum } from "../enums/config.enum.js";
+import { EnvironmentsEnum } from "../enums/environments.enum.js";
+import { Prisma } from "@prisma/generated/client.js";
 
 const PRISMA_ERROR_MAP: Record<string, HttpStatus> = {
   P2000: HttpStatus.BAD_REQUEST,

@@ -1,8 +1,8 @@
 import { Module } from "@nestjs/common";
 import { RedisModule as CoreRedisModule } from "@nestjs-modules/ioredis";
 import { ConfigModule, ConfigService } from "@nestjs/config";
-import { RedisService } from "./redis.service.ts";
-import { ConfigKeyEnum } from "../../common/enums/config.enum.ts";
+import { RedisService } from "./redis.service.js";
+import { ConfigKeyEnum } from "../../common/enums/config.enum.js";
 
 @Module({
   imports: [

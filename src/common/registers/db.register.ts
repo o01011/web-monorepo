@@ -1,6 +1,6 @@
 import { registerAs } from "@nestjs/config";
-import { ConfigKeyEnum } from "../enums/config.enum.ts";
-import { DbType } from "../types/db.type.ts";
+import { ConfigKeyEnum } from "../enums/config.enum.js";
+import { DbType } from "../types/db.type.js";
 
 export const dbRegister = registerAs(ConfigKeyEnum.DB, (): DbType => {
   return {

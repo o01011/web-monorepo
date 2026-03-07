@@ -1,6 +1,6 @@
 import { registerAs } from "@nestjs/config";
-import { ConfigKeyEnum } from "../enums/config.enum.ts";
-import { LocalizationType } from "../types/localization.type.ts";
+import { ConfigKeyEnum } from "../enums/config.enum.js";
+import { LocalizationType } from "../types/localization.type.js";
 
 export const i18nRegister = registerAs(
   ConfigKeyEnum.I18N,

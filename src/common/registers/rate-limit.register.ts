@@ -1,6 +1,6 @@
 import { registerAs } from "@nestjs/config";
-import { ConfigKeyEnum } from "../enums/config.enum.ts";
-import { RateLimitType } from "../types/rate-limiting.type.ts";
+import { ConfigKeyEnum } from "../enums/config.enum.js";
+import { RateLimitType } from "../types/rate-limiting.type.js";
 
 export const rateLimitRegister = registerAs(
   ConfigKeyEnum.RATE_LIMIT,

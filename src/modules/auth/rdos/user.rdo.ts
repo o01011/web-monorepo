@@ -1,5 +1,5 @@
 import { ApiProperty, ApiSchema } from "@nestjs/swagger";
-import { User } from "../../../../prisma/generated/client.ts";
+import { User } from "../../../../prisma/generated/client.js";
 import { Exclude } from "class-transformer";
 
 @ApiSchema({

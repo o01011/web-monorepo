@@ -1,15 +1,34 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
+// TODO:
+// 9. No Token Revocation / Blacklisting
+// JWTs cannot be invalidated before expiry. There is no logout mechanism.
+// Fix: Add a token blacklist in Redis, checked by JwtStrategy.validate().
+
+// TODO:
+// 8. No Refresh Token Flow
+// Only access tokens are issued. When they expire, users must re-authenticate. No refresh token mechanism exists.
+// Fix: Implement refresh tokens (stored in Redis or DB) with a /auth/refresh endpoint.
 import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseGuards,
+} from "@nestjs/common";
+import {
+  ApiBody,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
   ApiUnauthorizedResponse,
 } from "@nestjs/swagger";
-import { AuthService } from "./auth.service.ts";
-import { AuthRdo } from "./rdos/auth.rdo.ts";
-import { SignInDto } from "./dtos/sign-in.dto.ts";
-import { SignUpDto } from "./dtos/sign-up.dto.ts";
+import { AuthService } from "./auth.service.js";
+import { AuthRdo } from "./rdos/auth.rdo.js";
+import { SignInDto } from "./dtos/sign-in.dto.js";
+import { SignUpDto } from "./dtos/sign-up.dto.js";
+import { LocalGuard } from "../../common/guards/local.guard.js";
+import { UserId } from "../../common/decorators/user-id.decorator.js";
 
 @ApiTags("Authentication & Authorization")
 @Controller("auth")
@@ -17,6 +36,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post("sign-in")
+  @UseGuards(LocalGuard)
   @HttpCode(HttpStatus.OK)
   @ApiOperation({
     summary: "Sign In",
@@ -32,8 +52,11 @@ export class AuthController {
   @ApiUnauthorizedResponse({
     description: "User not found. Try to sign up.",
   })
-  public signIn(@Body() signInDto: SignInDto): Promise<AuthRdo> {
-    return this.authService.signIn(signInDto);
+  @ApiBody({
+    type: SignInDto,
+  })
+  public signIn(@UserId() userId: number): Promise<AuthRdo> {
+    return this.authService.signIn(userId);
   }
 
   @Post("sign-up")

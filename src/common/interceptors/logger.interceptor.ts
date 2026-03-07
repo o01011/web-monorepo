@@ -8,8 +8,8 @@ import {
 import { Observable, tap } from "rxjs";
 import { ConfigService } from "@nestjs/config";
 import { Request, Response } from "express";
-import { EnvironmentsEnum } from "../enums/environments.enum.ts";
-import { ConfigKeyEnum } from "../enums/config.enum.ts";
+import { EnvironmentsEnum } from "../enums/environments.enum.js";
+import { ConfigKeyEnum } from "../enums/config.enum.js";
 
 type LoggerExpressionType = "incoming" | "error" | "success";
 

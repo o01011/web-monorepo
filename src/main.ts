@@ -1,17 +1,16 @@
-// TODO: add unit and end to end tests
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import { Logger, VersioningType } from "@nestjs/common";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { ConfigService } from "@nestjs/config";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
-import { AppModule } from "./app.module.ts";
-import { EnvironmentsEnum } from "./common/enums/environments.enum.ts";
-import { ConfigKeyEnum } from "./common/enums/config.enum.ts";
+import { AppModule } from "./app.module.js";
+import { EnvironmentsEnum } from "./common/enums/environments.enum.js";
+import { ConfigKeyEnum } from "./common/enums/config.enum.js";
 import helmet from "helmet";
 import { I18nValidationExceptionFilter, I18nValidationPipe } from "nestjs-i18n";
-import { TimeoutInterceptor } from "./common/interceptors/timeout.interceptor.ts";
-import { LoggingInterceptor } from "./common/interceptors/logger.interceptor.ts";
-import { CatchEverythingFilter } from "./common/filters/catch-everything.filter.ts";
+import { TimeoutInterceptor } from "./common/interceptors/timeout.interceptor.js";
+import { LoggingInterceptor } from "./common/interceptors/logger.interceptor.js";
+import { CatchEverythingFilter } from "./common/filters/catch-everything.filter.js";
 
 const logger: Logger = new Logger("Bootstrap");
 
@@ -103,7 +102,16 @@ const logger: Logger = new Logger("Bootstrap");
     new CatchEverythingFilter(httpAdapterHost, configService),
   );
 
-  app.enableCors();
+  // TODO:
+  //   6. CORS is Wide Open
+  // app.enableCors() in [main.ts](src/main.ts) uses defaults -- allows all origins, methods, and headers.
+  // Fix: Configure explicit origin, methods, credentials, and allowedHeaders for production.
+  app.enableCors({
+    origin: "https://example.com",
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+    allowedHeaders: "Content-Type, Authorization",
+  });
 
   app.use(helmet());
 

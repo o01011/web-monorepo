@@ -1,13 +1,13 @@
 import { Module } from "@nestjs/common";
 import { ConfigModule as CoreConfigModule } from "@nestjs/config";
 import Joi from "joi";
-import { cacheRegister } from "../../common/registers/cache.register.ts";
-import { appRegister } from "../../common/registers/app.register.ts";
-import { dbRegister } from "../../common/registers/db.register.ts";
-import { environmentRegister } from "../../common/registers/environment.register.ts";
-import { i18nRegister } from "../../common/registers/i18n.register.ts";
-import { jwtRegister } from "../../common/registers/jwt.register.ts";
-import { rateLimitRegister } from "../../common/registers/rate-limit.register.ts";
+import { cacheRegister } from "../../common/registers/cache.register.js";
+import { appRegister } from "../../common/registers/app.register.js";
+import { dbRegister } from "../../common/registers/db.register.js";
+import { environmentRegister } from "../../common/registers/environment.register.js";
+import { i18nRegister } from "../../common/registers/i18n.register.js";
+import { jwtRegister } from "../../common/registers/jwt.register.js";
+import { rateLimitRegister } from "../../common/registers/rate-limit.register.js";
 
 @Module({
   imports: [
@@ -56,7 +56,7 @@ import { rateLimitRegister } from "../../common/registers/rate-limit.register.ts
           .description("I18N fallback language"),
 
         JWT_SECRET: Joi.string().required().description("JWT secret"),
-        JWT_EXPIRES_IN: Joi.string().required().description("JWT expires in"),
+        JWT_EXPIRES_IN: Joi.number().required().description("JWT expires in"),
 
         THROTTLE_TTL: Joi.number().required().description("Rate limiting TTL"),
         THROTTLE_LIMIT: Joi.number()

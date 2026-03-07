@@ -10,9 +10,9 @@ import {
   ParseIntPipe,
   UseGuards,
 } from "@nestjs/common";
-import { PostService } from "./post.service.ts";
-import { CreatePostDto } from "./dtos/create-post.dto.ts";
-import { UpdatePostDto } from "./dtos/update-post.dto.ts";
+import { PostService } from "./post.service.js";
+import { CreatePostDto } from "./dtos/create-post.dto.js";
+import { UpdatePostDto } from "./dtos/update-post.dto.js";
 import {
   ApiBody,
   ApiOkResponse,
@@ -20,9 +20,9 @@ import {
   ApiParam,
   ApiTags,
 } from "@nestjs/swagger";
-import { JwtGuard } from "../../common/guards/auth.guard.ts";
-import { UserId } from "../../common/decorators/user-id.decorator.ts";
-import { PostRdo } from "./rdos/post.rdo.ts";
+import { JwtGuard } from "../../common/guards/jwt.guard.js";
+import { UserId } from "../../common/decorators/user-id.decorator.js";
+import { PostRdo } from "./rdos/post.rdo.js";
 
 @ApiTags("Posts")
 @Controller("posts")
@@ -41,7 +41,7 @@ export class PostController {
     @UserId() userId: number,
     @Body() createPostDto: CreatePostDto,
   ): Promise<PostRdo> {
-    return this.postService.create({ ...createPostDto, authorId: userId });
+    return this.postService.create(createPostDto, userId);
   }
 
   @Get()

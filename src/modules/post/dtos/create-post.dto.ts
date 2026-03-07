@@ -1,11 +1,5 @@
 import { ApiProperty, ApiSchema } from "@nestjs/swagger";
-import {
-  IsInt,
-  IsNotEmpty,
-  IsString,
-  MaxLength,
-  MinLength,
-} from "class-validator";
+import { IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
 import { i18nValidationMessage } from "nestjs-i18n";
 
 @ApiSchema({
@@ -59,25 +53,8 @@ export class CreatePostDto {
   })
   description: string;
 
-  @ApiProperty({
-    example: 1,
-    description: "Post author ID",
-    minimum: 1,
-    required: true,
-    nullable: false,
-    type: Number,
-  })
-  @IsInt({
-    message: i18nValidationMessage("dtos-validation.INT"),
-  })
-  @IsNotEmpty({
-    message: i18nValidationMessage("dtos-validation.EMPTY"),
-  })
-  authorId: number;
-
-  constructor(title: string, description: string, authorId: number) {
+  constructor(title: string, description: string) {
     this.title = title;
     this.description = description;
-    this.authorId = authorId;
   }
 }

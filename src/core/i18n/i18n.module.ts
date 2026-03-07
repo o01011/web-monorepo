@@ -2,8 +2,8 @@ import { Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { I18nModule as CoreI18nModule, HeaderResolver } from "nestjs-i18n";
 import { join } from "node:path";
-import { EnvironmentsEnum } from "../../common/enums/environments.enum.ts";
-import { ConfigKeyEnum } from "../../common/enums/config.enum.ts";
+import { EnvironmentsEnum } from "../../common/enums/environments.enum.js";
+import { ConfigKeyEnum } from "../../common/enums/config.enum.js";
 
 @Module({
   imports: [

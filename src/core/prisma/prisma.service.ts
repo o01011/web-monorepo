@@ -1,8 +1,8 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../../../prisma/generated/client.ts";
+import { PrismaClient } from "../../../prisma/generated/client.js";
 import { ConfigService } from "@nestjs/config";
-import { ConfigKeyEnum } from "../../common/enums/config.enum.ts";
+import { ConfigKeyEnum } from "../../common/enums/config.enum.js";
 
 @Injectable()
 export class PrismaService

@@ -28,8 +28,6 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
     "useUnknownInCatchVariables": true,
-    "allowImportingTsExtensions": true,
-    "rewriteRelativeImportExtensions": true,
     "paths": {
       "@prisma/generated": ["./prisma/generated"],
       "@prisma/generated/*": ["./prisma/generated/*"]

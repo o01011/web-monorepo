@@ -6,11 +6,8 @@ import type { Path } from "nestjs-i18n";
 /* prettier-ignore */
 export type I18nTranslations = {
     "business-logic-exceptions": {
-        "INTERNAL_SERVER_ERROR": string;
-        "NOT_FOUND": string;
-        "INCORRECT_CREDENTIALS": string;
+        "INVALID_CREDENTIALS": string;
         "USER_EXISTS": string;
-        "INVALID_EMAIL": string;
     };
     "dtos-validation": {
         "EMAIL": string;

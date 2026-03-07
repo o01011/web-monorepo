@@ -1,6 +1,10 @@
+// TODO:
+// 5. Seeder Stores Plain-Text Passwords
+// [prisma/seeders/seeder.ts](prisma/seeders/seeder.ts) uses faker.internet.password() without hashing. AuthService.signIn uses bcrypt.compare(), so seeded users can never sign in.
+// Fix: Hash passwords with bcrypt before creating users in the seeder.
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../generated/client.ts";
 import { faker } from "@faker-js/faker";
+import { PrismaClient } from "@prisma/generated/client.js";
 
 const NUMBER_OF_USERS = 5;
 

@@ -13,7 +13,7 @@ import {
   timeout,
   TimeoutError,
 } from "rxjs";
-import { ConfigKeyEnum } from "../enums/config.enum.ts";
+import { ConfigKeyEnum } from "../enums/config.enum.js";
 
 @Injectable()
 export class TimeoutInterceptor implements NestInterceptor {
