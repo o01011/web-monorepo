@@ -1,3 +1,6 @@
+// TODO:
+// 30. No Role-Based Access Control (RBAC)
+// No roles, permissions, or authorization beyond "is authenticated."
 import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import { Logger, VersioningType } from "@nestjs/common";
 import { NestExpressApplication } from "@nestjs/platform-express";

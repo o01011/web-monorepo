@@ -1,4 +1,12 @@
-// TODO: add posiible responses for swagger docs
+// TODO:
+// 34. Swagger Incomplete
+// No @ApiResponse decorators for error codes (400, 401, 404, 409, 500)
+// No DTO examples
+// Auth endpoints appear as requiring Bearer token in Swagger even though they are public
+
+// TODO:
+// 33. No ClassSerializerInterceptor
+// @Exclude() on UserRdo.password only works if ClassSerializerInterceptor is active globally. It is not registered in main.ts.
 import {
   Controller,
   Get,

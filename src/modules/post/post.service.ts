@@ -1,3 +1,6 @@
+// TODO:
+// 36. No HTTP Caching
+// Redis is wired but not used for response caching. No CacheInterceptor or cache-aside pattern in services.
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { CreatePostDto } from "./dtos/create-post.dto.js";
 import { UpdatePostDto } from "./dtos/update-post.dto.js";

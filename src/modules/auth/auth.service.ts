@@ -1,3 +1,6 @@
+// TODO:
+// 36. No HTTP Caching
+// Redis is wired but not used for response caching. No CacheInterceptor or cache-aside pattern in services.
 import { ConflictException, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { AuthRdo } from "./rdos/auth.rdo.js";
