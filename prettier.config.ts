@@ -1,6 +1,6 @@
 import { type Config } from "prettier";
 
-export const config: Config = {
+const config: Config = {
   arrowParens: "always",
   bracketSpacing: true,
   semi: true,
@@ -15,3 +15,5 @@ export const config: Config = {
   embeddedLanguageFormatting: "auto",
   htmlWhitespaceSensitivity: "strict",
 };
+
+export default config;

@@ -1,6 +1,6 @@
 import { type UserConfig, RuleConfigSeverity } from "@commitlint/types";
 
-const configuration: UserConfig = {
+const config: UserConfig = {
   extends: ["@commitlint/config-conventional"],
   rules: {
     "body-case": [RuleConfigSeverity.Error, "always", "sentencecase"],
@@ -51,4 +51,4 @@ const configuration: UserConfig = {
     "https://github.com/conventional-changelog/commitlint/#what-is-commitlint",
 };
 
-export default configuration;
+export default config;

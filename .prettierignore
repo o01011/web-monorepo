@@ -1,26 +1,8 @@
 #
-# Dependencies
-#
-node_modules
-#
-# Git
-#
-.git
-#
-# Prisma
-#
-prisma/generated
-prisma/migrations
-prisma/schema.prisma
-#
-# I18N
-#
-src/generated
-#
-# Documentation
-#
-documentation
-#
 # Build
 #
 dist
+#
+# Prisma
+#
+prisma
