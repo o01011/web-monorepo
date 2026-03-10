@@ -6,7 +6,7 @@ export const config: Config = {
   semi: true,
   useTabs: false,
   trailingComma: "all",
-  singleQuote: true,
+  singleQuote: false,
   tabWidth: 2,
   endOfLine: "lf",
   printWidth: 80,

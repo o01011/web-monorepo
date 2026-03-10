@@ -25,7 +25,7 @@ const configuration: UserConfig = {
     "subject-case": [RuleConfigSeverity.Error, "always", ["lower-case"]],
     "subject-empty": [RuleConfigSeverity.Error, "never"],
     "subject-full-stop": [RuleConfigSeverity.Error, "never", "."],
-    "subject-max-length": [RuleConfigSeverity.Error, "always", 50],
+    "subject-max-length": [RuleConfigSeverity.Error, "always", 100],
     "subject-min-length": [RuleConfigSeverity.Error, "always", 5],
 
     "references-empty": [RuleConfigSeverity.Disabled, "always"],
