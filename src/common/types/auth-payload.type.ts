@@ -1,3 +1,3 @@
 export type AuthPayloadType = {
-  userId: number;
+	userId: number;
 };

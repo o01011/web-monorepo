@@ -1,107 +1,98 @@
 import { ApiProperty, ApiSchema } from "@nestjs/swagger";
-import { User } from "../../../../prisma/generated/client.js";
 import { Exclude } from "class-transformer";
+import type { User } from "../../../../prisma/generated/client.js";
 
 @ApiSchema({
-  name: "UserRdo",
-  description: "User RDO",
+	description: "User RDO",
+	name: "UserRdo",
 })
 export class UserRdo implements User {
-  @ApiProperty({
-    description: "User ID",
-    required: true,
-    nullable: false,
-    type: Number,
-  })
-  id: number;
+	@ApiProperty({
+		description: "User ID",
+		nullable: false,
+		required: true,
+		type: Number,
+	})
+	id: number;
 
-  @ApiProperty({
-    example: "Eldred_Ondricka",
-    description: "Unique username",
-    minLength: 5,
-    maxLength: 15,
-    required: true,
-    nullable: false,
-    type: String,
-  })
-  username: string;
+	@ApiProperty({
+		description: "Unique username",
+		example: "Eldred_Ondricka",
+		maxLength: 15,
+		minLength: 5,
+		nullable: false,
+		required: true,
+		type: String,
+	})
+	username: string;
 
-  @ApiProperty({
-    example: "Paige",
-    description: "User first name",
-    minLength: 5,
-    maxLength: 30,
-    required: true,
-    nullable: false,
-    type: String,
-  })
-  firstName: string;
+	@ApiProperty({
+		description: "User first name",
+		example: "Paige",
+		maxLength: 30,
+		minLength: 5,
+		nullable: false,
+		required: true,
+		type: String,
+	})
+	firstName: string;
 
-  @ApiProperty({
-    example: "Altenwerth",
-    description: "User last name",
-    minLength: 5,
-    maxLength: 30,
-    required: true,
-    nullable: false,
-    type: String,
-  })
-  lastName: string;
+	@ApiProperty({
+		description: "User last name",
+		example: "Altenwerth",
+		maxLength: 30,
+		minLength: 5,
+		nullable: false,
+		required: true,
+		type: String,
+	})
+	lastName: string;
 
-  @ApiProperty({
-    example: "Horacio4@hotmail.com",
-    description: "User email",
-    required: true,
-    nullable: false,
-    type: String,
-  })
-  email: string;
+	@ApiProperty({
+		description: "User email",
+		example: "Horacio4@hotmail.com",
+		nullable: false,
+		required: true,
+		type: String,
+	})
+	email: string;
 
-  @Exclude()
-  @ApiProperty({
-    example: "",
-    description: "User password",
-    required: true,
-    nullable: false,
-    type: String,
-  })
-  password: string;
+	@Exclude()
+	@ApiProperty({
+		description: "User password",
+		example: "",
+		nullable: false,
+		required: true,
+		type: String,
+	})
+	password: string;
 
-  @ApiProperty({
-    example: "",
-    description: "User created at",
-    required: true,
-    nullable: false,
-    type: Date,
-  })
-  createdAt: Date;
+	@ApiProperty({
+		description: "User created at",
+		example: "",
+		nullable: false,
+		required: true,
+		type: Date,
+	})
+	createdAt: Date;
 
-  @ApiProperty({
-    example: "",
-    description: "User updated at",
-    required: true,
-    nullable: false,
-    type: Date,
-  })
-  updatedAt: Date;
+	@ApiProperty({
+		description: "User updated at",
+		example: "",
+		nullable: false,
+		required: true,
+		type: Date,
+	})
+	updatedAt: Date;
 
-  constructor(
-    id: number,
-    username: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-    createdAt: Date,
-    updatedAt: Date,
-  ) {
-    this.id = id;
-    this.username = username;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-    this.password = password;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
-  }
+	constructor(id: number, username: string, firstName: string, lastName: string, email: string, password: string, createdAt: Date, updatedAt: Date) {
+		this.id = id;
+		this.username = username;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
 }

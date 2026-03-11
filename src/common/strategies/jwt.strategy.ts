@@ -1,32 +1,30 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
+import type { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
 import { ExtractJwt, Strategy } from "passport-jwt";
-import { ConfigService } from "@nestjs/config";
+import type { AuthRepository } from "../../modules/auth/auth.repository.js";
 import { ConfigKeyEnum } from "../enums/config.enum.js";
-import { AuthRepository } from "../../modules/auth/auth.repository.js";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, "jwt") {
-  constructor(
-    private readonly authRepository: AuthRepository,
-    private readonly configService: ConfigService,
-  ) {
-    super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: false,
-      secretOrKey: configService.getOrThrow<string>(
-        `${ConfigKeyEnum.JWT}.secret`,
-      ),
-    });
-  }
+	constructor(
+		private readonly authRepository: AuthRepository,
+		readonly configService: ConfigService,
+	) {
+		super({
+			ignoreExpiration: false,
+			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+			secretOrKey: configService.getOrThrow<string>(`${ConfigKeyEnum.JWT}.secret`),
+		});
+	}
 
-  async validate(payload: { userId: number }): Promise<number> {
-    const user = await this.authRepository.findOneById(payload.userId);
+	async validate(payload: { userId: number }): Promise<number> {
+		const user = await this.authRepository.findOneById(payload.userId);
 
-    if (!user) {
-      throw new UnauthorizedException();
-    }
+		if (!user) {
+			throw new UnauthorizedException();
+		}
 
-    return payload.userId;
-  }
+		return payload.userId;
+	}
 }

@@ -1,38 +1,34 @@
-import { Injectable, OnModuleDestroy } from "@nestjs/common";
+import { Injectable, type OnModuleDestroy } from "@nestjs/common";
 import { InjectRedis } from "@nestjs-modules/ioredis";
-import { type Redis } from "ioredis";
+import type { Redis } from "ioredis";
 
 @Injectable()
 export class RedisService implements OnModuleDestroy {
-  constructor(@InjectRedis() private readonly redis: Redis) {}
+	constructor(@InjectRedis() private readonly redis: Redis) {}
 
-  onModuleDestroy() {
-    this.redis.quit();
-  }
+	onModuleDestroy() {
+		this.redis.quit();
+	}
 
-  async set<T extends object>(
-    key: string,
-    val: T,
-    ttl?: number,
-  ): Promise<void> {
-    const stringVal = JSON.stringify(val);
+	async set<T extends object>(key: string, val: T, ttl?: number): Promise<void> {
+		const stringVal = JSON.stringify(val);
 
-    if (ttl) {
-      await this.redis.set(key, stringVal, "EX", ttl);
-    } else {
-      await this.redis.set(key, stringVal);
-    }
-  }
+		if (ttl) {
+			await this.redis.set(key, stringVal, "EX", ttl);
+		} else {
+			await this.redis.set(key, stringVal);
+		}
+	}
 
-  async get<T extends object>(key: string): Promise<T | null> {
-    const value = await this.redis.get(key);
+	async get<T extends object>(key: string): Promise<T | null> {
+		const value = await this.redis.get(key);
 
-    if (!value) return null;
+		if (!value) return null;
 
-    return JSON.parse(value);
-  }
+		return JSON.parse(value);
+	}
 
-  async delete(key: string): Promise<void> {
-    await this.redis.del(key);
-  }
+	async delete(key: string): Promise<void> {
+		await this.redis.del(key);
+	}
 }

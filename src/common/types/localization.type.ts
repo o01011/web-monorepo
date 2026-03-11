@@ -1,3 +1,3 @@
 export type LocalizationType = {
-  i18nFallbackLanguage: string;
+	i18nFallbackLanguage: string;
 };

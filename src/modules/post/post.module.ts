@@ -1,12 +1,12 @@
 import { Module } from "@nestjs/common";
-import { PostService } from "./post.service.js";
+import { AuthModule } from "../auth/auth.module.js";
 import { PostController } from "./post.controller.js";
 import { PostRepository } from "./post.repository.js";
-import { AuthModule } from "../auth/auth.module.js";
+import { PostService } from "./post.service.js";
 
 @Module({
-  imports: [AuthModule],
-  controllers: [PostController],
-  providers: [PostService, PostRepository],
+	controllers: [PostController],
+	imports: [AuthModule],
+	providers: [PostService, PostRepository],
 })
 export class PostModule {}
