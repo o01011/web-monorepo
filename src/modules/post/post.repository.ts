@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import type { PrismaService } from "../../core/prisma/prisma.service.js";
-import type { CreatePostDto } from "./dtos/create-post.dto.js";
-import type { UpdatePostDto } from "./dtos/update-post.dto.js";
-import type { PostRdo } from "./rdos/post.rdo.js";
+import { PrismaService } from "../../core/prisma/prisma.service.js";
+import { CreatePostDto } from "./dtos/create-post.dto.js";
+import { UpdatePostDto } from "./dtos/update-post.dto.js";
+import { PostRdo } from "./rdos/post.rdo.js";
 
 @Injectable()
 export class PostRepository {

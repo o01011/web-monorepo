@@ -1,10 +1,10 @@
 import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { compare } from "bcrypt";
-import type { I18nService } from "nestjs-i18n";
+import { I18nService } from "nestjs-i18n";
 import { Strategy } from "passport-local";
-import type { I18nTranslations } from "../../generated/i18n.generated.js";
-import type { AuthRepository } from "../../modules/auth/auth.repository.js";
+import { I18nTranslations } from "../../generated/i18n.generated.js";
+import { AuthRepository } from "../../modules/auth/auth.repository.js";
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {

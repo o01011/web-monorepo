@@ -1,15 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import {
 	HealthCheck,
-	type HealthCheckResult,
-	type HealthCheckService,
-	type HealthIndicatorResult,
-	type HealthIndicatorService,
-	type PrismaHealthIndicator,
+	HealthCheckResult,
+	HealthCheckService,
+	HealthIndicatorResult,
+	HealthIndicatorService,
+	PrismaHealthIndicator,
 } from "@nestjs/terminus";
 import { InjectRedis } from "@nestjs-modules/ioredis";
-import type { Redis } from "ioredis";
-import type { PrismaService } from "../prisma/prisma.service.js";
+import { Redis } from "ioredis";
+import { PrismaService } from "../prisma/prisma.service.js";
 
 @Injectable()
 export class HealthChecksService {

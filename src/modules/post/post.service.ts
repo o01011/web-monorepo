@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
-import type { CreatePostDto } from "./dtos/create-post.dto.js";
-import type { UpdatePostDto } from "./dtos/update-post.dto.js";
-import type { PostRepository } from "./post.repository.js";
-import type { PostRdo } from "./rdos/post.rdo.js";
+import { CreatePostDto } from "./dtos/create-post.dto.js";
+import { UpdatePostDto } from "./dtos/update-post.dto.js";
+import { PostRepository } from "./post.repository.js";
+import { PostRdo } from "./rdos/post.rdo.js";
 
 @Injectable()
 export class PostService {

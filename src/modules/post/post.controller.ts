@@ -4,7 +4,7 @@ import { UserId } from "../../common/decorators/user-id.decorator.js";
 import { JwtGuard } from "../../common/guards/jwt.guard.js";
 import { CreatePostDto } from "./dtos/create-post.dto.js";
 import { UpdatePostDto } from "./dtos/update-post.dto.js";
-import type { PostService } from "./post.service.js";
+import { PostService } from "./post.service.js";
 import { PostRdo } from "./rdos/post.rdo.js";
 
 @ApiTags("Posts")

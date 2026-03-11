@@ -13,7 +13,7 @@
 		"enabled": true
 	},
 	"files": {
-		"includes": ["**", "!prisma/generated"]
+		"includes": ["**", "!prisma/generated", "!src/generated"]
 	},
 	"formatter": {
 		"attributePosition": "auto",
@@ -36,6 +36,9 @@
 				"useRequiredScripts": "error"
 			},
 			"recommended": true,
+			"style": {
+				"useImportType": "off"
+			},
 			"suspicious": {
 				"noBiomeFirstException": "error",
 				"noConsole": {
