@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Inject, Param, ParseIntPipe, Patch, Post, UseGuards } from "@nestjs/common";
 import { ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
 import { UserId } from "../../common/decorators/user-id.decorator.js";
 import { JwtGuard } from "../../common/guards/jwt.guard.js";
@@ -11,7 +11,7 @@ import { PostRdo } from "./rdos/post.rdo.js";
 @Controller("posts")
 @UseGuards(JwtGuard)
 export class PostController {
-	constructor(private readonly postService: PostService) {}
+	constructor(@Inject(PostService) private readonly postService: PostService) {}
 
 	@Post()
 	@ApiBody({

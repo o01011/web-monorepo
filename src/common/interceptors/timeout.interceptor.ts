@@ -1,5 +1,5 @@
-import { type CallHandler, type ExecutionContext, GatewayTimeoutException, Injectable, type NestInterceptor } from "@nestjs/common";
-import type { ConfigService } from "@nestjs/config";
+import { type CallHandler, type ExecutionContext, GatewayTimeoutException, Inject, Injectable, type NestInterceptor } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { catchError, type Observable, TimeoutError, throwError, timeout } from "rxjs";
 import { ConfigKeyEnum } from "../enums/config.enum.js";
 
@@ -7,7 +7,7 @@ import { ConfigKeyEnum } from "../enums/config.enum.js";
 export class TimeoutInterceptor implements NestInterceptor {
 	private readonly appRequestTimeout: number;
 
-	constructor(private readonly configService: ConfigService) {
+	constructor(@Inject(ConfigService) private readonly configService: ConfigService) {
 		this.appRequestTimeout = Number(this.configService.getOrThrow<number>(`${ConfigKeyEnum.APP}.appRequestTimeout`));
 	}
 

@@ -1,17 +1,12 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import { compare } from "bcrypt";
-import { I18nService } from "nestjs-i18n";
 import { Strategy } from "passport-local";
-import { I18nTranslations } from "../../generated/i18n.generated.js";
 import { AuthRepository } from "../../modules/auth/auth.repository.js";
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
-	constructor(
-		private readonly authRepository: AuthRepository,
-		private readonly i18nService: I18nService<I18nTranslations>,
-	) {
+	constructor(@Inject(AuthRepository) private readonly authRepository: AuthRepository) {
 		super({
 			passwordField: "password",
 			usernameField: "email",
@@ -22,13 +17,13 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
 		const user = await this.authRepository.findOneByEmail(email);
 
 		if (!user) {
-			throw new UnauthorizedException(this.i18nService.t("business-logic-exceptions.INVALID_CREDENTIALS"));
+			throw new UnauthorizedException("");
 		}
 
 		const isPasswordValid = await compare(password, user.password);
 
 		if (!isPasswordValid) {
-			throw new UnauthorizedException(this.i18nService.t("business-logic-exceptions.INVALID_CREDENTIALS"));
+			throw new UnauthorizedException("");
 		}
 
 		return user.id;

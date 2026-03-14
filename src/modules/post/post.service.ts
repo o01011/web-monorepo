@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { CreatePostDto } from "./dtos/create-post.dto.js";
 import { UpdatePostDto } from "./dtos/update-post.dto.js";
 import { PostRepository } from "./post.repository.js";
@@ -6,7 +6,7 @@ import { PostRdo } from "./rdos/post.rdo.js";
 
 @Injectable()
 export class PostService {
-	constructor(private readonly postRepository: PostRepository) {}
+	constructor(@Inject(PostRepository) private readonly postRepository: PostRepository) {}
 
 	public async create(createPostDto: CreatePostDto, authorId: number): Promise<PostRdo> {
 		return await this.postRepository.create(createPostDto, authorId);

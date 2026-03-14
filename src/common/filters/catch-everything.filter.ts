@@ -1,6 +1,6 @@
-import { type ArgumentsHost, Catch, type ExceptionFilter, HttpException, HttpStatus, Logger } from "@nestjs/common";
-import type { ConfigService } from "@nestjs/config";
-import type { HttpAdapterHost } from "@nestjs/core";
+import { type ArgumentsHost, Catch, type ExceptionFilter, HttpException, HttpStatus, Inject, Logger } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { HttpAdapterHost } from "@nestjs/core";
 import type { Prisma } from "@prisma/generated/client.js";
 import { ConfigKeyEnum } from "../enums/config.enum.js";
 import { EnvironmentsEnum } from "../enums/environments.enum.js";
@@ -23,8 +23,8 @@ export class CatchEverythingFilter implements ExceptionFilter {
 	private readonly logger = new Logger(CatchEverythingFilter.name);
 
 	constructor(
-		private readonly httpAdapterHost: HttpAdapterHost,
-		private readonly configService: ConfigService,
+		@Inject(HttpAdapterHost) private readonly httpAdapterHost: HttpAdapterHost,
+		@Inject(ConfigService) private readonly configService: ConfigService,
 	) {}
 
 	catch(exception: unknown, host: ArgumentsHost): void {

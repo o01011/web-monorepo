@@ -1,6 +1,5 @@
 import { ApiProperty, ApiSchema } from "@nestjs/swagger";
 import { IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
-import { i18nValidationMessage } from "nestjs-i18n";
 
 @ApiSchema({
 	description: "Create new post data transfer object",
@@ -17,16 +16,16 @@ export class CreatePostDto {
 		type: String,
 	})
 	@IsString({
-		message: i18nValidationMessage("dtos-validation.STRING"),
+		message: "",
 	})
 	@IsNotEmpty({
-		message: i18nValidationMessage("dtos-validation.EMPTY"),
+		message: "",
 	})
 	@MinLength(5, {
-		message: i18nValidationMessage("dtos-validation.MIN"),
+		message: "",
 	})
 	@MaxLength(30, {
-		message: i18nValidationMessage("dtos-validation.MAX"),
+		message: "",
 	})
 	title: string;
 
@@ -40,16 +39,16 @@ export class CreatePostDto {
 		type: String,
 	})
 	@IsString({
-		message: i18nValidationMessage("dtos-validation.STRING"),
+		message: "",
 	})
 	@IsNotEmpty({
-		message: i18nValidationMessage("dtos-validation.EMPTY"),
+		message: "",
 	})
 	@MinLength(5, {
-		message: i18nValidationMessage("dtos-validation.MIN"),
+		message: "",
 	})
 	@MaxLength(100, {
-		message: i18nValidationMessage("dtos-validation.MAX"),
+		message: "",
 	})
 	description: string;
 

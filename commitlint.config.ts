@@ -24,7 +24,7 @@ const config: UserConfig = {
 		"scope-case": [RuleConfigSeverity.Error, "always", "lowercase"],
 		"scope-delimiter-style": [RuleConfigSeverity.Error, "always", ["/"]],
 		"scope-empty": [RuleConfigSeverity.Error, "never"],
-		"scope-enum": [RuleConfigSeverity.Error, "always", ["common", "core", "i18n", "modules", "db", "root"]],
+		"scope-enum": [RuleConfigSeverity.Error, "always", ["common", "core", "modules", "db", "root"]],
 		"scope-max-length": [RuleConfigSeverity.Error, "always", Infinity],
 		"scope-min-length": [RuleConfigSeverity.Error, "always", 0],
 

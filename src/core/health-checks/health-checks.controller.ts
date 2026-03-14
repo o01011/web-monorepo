@@ -1,4 +1,4 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, Inject } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { HealthCheckResult } from "@nestjs/terminus";
 import { HealthChecksService } from "./health-checks.service.js";
@@ -6,7 +6,10 @@ import { HealthChecksService } from "./health-checks.service.js";
 @ApiTags("Health Checks")
 @Controller("health-checks")
 export class HealthChecksController {
-	constructor(private readonly healthChecksService: HealthChecksService) {}
+	constructor(
+		@Inject(HealthChecksService)
+		private readonly healthChecksService: HealthChecksService,
+	) {}
 
 	@Get()
 	healthCheck(): Promise<HealthCheckResult> {

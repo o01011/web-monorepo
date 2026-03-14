@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, IsNotEmpty, IsString, Matches, MaxLength, MinLength } from "class-validator";
-import { i18nValidationMessage } from "nestjs-i18n";
 
 export class SignUpDto {
 	@ApiProperty({
@@ -13,16 +12,16 @@ export class SignUpDto {
 		type: String,
 	})
 	@IsString({
-		message: i18nValidationMessage("dtos-validation.STRING"),
+		message: "",
 	})
 	@IsNotEmpty({
-		message: i18nValidationMessage("dtos-validation.EMPTY"),
+		message: "",
 	})
 	@MinLength(5, {
-		message: i18nValidationMessage("dtos-validation.MIN"),
+		message: "",
 	})
 	@MaxLength(15, {
-		message: i18nValidationMessage("dtos-validation.MAX"),
+		message: "",
 	})
 	username: string;
 
@@ -36,16 +35,16 @@ export class SignUpDto {
 		type: String,
 	})
 	@IsString({
-		message: i18nValidationMessage("dtos-validation.STRING"),
+		message: "",
 	})
 	@IsNotEmpty({
-		message: i18nValidationMessage("dtos-validation.EMPTY"),
+		message: "",
 	})
 	@MinLength(5, {
-		message: i18nValidationMessage("dtos-validation.MIN"),
+		message: "",
 	})
 	@MaxLength(30, {
-		message: i18nValidationMessage("dtos-validation.MAX"),
+		message: "",
 	})
 	firstName: string;
 
@@ -59,16 +58,16 @@ export class SignUpDto {
 		type: String,
 	})
 	@IsString({
-		message: i18nValidationMessage("dtos-validation.STRING"),
+		message: "",
 	})
 	@IsNotEmpty({
-		message: i18nValidationMessage("dtos-validation.EMPTY"),
+		message: "",
 	})
 	@MinLength(5, {
-		message: i18nValidationMessage("dtos-validation.MIN"),
+		message: "",
 	})
 	@MaxLength(30, {
-		message: i18nValidationMessage("dtos-validation.MAX"),
+		message: "",
 	})
 	lastName: string;
 
@@ -80,15 +79,15 @@ export class SignUpDto {
 		type: String,
 	})
 	@IsString({
-		message: i18nValidationMessage("dtos-validation.STRING"),
+		message: "",
 	})
 	@IsNotEmpty({
-		message: i18nValidationMessage("dtos-validation.EMPTY"),
+		message: "",
 	})
 	@IsEmail(
 		{},
 		{
-			message: i18nValidationMessage("dtos-validation.EMAIL"),
+			message: "",
 		},
 	)
 	email: string;
@@ -103,19 +102,19 @@ export class SignUpDto {
 		type: String,
 	})
 	@IsString({
-		message: i18nValidationMessage("dtos-validation.STRING"),
+		message: "",
 	})
 	@IsNotEmpty({
-		message: i18nValidationMessage("dtos-validation.EMPTY"),
+		message: "",
 	})
 	@MinLength(5, {
-		message: i18nValidationMessage("dtos-validation.MIN"),
+		message: "",
 	})
 	@MaxLength(100, {
-		message: i18nValidationMessage("dtos-validation.MAX"),
+		message: "",
 	})
 	@Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{5,}$/, {
-		message: i18nValidationMessage("dtos-validation.MATCHES"),
+		message: "",
 	})
 	password: string;
 

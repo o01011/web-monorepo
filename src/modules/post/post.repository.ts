@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { PrismaService } from "../../core/prisma/prisma.service.js";
 import { CreatePostDto } from "./dtos/create-post.dto.js";
 import { UpdatePostDto } from "./dtos/update-post.dto.js";
@@ -6,7 +6,7 @@ import { PostRdo } from "./rdos/post.rdo.js";
 
 @Injectable()
 export class PostRepository {
-	constructor(private readonly prismaService: PrismaService) {}
+	constructor(@Inject(PrismaService) private readonly prismaService: PrismaService) {}
 
 	public async create(createPostDto: CreatePostDto, authorId: number): Promise<PostRdo> {
 		const post = await this.prismaService.post.create({

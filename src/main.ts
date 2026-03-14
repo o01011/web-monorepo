@@ -4,13 +4,12 @@ import { HttpAdapterHost, NestFactory } from "@nestjs/core";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import helmet from "helmet";
-import { I18nValidationExceptionFilter, I18nValidationPipe } from "nestjs-i18n";
 import { AppModule } from "./app.module.js";
-import { ConfigKeyEnum } from "./common/enums/config.enum.js";
 import { EnvironmentsEnum } from "./common/enums/environments.enum.js";
 import { CatchEverythingFilter } from "./common/filters/catch-everything.filter.js";
 import { LoggingInterceptor } from "./common/interceptors/logger.interceptor.js";
 import { TimeoutInterceptor } from "./common/interceptors/timeout.interceptor.js";
+import { ConfigKeyEnum } from "./common/enums/config.enum.js";
 
 const logger: Logger = new Logger("Bootstrap");
 
@@ -27,14 +26,6 @@ const logger: Logger = new Logger("Bootstrap");
 		prefix: "api/v",
 		type: VersioningType.URI,
 	});
-
-	app.useGlobalPipes(
-		new I18nValidationPipe({
-			forbidNonWhitelisted: true,
-			transform: true,
-			whitelist: true,
-		}),
-	);
 
 	if (!isProduction) {
 		const swaggerPath: string = "/api/docs";
@@ -88,12 +79,7 @@ const logger: Logger = new Logger("Bootstrap");
 
 	const httpAdapterHost = app.get(HttpAdapterHost);
 
-	app.useGlobalFilters(
-		new I18nValidationExceptionFilter({
-			detailedErrors: false,
-		}),
-		new CatchEverythingFilter(httpAdapterHost, configService),
-	);
+	app.useGlobalFilters(new CatchEverythingFilter(httpAdapterHost, configService));
 
 	app.enableCors({
 		allowedHeaders: "Content-Type, Authorization",

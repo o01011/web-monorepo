@@ -1,6 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, IsNotEmpty, IsString } from "class-validator";
-import { i18nValidationMessage } from "nestjs-i18n";
 
 export class SignInDto {
 	@ApiProperty({
@@ -13,10 +12,10 @@ export class SignInDto {
 	@IsEmail(
 		{},
 		{
-			message: i18nValidationMessage("dtos-validation.EMAIL"),
+			message: "",
 		},
 	)
-	@IsNotEmpty({ message: i18nValidationMessage("dtos-validation.EMPTY") })
+	@IsNotEmpty({ message: "" })
 	email: string;
 
 	@ApiProperty({
@@ -26,8 +25,8 @@ export class SignInDto {
 		required: true,
 		type: String,
 	})
-	@IsString({ message: i18nValidationMessage("dtos-validation.STRING") })
-	@IsNotEmpty({ message: i18nValidationMessage("dtos-validation.EMPTY") })
+	@IsString({ message: "" })
+	@IsNotEmpty({ message: "" })
 	password: string;
 
 	constructor(email: string, password: string) {

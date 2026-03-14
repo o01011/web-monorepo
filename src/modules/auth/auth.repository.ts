@@ -1,11 +1,11 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import { PrismaService } from "../../core/prisma/prisma.service.js";
 import { SignUpDto } from "./dtos/sign-up.dto.js";
 import { UserRdo } from "./rdos/user.rdo.js";
 
 @Injectable()
 export class AuthRepository {
-	constructor(private readonly prismaService: PrismaService) {}
+	constructor(@Inject(PrismaService) private readonly prismaService: PrismaService) {}
 
 	public async create(signUpDto: SignUpDto): Promise<UserRdo> {
 		return await this.prismaService.user.create({

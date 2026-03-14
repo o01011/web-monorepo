@@ -1,36 +1,59 @@
-FROM node:22-alpine AS installer
+# syntax=docker/dockerfile:1
+
+FROM node:22-alpine AS deps
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm \
+  npm install --ignore-scripts --no-audit --no-fund
 
 FROM node:22-alpine AS builder
 
 WORKDIR /app
 
-COPY --from=installer /app/node_modules ./node_modules
-COPY package*.json prisma.config.ts ./
+COPY --from=deps /app/node_modules ./node_modules
+COPY package.json package-lock.json prisma.config.ts tsconfig.json nest-cli.json ./
 COPY prisma ./prisma
+COPY .env.prod .env
 
 RUN npm run db:generate
 
 COPY src ./src
-COPY nest-cli.json tsconfig.json ./
 
+ENV NODE_ENV=production
 RUN npm run build
 
 FROM node:22-alpine AS runner
 
+RUN addgroup --system --gid 1001 nodejs \
+  && adduser --system --uid 1001 nestjs
+
 WORKDIR /app
 
-COPY package*.json prisma.config.ts ./
+ENV NODE_ENV=production
 
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
+COPY package.json package-lock.json prisma.config.ts ./
 COPY --from=builder /app/prisma ./prisma
+
+RUN --mount=type=cache,target=/root/.npm \
+  npm install --omit=dev --ignore-scripts --no-audit --no-fund \
+  && npm install prisma --no-save --ignore-scripts --no-audit --no-fund \
+  && npm cache clean --force
+
+COPY --from=builder --chown=nestjs:nodejs /app/dist ./dist
+COPY --from=builder --chown=nestjs:nodejs /app/src/generated ./src/generated
+
+COPY .env.prod .env
+
+RUN chown -R nestjs:nodejs /app
+
+USER nestjs
 
 EXPOSE 8000
 
-CMD [ "sh", "-c", "npm run db:migrate:deploy && npm run start:prod" ]
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD wget -q -O /dev/null http://nestjs-boilerplate:8000/api/v1/health-checks || exit 1
+
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/src/main.js"]

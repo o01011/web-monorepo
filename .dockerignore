@@ -1,6 +1,50 @@
+# Dependencies
 node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Build output
 dist
-documentation
+coverage
+*.tsbuildinfo
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE & editor
 .vscode
-.husky
+.idea
+*.swp
+*.swo
+
+# Testing
+*.test.ts
+*.spec.ts
+__tests__
+e2e
+jest.config.*
+vitest.config.*
+
+# Documentation
+documentation
+*.md
+!README.md
+
+# CI/CD & hooks
 .github
+.husky
+.simple-git-hooks.json
+
+# Local env (never bake secrets; use .env.prod explicitly in Dockerfile)
+.env
+.env.local
+.env.*.local
+
+# Misc
+.DS_Store
+Thumbs.db
+*.log

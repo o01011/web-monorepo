@@ -1,38 +1,25 @@
 {
 	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
-		"allowUnreachableCode": false,
-		"allowUnusedLabels": false,
-		"alwaysStrict": true,
 		"declaration": true,
 		"emitDecoratorMetadata": true,
 		"esModuleInterop": true,
-		"exactOptionalPropertyTypes": false,
 		"experimentalDecorators": true,
 		"forceConsistentCasingInFileNames": true,
-		"module": "nodenext",
-		"moduleResolution": "nodenext",
-		"noImplicitAny": true,
-		"noImplicitOverride": true,
-		"noImplicitReturns": true,
-		"noImplicitThis": true,
-		"noPropertyAccessFromIndexSignature": false,
-		"noUncheckedIndexedAccess": false,
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"noEmit": false,
 		"outDir": "./dist",
 		"paths": {
 			"@prisma/generated": ["./prisma/generated"],
 			"@prisma/generated/*": ["./prisma/generated/*"]
 		},
+		"removeComments": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"strict": true,
-		"strictBindCallApply": true,
-		"strictFunctionTypes": true,
-		"strictNullChecks": true,
-		"strictPropertyInitialization": true,
-		"target": "es2022",
-		"useUnknownInCatchVariables": true
+		"target": "ES2022"
 	},
-	"exclude": ["dist", "node_modules"],
-	"include": ["src/**/*", "prisma/**/*", "prisma.config.ts"]
+	"exclude": ["node_modules"],
+	"include": ["src/**/*"]
 }

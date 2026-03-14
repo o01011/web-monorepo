@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Inject, Injectable } from "@nestjs/common";
 import {
 	HealthCheck,
 	HealthCheckResult,
@@ -15,9 +15,12 @@ import { PrismaService } from "../prisma/prisma.service.js";
 export class HealthChecksService {
 	constructor(
 		@InjectRedis() private readonly redis: Redis,
+		@Inject(HealthCheckService)
 		private readonly healthCheckService: HealthCheckService,
+		@Inject(PrismaHealthIndicator)
 		private readonly prismaHealthIndicator: PrismaHealthIndicator,
-		private readonly prismaService: PrismaService,
+		@Inject(PrismaService) private readonly prismaService: PrismaService,
+		@Inject(HealthIndicatorService)
 		private readonly healthIndicatorService: HealthIndicatorService,
 	) {}
 

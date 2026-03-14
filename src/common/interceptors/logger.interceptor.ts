@@ -1,5 +1,5 @@
-import { type CallHandler, type ExecutionContext, Injectable, Logger, type NestInterceptor } from "@nestjs/common";
-import type { ConfigService } from "@nestjs/config";
+import { type CallHandler, type ExecutionContext, Inject, Injectable, Logger, type NestInterceptor } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import type { Request, Response } from "express";
 import { type Observable, tap } from "rxjs";
 import { ConfigKeyEnum } from "../enums/config.enum.js";
@@ -12,7 +12,7 @@ export class LoggingInterceptor implements NestInterceptor {
 	private readonly logger = new Logger(LoggingInterceptor.name);
 	private readonly isProduction: boolean;
 
-	constructor(private readonly configService: ConfigService) {
+	constructor(@Inject(ConfigService) private readonly configService: ConfigService) {
 		this.isProduction = this.configService.getOrThrow<string>(`${ConfigKeyEnum.ENVIRONMENT}.nodeEnv`) === EnvironmentsEnum.PRODUCTION;
 	}
 
