@@ -5,11 +5,13 @@ import type { NestExpressApplication } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import helmet from "helmet";
 import { AppModule } from "./app.module.js";
+import { ConfigKeyEnum } from "./common/enums/config.enum.js";
 import { EnvironmentsEnum } from "./common/enums/environments.enum.js";
 import { CatchEverythingFilter } from "./common/filters/catch-everything.filter.js";
 import { LoggingInterceptor } from "./common/interceptors/logger.interceptor.js";
 import { TimeoutInterceptor } from "./common/interceptors/timeout.interceptor.js";
-import { ConfigKeyEnum } from "./common/enums/config.enum.js";
+import { AppType } from "./common/types/app.type.js";
+import { EnvironmentType } from "./common/types/environment.type.js";
 
 const logger: Logger = new Logger("Bootstrap");
 
@@ -17,9 +19,11 @@ const logger: Logger = new Logger("Bootstrap");
 	const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
 	const configService = app.get(ConfigService);
-	const isProduction = configService.getOrThrow<string>(`${ConfigKeyEnum.ENVIRONMENT}.nodeEnv`) === EnvironmentsEnum.PRODUCTION;
 
-	const appPort = configService.getOrThrow<number>(`${ConfigKeyEnum.APP}.appPort`);
+	const environmentConfig = configService.getOrThrow<EnvironmentType>(ConfigKeyEnum.ENVIRONMENT);
+	const appConfig = configService.getOrThrow<AppType>(ConfigKeyEnum.APP);
+
+	const isProduction = environmentConfig.nodeEnv === EnvironmentsEnum.PRODUCTION;
 
 	app.enableVersioning({
 		defaultVersion: "1",
@@ -29,14 +33,12 @@ const logger: Logger = new Logger("Bootstrap");
 
 	if (!isProduction) {
 		const swaggerPath: string = "/api/docs";
-		const appName: string = configService.getOrThrow<string>("APP_NAME");
-		const appDescription: string = configService.getOrThrow<string>(`${ConfigKeyEnum.APP}.appDescription`);
 
 		const swaggerConfig = new DocumentBuilder()
-			.setTitle(appName)
-			.setDescription(appDescription)
+			.setTitle(appConfig.appName)
+			.setDescription(appConfig.appDescription)
 			.setVersion("1.0")
-			.addServer(`http://localhost:${appPort}`, "development")
+			.addServer(`http://localhost:${appConfig.appPort}`, "development")
 			.addBearerAuth(
 				{
 					bearerFormat: "JWT",
@@ -94,7 +96,7 @@ const logger: Logger = new Logger("Bootstrap");
 
 	app.useGlobalInterceptors(new TimeoutInterceptor(configService), new LoggingInterceptor(configService));
 
-	await app.listen(appPort);
+	await app.listen(appConfig.appPort);
 
 	logger.log(`Nestjs boilerplate admin application is running on: ${await app.getUrl()}`);
 

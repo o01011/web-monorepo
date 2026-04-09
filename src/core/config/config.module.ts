@@ -7,13 +7,14 @@ import { dbRegister } from "../../common/registers/db.register.js";
 import { environmentRegister } from "../../common/registers/environment.register.js";
 import { jwtRegister } from "../../common/registers/jwt.register.js";
 import { rateLimitRegister } from "../../common/registers/rate-limit.register.js";
+import { s3Register } from "../../common/registers/s3.register.js";
 
 @Module({
 	imports: [
 		CoreConfigModule.forRoot({
 			envFilePath: ".env",
 			isGlobal: true,
-			load: [cacheRegister, appRegister, dbRegister, environmentRegister, jwtRegister, rateLimitRegister],
+			load: [cacheRegister, appRegister, dbRegister, environmentRegister, jwtRegister, rateLimitRegister, s3Register],
 			validationSchema: Joi.object({
 				APP_DESCRIPTION: Joi.string(),
 				APP_LOG_LEVEL: Joi.number().required().description("Logging level"),
@@ -21,6 +22,11 @@ import { rateLimitRegister } from "../../common/registers/rate-limit.register.js
 
 				APP_PORT: Joi.number().port().default(3000).description("Port on which the application will run"),
 				APP_REQUEST_TIMEOUT: Joi.number().positive().default(5000).description("Request timeout in milliseconds"),
+				AWS_ACCESS_KEY_ID: Joi.string().required(),
+
+				AWS_REGION: Joi.string().required(),
+				AWS_S3_BUCKET_NAME: Joi.string().required(),
+				AWS_SECRET_ACCESS_KEY: Joi.string().required(),
 
 				JWT_EXPIRES_IN: Joi.number().required().description("JWT expires in"),
 				JWT_SECRET: Joi.string().required().description("JWT secret"),

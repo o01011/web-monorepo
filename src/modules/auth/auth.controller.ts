@@ -49,6 +49,9 @@ export class AuthController {
 	@ApiUnauthorizedResponse({
 		description: "",
 	})
+	@ApiBody({
+		type: SignUpDto,
+	})
 	public signUp(@Body() signUpDto: SignUpDto): Promise<AuthRdo> {
 		return this.authService.signUp(signUpDto);
 	}
