@@ -2,11 +2,11 @@ import { Module } from "@nestjs/common";
 import { ConfigModule as CoreConfigModule } from "@nestjs/config";
 import Joi from "joi";
 import { appRegister } from "../../common/registers/app.register.js";
-import { cacheRegister } from "../../common/registers/cache.register.js";
-import { dbRegister } from "../../common/registers/db.register.js";
 import { environmentRegister } from "../../common/registers/environment.register.js";
 import { jwtRegister } from "../../common/registers/jwt.register.js";
+import { prismaRegister } from "../../common/registers/prisma.register.js";
 import { rateLimitRegister } from "../../common/registers/rate-limit.register.js";
+import { redisRegister } from "../../common/registers/redis.register.js";
 import { s3Register } from "../../common/registers/s3.register.js";
 
 @Module({
@@ -14,7 +14,7 @@ import { s3Register } from "../../common/registers/s3.register.js";
 		CoreConfigModule.forRoot({
 			envFilePath: ".env",
 			isGlobal: true,
-			load: [cacheRegister, appRegister, dbRegister, environmentRegister, jwtRegister, rateLimitRegister, s3Register],
+			load: [redisRegister, appRegister, prismaRegister, environmentRegister, jwtRegister, rateLimitRegister, s3Register],
 			validationSchema: Joi.object({
 				APP_DESCRIPTION: Joi.string(),
 				APP_LOG_LEVEL: Joi.number().required().description("Logging level"),

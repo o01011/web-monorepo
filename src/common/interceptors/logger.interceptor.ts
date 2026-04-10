@@ -2,22 +2,25 @@ import { type CallHandler, type ExecutionContext, Inject, Injectable, Logger, ty
 import { ConfigService } from "@nestjs/config";
 import type { Request, Response } from "express";
 import { type Observable, tap } from "rxjs";
-import { ConfigKeyEnum } from "../enums/config.enum.js";
-import { EnvironmentsEnum } from "../enums/environments.enum.js";
+import { ConfigKeysConst } from "../constants/config-keys.const.js";
+import { EnvironmentsConst } from "../constants/environments.const.js";
+import { EnvironmentType } from "../types/environment.type.js";
 
 type LoggerExpressionType = "incoming" | "error" | "success";
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
 	private readonly logger = new Logger(LoggingInterceptor.name);
-	private readonly isProduction: boolean;
+	private readonly nodeEnv: string;
 
 	constructor(@Inject(ConfigService) private readonly configService: ConfigService) {
-		this.isProduction = this.configService.getOrThrow<string>(`${ConfigKeyEnum.ENVIRONMENT}.nodeEnv`) === EnvironmentsEnum.PRODUCTION;
+		const environmentConfig = this.configService.getOrThrow<EnvironmentType>(ConfigKeysConst.ENVIRONMENT);
+
+		this.nodeEnv = environmentConfig.nodeEnv;
 	}
 
 	intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
-		if (this.isProduction) return next.handle();
+		if (this.nodeEnv === EnvironmentsConst.PRODUCTION) return next.handle();
 
 		const httpContext = context.switchToHttp();
 		const request = httpContext.getRequest<Request>();

@@ -1,8 +1,8 @@
 import { registerAs } from "@nestjs/config";
-import { ConfigKeyEnum } from "../enums/config.enum.js";
-import type { DbType } from "../types/db.type.js";
+import { ConfigKeysConst } from "../constants/config-keys.const.js";
+import type { PrismaType } from "../types/prisma.type.js";
 
-export const dbRegister = registerAs(ConfigKeyEnum.DB, (): DbType => {
+export const prismaRegister = registerAs(ConfigKeysConst.PRISMA, (): PrismaType => {
 	const postgresUrl = process.env.POSTGRES_URL;
 
 	if (!postgresUrl) {

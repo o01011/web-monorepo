@@ -2,7 +2,7 @@ import { ConflictException, Inject, Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { genSalt, hash } from "bcrypt";
-import { ConfigKeyEnum } from "../../common/enums/config.enum.js";
+import { ConfigKeysConst } from "../../common/constants/config-keys.const.js";
 import { AuthPayloadType } from "../../common/types/auth-payload.type.js";
 import { AuthRepository } from "./auth.repository.js";
 import { SignUpDto } from "./dtos/sign-up.dto.js";
@@ -17,7 +17,7 @@ export class AuthService {
 		@Inject(AuthRepository) private readonly authRepository: AuthRepository,
 		@Inject(ConfigService) private readonly configService: ConfigService,
 	) {
-		this.jwtSecret = this.configService.getOrThrow<string>(`${ConfigKeyEnum.JWT}.secret`);
+		this.jwtSecret = this.configService.getOrThrow<string>(`${ConfigKeysConst.JWT}.secret`);
 	}
 
 	public async signIn(userId: number): Promise<AuthRdo> {

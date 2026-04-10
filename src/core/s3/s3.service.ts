@@ -4,16 +4,16 @@ import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client } fro
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { Inject, Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { ConfigKeyEnum } from "../../common/enums/config.enum.js";
+import { ConfigKeysConst } from "../../common/constants/config-keys.const.js";
 import { S3Type } from "../../common/types/s3.type.js";
 
 @Injectable()
 export class S3Service {
-	private s3Client: S3Client;
-	private bucketName: string;
+	private readonly s3Client: S3Client;
+	private readonly bucketName: string;
 
 	constructor(@Inject(ConfigService) readonly configService: ConfigService) {
-		const s3Config = configService.getOrThrow<S3Type>(ConfigKeyEnum.S3);
+		const s3Config = configService.getOrThrow<S3Type>(ConfigKeysConst.S3);
 
 		this.s3Client = new S3Client({
 			credentials: {

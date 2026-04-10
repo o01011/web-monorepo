@@ -1,8 +1,8 @@
 import { registerAs } from "@nestjs/config";
-import { ConfigKeyEnum } from "../enums/config.enum.js";
+import { ConfigKeysConst } from "../constants/config-keys.const.js";
 import type { RateLimitType } from "../types/rate-limiting.type.js";
 
-export const rateLimitRegister = registerAs(ConfigKeyEnum.RATE_LIMIT, (): RateLimitType => {
+export const rateLimitRegister = registerAs(ConfigKeysConst.RATE_LIMIT, (): RateLimitType => {
 	const limit = Number(process.env.THROTTLE_LIMIT);
 	const ttl = Number(process.env.THROTTLE_TTL);
 

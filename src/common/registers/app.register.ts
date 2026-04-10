@@ -1,8 +1,8 @@
 import { registerAs } from "@nestjs/config";
-import { ConfigKeyEnum } from "../enums/config.enum.js";
+import { ConfigKeysConst } from "../constants/config-keys.const.js";
 import type { AppType } from "../types/app.type.js";
 
-export const appRegister = registerAs(ConfigKeyEnum.APP, (): AppType => {
+export const appRegister = registerAs(ConfigKeysConst.APP, (): AppType => {
 	const appDescription = process.env.APP_DESCRIPTION;
 	const appLogLevel = Number(process.env.APP_LOG_LEVEL);
 	const appName = process.env.APP_NAME;

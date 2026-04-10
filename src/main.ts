@@ -5,8 +5,8 @@ import type { NestExpressApplication } from "@nestjs/platform-express";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import helmet from "helmet";
 import { AppModule } from "./app.module.js";
-import { ConfigKeyEnum } from "./common/enums/config.enum.js";
-import { EnvironmentsEnum } from "./common/enums/environments.enum.js";
+import { ConfigKeysConst } from "./common/constants/config-keys.const.js";
+import { EnvironmentsConst } from "./common/constants/environments.const.js";
 import { CatchEverythingFilter } from "./common/filters/catch-everything.filter.js";
 import { LoggingInterceptor } from "./common/interceptors/logger.interceptor.js";
 import { TimeoutInterceptor } from "./common/interceptors/timeout.interceptor.js";
@@ -20,10 +20,10 @@ const logger: Logger = new Logger("Bootstrap");
 
 	const configService = app.get(ConfigService);
 
-	const environmentConfig = configService.getOrThrow<EnvironmentType>(ConfigKeyEnum.ENVIRONMENT);
-	const appConfig = configService.getOrThrow<AppType>(ConfigKeyEnum.APP);
+	const environmentConfig = configService.getOrThrow<EnvironmentType>(ConfigKeysConst.ENVIRONMENT);
+	const appConfig = configService.getOrThrow<AppType>(ConfigKeysConst.APP);
 
-	const isProduction = environmentConfig.nodeEnv === EnvironmentsEnum.PRODUCTION;
+	const isProduction = environmentConfig.nodeEnv === EnvironmentsConst.PRODUCTION;
 
 	app.enableVersioning({
 		defaultVersion: "1",

@@ -2,8 +2,8 @@ import { type ArgumentsHost, Catch, type ExceptionFilter, HttpException, HttpSta
 import { ConfigService } from "@nestjs/config";
 import { HttpAdapterHost } from "@nestjs/core";
 import type { Prisma } from "@prisma/generated/client.js";
-import { ConfigKeyEnum } from "../enums/config.enum.js";
-import { EnvironmentsEnum } from "../enums/environments.enum.js";
+import { ConfigKeysConst } from "../constants/config-keys.const.js";
+import { EnvironmentsConst } from "../constants/environments.const.js";
 import { EnvironmentType } from "../types/environment.type.js";
 import type { ErrorResponseBody, HttpExceptionResponse } from "../types/error-response.type.js";
 
@@ -22,13 +22,15 @@ const INTERNAL_ERROR_TYPE = "InternalServerErrorException";
 @Catch()
 export class CatchEverythingFilter implements ExceptionFilter {
 	private readonly logger = new Logger(CatchEverythingFilter.name);
-	private environmentConfig: EnvironmentType;
+	private readonly nodeEnv: string;
 
 	constructor(
 		@Inject(HttpAdapterHost) private readonly httpAdapterHost: HttpAdapterHost,
 		@Inject(ConfigService) readonly configService: ConfigService,
 	) {
-		this.environmentConfig = configService.getOrThrow<EnvironmentType>(ConfigKeyEnum.ENVIRONMENT);
+		const environmentConfig = configService.getOrThrow<EnvironmentType>(ConfigKeysConst.ENVIRONMENT);
+
+		this.nodeEnv = environmentConfig.nodeEnv;
 	}
 
 	catch(exception: unknown, host: ArgumentsHost): void {
@@ -156,7 +158,7 @@ export class CatchEverythingFilter implements ExceptionFilter {
 	}
 
 	private isProduction(): boolean {
-		return this.environmentConfig.nodeEnv === EnvironmentsEnum.PRODUCTION;
+		return this.nodeEnv === EnvironmentsConst.PRODUCTION;
 	}
 
 	private isPrismaKnownRequestError(exception: unknown): exception is Prisma.PrismaClientKnownRequestError {

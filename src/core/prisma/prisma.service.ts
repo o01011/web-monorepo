@@ -2,13 +2,16 @@ import { Inject, Injectable, type OnModuleDestroy, type OnModuleInit } from "@ne
 import { ConfigService } from "@nestjs/config";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../../../prisma/generated/client.js";
-import { ConfigKeyEnum } from "../../common/enums/config.enum.js";
+import { ConfigKeysConst } from "../../common/constants/config-keys.const.js";
+import { PrismaType } from "../../common/types/prisma.type.js";
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
 	constructor(@Inject(ConfigService) readonly configService: ConfigService) {
+		const dbConfig = configService.getOrThrow<PrismaType>(ConfigKeysConst.PRISMA);
+
 		const adapter: PrismaPg = new PrismaPg({
-			connectionString: configService.getOrThrow<string>(`${ConfigKeyEnum.DB}.postgresUrl`),
+			connectionString: dbConfig.postgresUrl,
 		});
 
 		super({ adapter });
