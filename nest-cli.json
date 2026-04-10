@@ -4,10 +4,7 @@
 	"compilerOptions": {
 		"builder": "tsc",
 		"deleteOutDir": true,
-		"tsConfigPath": "tsconfig.json",
-		"typeCheck": false,
-		"watchAssets": false,
-		"webpack": false
+		"tsConfigPath": "tsconfig.build.json"
 	},
 	"sourceRoot": "src"
 }

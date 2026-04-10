@@ -9,7 +9,7 @@ generator client {
   output   = "generated"
 
   runtime                = "nodejs"
-  moduleFormat            = "esm"
+  moduleFormat            = "cjs"
   generatedFileExtension  = "ts"
   importFileExtension     = "js"
   compilerBuild           = "fast"

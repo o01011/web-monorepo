@@ -21,7 +21,7 @@
 		"@prisma/client": "^7.2.0",
 		"bcrypt": "^6.0.0",
 		"class-transformer": "^0.5.1",
-		"class-validator": "^0.14.3",
+		"class-validator": "^0.15.1",
 		"helmet": "^8.1.0",
 		"ioredis": "^5.9.2",
 		"joi": "^18.0.2",
@@ -30,11 +30,12 @@
 		"passport-local": "^1.0.0",
 		"pg": "^8.18.0",
 		"reflect-metadata": "^0.2.2",
-		"rxjs": "^7.8.1"
+		"rxjs": "^7.8.1",
+		"typescript": "^6.0.2"
 	},
 	"description": "NestJS Boilerplate by maxondev",
 	"devDependencies": {
-		"@biomejs/biome": "2.4.6",
+		"@biomejs/biome": "^2.4.11",
 		"@commitlint/cli": "^20.3.1",
 		"@commitlint/config-conventional": "^20.3.1",
 		"@commitlint/types": "^20.3.1",
@@ -46,16 +47,15 @@
 		"@types/bcrypt": "^6.0.0",
 		"@types/express": "^5.0.0",
 		"@types/multer": "^2.1.0",
-		"@types/node": "^22.19.11",
+		"@types/node": "^25.6.0",
 		"@types/passport-jwt": "^4.0.1",
 		"@types/passport-local": "^1.0.38",
 		"concurrently": "^9.2.1",
-		"knip": "^5.82.0",
+		"knip": "^6.3.1",
 		"prisma": "^7.2.0",
 		"simple-git-hooks": "^2.13.1",
 		"tsconfig-paths": "^4.2.0",
-		"tsx": "^4.19.2",
-		"typescript": "^5.9.3"
+		"tsx": "^4.19.2"
 	},
 	"devEngines": {
 		"packageManager": {
@@ -117,6 +117,5 @@
 		"start:docs": "npx @compodoc/compodoc -p tsconfig.json -s",
 		"start:prod": "node dist/src/main"
 	},
-	"type": "module",
 	"version": "0.0.1"
 }

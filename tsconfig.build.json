@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"noEmit": false,
+		"noEmitOnError": true,
+		"outDir": "./dist",
+		"removeComments": true,
+		"tsBuildInfoFile": "./dist/.tsbuildinfo.build"
+	},
+	"exclude": ["node_modules", "dist", "prisma", "compodoc"],
+	"extends": ["./tsconfig.json"],
+	"include": ["src/**/*"]
+}
