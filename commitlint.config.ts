@@ -5,13 +5,7 @@ const config: UserConfig = {
 	extends: ["@commitlint/config-conventional"],
 	helpUrl: "https://github.com/conventional-changelog/commitlint/#what-is-commitlint",
 	rules: {
-		"body-case": [RuleConfigSeverity.Error, "always", "sentencecase"],
-		"body-empty": [RuleConfigSeverity.Error, "never"],
-		"body-full-stop": [RuleConfigSeverity.Error, "always", "."],
-		"body-leading-blank": [RuleConfigSeverity.Disabled, "never"],
-		"body-max-length": [RuleConfigSeverity.Error, "always", Infinity],
-		"body-max-line-length": [RuleConfigSeverity.Error, "always", Infinity],
-		"body-min-length": [RuleConfigSeverity.Error, "always", 0],
+		"body-empty": [RuleConfigSeverity.Error, "always"],
 
 		"header-case": [RuleConfigSeverity.Error, "always", "lowercase"],
 		"header-full-stop": [RuleConfigSeverity.Disabled, "never", "."],

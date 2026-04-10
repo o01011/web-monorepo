@@ -110,7 +110,7 @@
 		"lint:format:check": "biome format",
 		"lint:format:fix": "biome format --write",
 		"lint:fs:check": "ls-lint",
-		"lint:types:check": "tsc --noEmit --extendedDiagnostics",
+		"lint:types:check": "tsc -p tsconfig.json",
 		"start": "tsx src/main",
 		"start:debug": "nest start --debug --watch",
 		"start:dev": "nest start --watch",
