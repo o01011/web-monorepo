@@ -45,10 +45,6 @@
 	"name": "@web-monorepo/backend-nestjs",
 	"scripts": {
 		"build": "nest build",
-		"prebuild": "npm run build -w @web-monorepo/db",
-		"prestart": "npm run build -w @web-monorepo/db",
-		"prestart:debug": "npm run build -w @web-monorepo/db",
-		"prestart:dev": "npm run build -w @web-monorepo/db",
 		"start": "nest start",
 		"start:debug": "nest start --debug --watch",
 		"start:dev": "nest start --watch",

@@ -17,7 +17,6 @@
 		"@ls-lint/ls-lint": "^2.3.1",
 		"@nestjs/schematics": "^11.0.0",
 		"@types/multer": "^2.1.0",
-		"concurrently": "^9.2.1",
 		"lint-staged": "^16.4.0",
 		"simple-git-hooks": "^2.13.1"
 	},
@@ -59,7 +58,7 @@
 		"docker:build:backend:expressjs": "docker build -f Dockerfile.backend -t backend-expressjs .",
 		"docker:build:backend:nestjs": "docker build -f Dockerfile.backend -t backend-nestjs .",
 		"git:hook:init": "simple-git-hooks",
-		"git:hook:precommit": "concurrently 'npm run lint:fs:check' 'npm run lint:clean:check' 'npm run lint:check' 'npm run lint:format:check' 'npm run lint:types:check'",
+		"git:hook:precommit": "lint-staged",
 		"lint:check": "biome lint",
 		"lint:fix": "biome lint --write",
 		"lint:clean:check": "knip",
@@ -77,5 +76,6 @@
 		"apps/backend-nestjs",
 		"apps/backend-expressjs",
 		"packages/db"
-	]
+	],
+	"type": "module"
 }
