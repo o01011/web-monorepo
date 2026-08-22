@@ -1,12 +1,7 @@
 {
-	"author": "",
-	"description": "",
-	"devDependencies": {},
-	"keywords": [],
-	"license": "ISC",
+	"author": "o01011",
+	"description": "TanStack Web",
+	"license": "MIT",
 	"name": "@web-monorepo/web-tanstack",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
-	},
-	"version": "1.0.0"
+	"version": "0.0.1"
 }

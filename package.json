@@ -35,7 +35,6 @@
 		"npm": "10.9.8"
 	},
 	"homepage": "https://github.com/o01011/web-monorepo?tab=readme-ov-file#readme",
-	"keywords": [],
 	"license": "MIT",
 	"name": "web-monorepo",
 	"os": [

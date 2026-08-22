@@ -1,11 +1,7 @@
 {
-	"author": "",
-	"dependencies": {},
-	"description": "",
-	"devDependencies": {},
-	"keywords": [],
-	"license": "ISC",
+	"author": "o01011",
+	"description": "ExpressJS Backend",
+	"license": "MIT",
 	"name": "@web-monorepo/backend-expressjs",
-	"scripts": {},
-	"version": "1.0.0"
+	"version": "0.0.1"
 }

@@ -3,7 +3,7 @@
 	"dependencies": {
 		"@prisma/client": "^7.2.0"
 	},
-	"description": "Database package for Web Monorepo",
+	"description": "DB Package",
 	"devDependencies": {
 		"@faker-js/faker": "^10.6.0",
 		"@prisma/adapter-pg": "^7.2.0",
@@ -15,7 +15,7 @@
 			"types": "./src/index.ts"
 		}
 	},
-	"license": "ISC",
+	"license": "MIT",
 	"main": "./dist/index.js",
 	"name": "@web-monorepo/db",
 	"scripts": {
@@ -30,5 +30,5 @@
 	},
 	"type": "module",
 	"types": "./src/index.ts",
-	"version": "1.0.0"
+	"version": "0.0.1"
 }

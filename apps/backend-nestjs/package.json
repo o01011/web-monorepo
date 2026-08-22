@@ -1,5 +1,5 @@
 {
-	"author": "",
+	"author": "o01011",
 	"dependencies": {
 		"@aws-sdk/client-s3": "^3.1028.0",
 		"@aws-sdk/s3-request-presigner": "^3.1028.0",
@@ -29,7 +29,7 @@
 		"reflect-metadata": "^0.2.2",
 		"rxjs": "^7.8.1"
 	},
-	"description": "",
+	"description": "NestJS Backend",
 	"devDependencies": {
 		"@compodoc/compodoc": "^1.2.1",
 		"@nestjs/cli": "^11.0.0",
@@ -41,8 +41,7 @@
 		"prisma": "^7.2.0",
 		"tsconfig-paths": "^4.2.0"
 	},
-	"keywords": [],
-	"license": "ISC",
+	"license": "MIT",
 	"name": "@web-monorepo/backend-nestjs",
 	"scripts": {
 		"build": "nest build",
@@ -57,5 +56,5 @@
 		"start:prod": "node dist/src/main"
 	},
 	"type": "module",
-	"version": "1.0.0"
+	"version": "0.0.1"
 }
