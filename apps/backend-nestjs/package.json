@@ -53,7 +53,8 @@
 		"lint:check": "biome lint",
 		"lint:fix": "biome lint --write",
 		"lint:format:check": "biome format",
-		"lint:format:fix": "biome format --write"
+		"lint:format:fix": "biome format --write",
+    "lint:types:check": "tsc -p tsconfig.json"
 	},
 	"type": "module",
 	"version": "0.0.1"

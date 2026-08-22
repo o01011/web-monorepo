@@ -65,7 +65,7 @@
 		"lint:format:check": "biome format",
 		"lint:format:fix": "biome format --write",
 		"lint:fs:check": "ls-lint",
-		"lint:types:check": "tsc -p apps/backend-nestjs/tsconfig.json"
+		"lint:types:check": "tsc --noEmit"
 	},
 	"version": "0.0.1",
 	"workspaces": [
