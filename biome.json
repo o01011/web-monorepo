@@ -7,7 +7,7 @@
 				"organizeImports": "on",
 				"useSortedAttributes": "on",
 				"useSortedInterfaceMembers": "on",
-				"useSortedKeys": "on"
+				"useSortedKeys": "off"
 			}
 		},
 		"enabled": true
