@@ -13,7 +13,7 @@
 		"enabled": true
 	},
 	"files": {
-		"includes": ["**", "!packages/db/src/generated"]
+		"includes": ["**"]
 	},
 	"formatter": {
 		"attributePosition": "auto",

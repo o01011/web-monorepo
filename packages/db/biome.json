@@ -1,0 +1,7 @@
+{
+	"root": false,
+	"extends": "//",
+	"files": {
+		"includes": ["src/index.ts", "*.ts", "*.json", "!src/generated"]
+	}
+}

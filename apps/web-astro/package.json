@@ -3,5 +3,11 @@
 	"description": "Astro Web",
 	"license": "MIT",
 	"name": "@web-monorepo/web-astro",
-	"version": "0.0.1"
+	"version": "0.0.1",
+	"scripts": {
+		"lint:check": "biome lint",
+		"lint:fix": "biome lint --write",
+		"lint:format:check": "biome format",
+		"lint:format:fix": "biome format --write"
+	}
 }
