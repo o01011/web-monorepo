@@ -8,7 +8,7 @@
 		"knip": "^6.3.1",
 		"typescript": "^6.0.2"
 	},
-	"description": "Web Monorepo by maxondev",
+	"description": "Web Monorepo",
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.11",
 		"@commitlint/cli": "^20.3.1",
@@ -31,8 +31,8 @@
 		}
 	},
 	"engines": {
-		"node": "22.22.0",
-		"npm": "10.9.4"
+		"node": "22.23.2",
+		"npm": "10.9.8"
 	},
 	"homepage": "https://github.com/o01011/web-monorepo?tab=readme-ov-file#readme",
 	"keywords": [],
@@ -49,10 +49,10 @@
 		"url": "git+https://github.com/maxonchickdev/nestjs-boilerplate"
 	},
 	"scripts": {
-		"docker:local:down": "docker compose -f docker-compose.yml down -v",
-		"docker:local:start": "docker compose -f docker-compose.yml start",
-		"docker:local:stop": "docker compose -f docker-compose.yml stop -t 10",
-		"docker:local:up": "docker compose -f docker-compose.yml up -d --no-color --timestamps --wait --wait-timeout 60",
+		"docker:down": "docker compose -f docker-compose.yml down -v",
+		"docker:start": "docker compose -f docker-compose.yml start",
+		"docker:stop": "docker compose -f docker-compose.yml stop -t 10",
+		"docker:up": "docker compose -f docker-compose.yml up -d --no-color --timestamps --wait --wait-timeout 60",
 		"hooks:init": "simple-git-hooks",
 		"hooks:precommit": "concurrently 'npm run lint:fs:check' 'npm run lint:clean:check' 'npm run lint:check' 'npm run lint:format:check' 'npm run lint:types:check'",
 		"lint:check": "biome lint",
@@ -70,6 +70,7 @@
 		"apps/web-vite",
 		"apps/web-tanstack",
 		"apps/backend-nestjs",
-		"apps/backend-expressjs"
+		"apps/backend-expressjs",
+		"packages/db"
 	]
 }

@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"allowImportingTsExtensions": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"exactOptionalPropertyTypes": true,
+		"isolatedModules": true,
+		"lib": ["ES2023", "DOM"],
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"noEmit": true,
+		"noImplicitAny": true,
+		"noUncheckedIndexedAccess": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"strict": true,
+		"target": "ES2023"
+	},
+	"exclude": ["node_modules"]
+}

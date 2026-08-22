@@ -1,7 +1,7 @@
 import { Inject, Injectable, type OnModuleDestroy, type OnModuleInit } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../../../prisma/generated/client.js";
+import { PrismaClient } from "@web-monorepo/db";
 import { ConfigKeysConst } from "../../common/constants/config-keys.const.js";
 import { PrismaType } from "../../common/types/prisma.type.js";
 

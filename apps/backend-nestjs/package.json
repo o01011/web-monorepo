@@ -15,6 +15,7 @@
 		"@nestjs/throttler": "^6.5.0",
 		"@prisma/adapter-pg": "^7.2.0",
 		"@prisma/client": "^7.2.0",
+		"@web-monorepo/db": "*",
 		"bcrypt": "^6.0.0",
 		"class-transformer": "^0.5.1",
 		"class-validator": "^0.15.1",
@@ -31,7 +32,6 @@
 	"description": "",
 	"devDependencies": {
 		"@compodoc/compodoc": "^1.2.1",
-		"@faker-js/faker": "^10.6.0",
 		"@nestjs/cli": "^11.0.0",
 		"@types/bcrypt": "^6.0.0",
 		"@types/express": "^5.0.0",
@@ -39,26 +39,23 @@
 		"@types/passport-jwt": "^4.0.1",
 		"@types/passport-local": "^1.0.38",
 		"prisma": "^7.2.0",
-		"tsconfig-paths": "^4.2.0",
-		"tsx": "^4.19.2"
+		"tsconfig-paths": "^4.2.0"
 	},
 	"keywords": [],
 	"license": "ISC",
 	"name": "@web-monorepo/backend-nestjs",
 	"scripts": {
 		"build": "nest build",
-		"db:generate": "prisma generate",
-		"db:migrate:deploy": "prisma migrate deploy",
-		"db:migrate:dev": "prisma migrate dev",
-		"db:migrate:reset": "prisma migrate reset",
-		"db:push": "prisma db push",
-		"db:seed": "prisma db seed",
-		"db:studio": "prisma studio --browser none",
-		"start": "tsx src/main",
+		"prebuild": "npm run build -w @web-monorepo/db",
+		"prestart": "npm run build -w @web-monorepo/db",
+		"prestart:debug": "npm run build -w @web-monorepo/db",
+		"prestart:dev": "npm run build -w @web-monorepo/db",
+		"start": "nest start",
 		"start:debug": "nest start --debug --watch",
 		"start:dev": "nest start --watch",
 		"start:docs": "npx @compodoc/compodoc -p tsconfig.json -s",
 		"start:prod": "node dist/src/main"
 	},
+	"type": "module",
 	"version": "1.0.0"
 }

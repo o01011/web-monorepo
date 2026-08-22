@@ -18,11 +18,8 @@
 		"noImplicitReturns": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"paths": {
-			"@prisma/generated": ["./prisma/generated"],
-			"@prisma/generated/*": ["./prisma/generated/*"]
-		},
 		"resolveJsonModule": true,
+		"rootDir": ".",
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
@@ -31,6 +28,6 @@
 		"types": ["node", "multer"],
 		"useDefineForClassFields": false
 	},
-	"exclude": ["node_modules", "dist", "prisma", "compodoc"],
-	"include": ["src/**/*", "prisma.config.ts"]
+	"exclude": ["node_modules", "dist", "compodoc"],
+	"include": ["src/**/*"]
 }

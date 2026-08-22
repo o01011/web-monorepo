@@ -19,7 +19,7 @@ const config: runtime.GetPrismaClientConfig = {
 	engineVersion: "e922089b7d7502aff4249d5da3420f6fa55fc6ad",
 	activeProvider: "postgresql",
 	inlineSchema:
-		'// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = "prisma-client"\n  output   = "generated"\n\n  runtime                = "nodejs"\n  moduleFormat           = "cjs"\n  generatedFileExtension = "ts"\n  importFileExtension    = "js"\n  compilerBuild          = "fast"\n}\n\ndatasource db {\n  provider = "postgresql"\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  username  String   @unique\n  firstName String\n  lastName  String\n  email     String   @unique\n  password  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  posts Post[]\n}\n\nmodel Post {\n  id          Int      @id @default(autoincrement())\n  title       String\n  description String\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  author   User @relation(fields: [authorId], references: [id])\n  authorId Int\n}\n',
+		'// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = "prisma-client"\n  output   = "../src/generated"\n\n  runtime                = "nodejs"\n  moduleFormat           = "esm"\n  generatedFileExtension = "ts"\n  importFileExtension    = "js"\n  compilerBuild          = "fast"\n}\n\ndatasource db {\n  provider = "postgresql"\n}\n\nmodel User {\n  id        Int      @id @default(autoincrement())\n  username  String   @unique\n  firstName String\n  lastName  String\n  email     String   @unique\n  password  String\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  posts Post[]\n}\n\nmodel Post {\n  id          Int      @id @default(autoincrement())\n  title       String\n  description String\n  createdAt   DateTime @default(now())\n  updatedAt   DateTime @updatedAt\n\n  author   User @relation(fields: [authorId], references: [id])\n  authorId Int\n}\n',
 	runtimeDataModel: {
 		models: {},
 		enums: {},
@@ -49,10 +49,10 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-	getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.js"),
+	getRuntime: async () => await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.mjs"),
 
 	getQueryCompilerWasmModule: async () => {
-		const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.js");
+		const { wasm } = await import("@prisma/client/runtime/query_compiler_fast_bg.postgresql.wasm-base64.mjs");
 		return await decodeBase64AsWasm(wasm);
 	},
 

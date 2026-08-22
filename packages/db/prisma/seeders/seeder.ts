@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { PrismaClient } from "../generated/client.js";
+import { PrismaClient } from "../../dist/index.js";
 
 const NUMBER_OF_USERS = 5;
 

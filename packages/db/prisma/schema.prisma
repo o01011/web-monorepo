@@ -6,10 +6,10 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "generated"
+  output   = "../src/generated"
 
   runtime                = "nodejs"
-  moduleFormat            = "cjs"
+  moduleFormat            = "esm"
   generatedFileExtension  = "ts"
   importFileExtension     = "js"
   compilerBuild           = "fast"

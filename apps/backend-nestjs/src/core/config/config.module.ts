@@ -12,7 +12,7 @@ import { s3Register } from "../../common/registers/s3.register.js";
 @Module({
 	imports: [
 		CoreConfigModule.forRoot({
-			envFilePath: ".env",
+			envFilePath: [".env", "../../.env"],
 			isGlobal: true,
 			load: [redisRegister, appRegister, prismaRegister, environmentRegister, jwtRegister, rateLimitRegister, s3Register],
 			validationSchema: Joi.object({

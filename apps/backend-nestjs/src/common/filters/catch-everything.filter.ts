@@ -1,7 +1,7 @@
 import { type ArgumentsHost, Catch, type ExceptionFilter, HttpException, HttpStatus, Inject, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { HttpAdapterHost } from "@nestjs/core";
-import type { Prisma } from "../../../prisma/generated/client.js";
+import type { Prisma } from "@web-monorepo/db";
 import { ConfigKeysConst } from "../constants/config-keys.const.js";
 import { EnvironmentsConst } from "../constants/environments.const.js";
 import { EnvironmentType } from "../types/environment.type.js";
