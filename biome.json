@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.4.11/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.5.10/schema.json",
 	"assist": {
 		"actions": {
 			"source": {
@@ -32,10 +32,8 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"nursery": {
-				"useRequiredScripts": "error"
-			},
-			"recommended": true,
+			"nursery": {},
+			"preset": "recommended",
 			"style": {
 				"useImportType": "off"
 			},
@@ -50,7 +48,8 @@
 				"noDuplicateDependencies": "error",
 				"noDuplicateObjectKeys": "error",
 				"noQuickfixBiome": "error",
-				"useBiomeIgnoreFolder": "error"
+				"useBiomeIgnoreFolder": "error",
+				"useRequiredScripts": "error"
 			}
 		}
 	},

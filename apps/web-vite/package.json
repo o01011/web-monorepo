@@ -1,0 +1,12 @@
+{
+	"author": "",
+	"description": "",
+	"devDependencies": {},
+	"keywords": [],
+	"license": "ISC",
+	"name": "@web-monorepo/web-vite",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"version": "1.0.0"
+}

@@ -1,61 +1,24 @@
 {
-	"author": "maxondev",
+	"author": "o01011",
 	"bugs": {
-		"email": "nestjs-boilerplate@gmail.com",
-		"url": "https://github.com/maxonchickdev/nestjs-boilerplate/issues"
+		"email": "timetotime828@gmail.com",
+		"url": "https://github.com/o01011/web-monorepo/issues"
 	},
 	"dependencies": {
-		"@aws-sdk/client-s3": "^3.1028.0",
-		"@aws-sdk/s3-request-presigner": "^3.1028.0",
-		"@nestjs-modules/ioredis": "^2.0.2",
-		"@nestjs/common": "^11.0.1",
-		"@nestjs/config": "^4.0.2",
-		"@nestjs/core": "^11.0.1",
-		"@nestjs/jwt": "^11.0.2",
-		"@nestjs/passport": "^11.0.5",
-		"@nestjs/platform-express": "^11.0.1",
-		"@nestjs/swagger": "^11.2.6",
-		"@nestjs/terminus": "^11.0.0",
-		"@nestjs/throttler": "^6.5.0",
-		"@prisma/adapter-pg": "^7.2.0",
-		"@prisma/client": "^7.2.0",
-		"bcrypt": "^6.0.0",
-		"class-transformer": "^0.5.1",
-		"class-validator": "^0.15.1",
-		"helmet": "^8.1.0",
-		"ioredis": "^5.9.2",
-		"joi": "^18.0.2",
-		"passport": "^0.7.0",
-		"passport-jwt": "^4.0.1",
-		"passport-local": "^1.0.0",
-		"pg": "^8.18.0",
-		"reflect-metadata": "^0.2.2",
-		"rxjs": "^7.8.1",
+		"knip": "^6.3.1",
 		"typescript": "^6.0.2"
 	},
-	"description": "NestJS Boilerplate by maxondev",
+	"description": "Web Monorepo by maxondev",
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.11",
 		"@commitlint/cli": "^20.3.1",
 		"@commitlint/config-conventional": "^20.3.1",
 		"@commitlint/types": "^20.3.1",
-		"@compodoc/compodoc": "^1.2.1",
-		"@faker-js/faker": "^10.3.0",
 		"@ls-lint/ls-lint": "^2.3.1",
-		"@nestjs/cli": "^11.0.0",
 		"@nestjs/schematics": "^11.0.0",
-		"@types/bcrypt": "^6.0.0",
-		"@types/express": "^5.0.0",
 		"@types/multer": "^2.1.0",
-		"@types/node": "^25.6.0",
-		"@types/passport-jwt": "^4.0.1",
-		"@types/passport-local": "^1.0.38",
 		"concurrently": "^9.2.1",
-		"knip": "^6.3.1",
-		"prisma": "^7.2.0",
-		"simple-git-hooks": "^2.13.1",
-		"tsconfig-paths": "^4.2.0",
-		"tsx": "^4.19.2"
+		"simple-git-hooks": "^2.13.1"
 	},
 	"devEngines": {
 		"packageManager": {
@@ -71,10 +34,10 @@
 		"node": "22.22.0",
 		"npm": "10.9.4"
 	},
-	"homepage": "https://github.com/maxonchickdev/nestjs-boilerplate?tab=readme-ov-file#readme",
+	"homepage": "https://github.com/o01011/web-monorepo?tab=readme-ov-file#readme",
 	"keywords": [],
 	"license": "MIT",
-	"name": "nestjs-boilerplate",
+	"name": "web-monorepo",
 	"os": [
 		"darwin",
 		"linux",
@@ -86,22 +49,10 @@
 		"url": "git+https://github.com/maxonchickdev/nestjs-boilerplate"
 	},
 	"scripts": {
-		"build": "nest build",
-		"db:generate": "prisma generate",
-		"db:migrate:deploy": "prisma migrate deploy",
-		"db:migrate:dev": "prisma migrate dev",
-		"db:migrate:reset": "prisma migrate reset",
-		"db:push": "prisma db push",
-		"db:seed": "prisma db seed",
-		"db:studio": "prisma studio --browser none",
-		"docker:local:down": "docker compose -f docker-compose.local.yml down -v",
-		"docker:local:start": "docker compose -f docker-compose.local.yml start",
-		"docker:local:stop": "docker compose -f docker-compose.local.yml stop -t 10",
-		"docker:local:up": "docker compose -f docker-compose.local.yml up -d --no-color --timestamps --wait --wait-timeout 60",
-		"docker:prod:down": "docker compose -f docker-compose.prod.yml down -v",
-		"docker:prod:start": "docker compose -f docker-compose.prod.yml start",
-		"docker:prod:stop": "docker compose -f docker-compose.prod.yml stop -t 10",
-		"docker:prod:up": "docker compose -f docker-compose.prod.yml up -d --no-color --timestamps --wait --wait-timeout 60",
+		"docker:local:down": "docker compose -f docker-compose.yml down -v",
+		"docker:local:start": "docker compose -f docker-compose.yml start",
+		"docker:local:stop": "docker compose -f docker-compose.yml stop -t 10",
+		"docker:local:up": "docker compose -f docker-compose.yml up -d --no-color --timestamps --wait --wait-timeout 60",
 		"hooks:init": "simple-git-hooks",
 		"hooks:precommit": "concurrently 'npm run lint:fs:check' 'npm run lint:clean:check' 'npm run lint:check' 'npm run lint:format:check' 'npm run lint:types:check'",
 		"lint:check": "biome lint",
@@ -110,12 +61,15 @@
 		"lint:format:check": "biome format",
 		"lint:format:fix": "biome format --write",
 		"lint:fs:check": "ls-lint",
-		"lint:types:check": "tsc -p tsconfig.json",
-		"start": "tsx src/main",
-		"start:debug": "nest start --debug --watch",
-		"start:dev": "nest start --watch",
-		"start:docs": "npx @compodoc/compodoc -p tsconfig.json -s",
-		"start:prod": "node dist/src/main"
+		"lint:types:check": "tsc -p apps/backend-nestjs/tsconfig.json"
 	},
-	"version": "0.0.1"
+	"version": "0.0.1",
+	"workspaces": [
+		"packages/shared",
+		"apps/web-astro",
+		"apps/web-vite",
+		"apps/web-tanstack",
+		"apps/backend-nestjs",
+		"apps/backend-expressjs"
+	]
 }

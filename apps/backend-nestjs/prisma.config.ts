@@ -2,7 +2,7 @@ import { join } from "node:path";
 import { loadEnvFile } from "node:process";
 import { defineConfig, env } from "prisma/config";
 
-loadEnvFile(".env");
+loadEnvFile(`${join(__dirname, "..", "..", ".env")}`);
 
 export default defineConfig({
 	datasource: {

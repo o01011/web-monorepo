@@ -9,7 +9,7 @@
 		"incremental": true,
 		"isolatedModules": true,
 		"lib": ["ES2022", "DOM"],
-		"module": "commonjs",
+		"module": "preserve",
 		"moduleDetection": "force",
 		"moduleResolution": "bundler",
 		"noEmit": true,
