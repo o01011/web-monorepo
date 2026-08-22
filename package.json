@@ -5,8 +5,7 @@
 		"url": "https://github.com/o01011/web-monorepo/issues"
 	},
 	"dependencies": {
-		"knip": "^6.3.1",
-		"typescript": "^7.0.2"
+		"knip": "^6.3.1"
 	},
 	"description": "Web Monorepo",
 	"devDependencies": {
@@ -18,7 +17,8 @@
 		"@nestjs/schematics": "^11.0.0",
 		"@types/multer": "^2.1.0",
 		"lint-staged": "^16.4.0",
-		"simple-git-hooks": "^2.13.1"
+		"simple-git-hooks": "^2.13.1",
+		"typescript": "^6.0.3"
 	},
 	"devEngines": {
 		"packageManager": {
