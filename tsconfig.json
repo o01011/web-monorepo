@@ -17,28 +17,25 @@
 		"target": "ES2023"
 	},
 	"exclude": ["node_modules"],
-  "files": [],
-  "references": [
-    {
-      "path": "apps/backend-nestjs"
-    },
-    {
-      "path": "apps/backend-expressjs"
-    },
-    {
-      "path": "apps/web-astro"
-    },
-    {
-      "path": "apps/web-vite"
-    },
-    {
-      "path": "apps/web-tanstack"
-    },
-    {
-      "path": "packages/db"
-    },
-    {
-      "path": "packages/shared"
-    }
-  ]
+	"files": [],
+	"references": [
+		{
+			"path": "apps/backend-nestjs"
+		},
+		{
+			"path": "apps/backend-expressjs"
+		},
+		{
+			"path": "apps/web-astro"
+		},
+		{
+			"path": "apps/web-vite"
+		},
+		{
+			"path": "apps/web-tanstack"
+		},
+		{
+			"path": "packages/db"
+		}
+	]
 }
