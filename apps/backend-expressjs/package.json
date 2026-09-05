@@ -5,9 +5,22 @@
 	"name": "@web-monorepo/backend-expressjs",
 	"version": "0.0.1",
 	"scripts": {
+		"start:dev": "tsc --watch src/index.ts",
+		"start:prod": "node dist/src/index.js",
+		"build": "tsc",
 		"lint:check": "biome lint",
 		"lint:fix": "biome lint --write",
 		"lint:format:check": "biome format",
-		"lint:format:fix": "biome format --write"
+		"lint:format:fix": "biome format --write",
+		"lint:types:check": "tsc --noEmit"
+	},
+	"main": "src/index.ts",
+	"keywords": [],
+	"type": "module",
+	"dependencies": {
+		"express": "^5.2.1"
+	},
+	"devDependencies": {
+		"@types/express": "^5.0.6"
 	}
 }

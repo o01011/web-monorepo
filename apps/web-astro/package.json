@@ -4,10 +4,25 @@
 	"license": "MIT",
 	"name": "@web-monorepo/web-astro",
 	"version": "0.0.1",
+	"type": "module",
 	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"astro": "astro",
 		"lint:check": "biome lint",
 		"lint:fix": "biome lint --write",
 		"lint:format:check": "biome format",
-		"lint:format:fix": "biome format --write"
+		"lint:format:fix": "biome format --write",
+		"lint:types:check": "tsc -p tsconfig.json"
+	},
+	"dependencies": {
+		"astro": "^7.3.1"
+	},
+	"engines": {
+		"node": ">=22.12.0"
+	},
+	"allowScripts": {
+		"esbuild": true
 	}
 }
