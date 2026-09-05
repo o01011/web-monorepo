@@ -60,14 +60,15 @@
 		"docker:build:backend:nestjs": "docker build -f Dockerfile.backend -t backend-nestjs .",
 		"git:hook:init": "simple-git-hooks",
 		"git:hook:precommit": "lint-staged",
-		"git:hook:prepush": "branch-name-lint branch-name-lint.config.json && npm run build -w apps/backend-nestjs && npm run build -w apps/backend-expressjs && npm run build -w apps/web-astro && npm run build -w apps/web-tanstack && npm run build -w apps/web-vite",
+		"git:hook:prepush": "npm run build -w apps/backend-nestjs && npm run build -w apps/backend-expressjs && npm run build -w apps/web-astro && npm run build -w apps/web-tanstack && npm run build -w apps/web-vite",
 		"lint:check": "biome lint",
 		"lint:fix": "biome lint --write",
 		"lint:clean:check": "knip",
 		"lint:format:check": "biome format",
 		"lint:format:fix": "biome format --write",
 		"lint:fs:check": "ls-lint",
-		"lint:types:check": "tsc --noEmit"
+		"lint:types:check": "tsc --noEmit",
+    "lint:branch:check": "branch-name-lint branch-name-lint.config.json"
 	},
 	"version": "0.0.1",
 	"workspaces": [

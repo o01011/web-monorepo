@@ -6,10 +6,15 @@
       "feature": "feat",
 			"hotfix": "fix"
 		},
+    "disallowed": [
+      "master",
+      "develop",
+      "staging",
+      "main"
+    ],
 		"separator": "/",
 		"branchNameEnvVariable": false,
 		"branch": false,
-		"msgBranchBanned": "Branches with the name \"%s\" are not allowed.",
     "msgBranchDisallowed": "Pushing to \"%s\" is not allowed, use git-flow.",
     "msgPrefixNotAllowed": "Branch prefix \"%s\" is not allowed.",
     "msgPrefixSuggestion": "Instead of \"%s\" try \"%s\".",
