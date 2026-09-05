@@ -18,7 +18,11 @@ const config: UserConfig = {
 		"scope-case": [RuleConfigSeverity.Error, "always", "lowercase"],
 		"scope-delimiter-style": [RuleConfigSeverity.Error, "always", ["/"]],
 		"scope-empty": [RuleConfigSeverity.Error, "never"],
-		"scope-enum": [RuleConfigSeverity.Error, "always", ["root", "backend-nestjs", "backend-expressjs", "web-vite", "web-astro", "web-tanstack", "shared", "db"]],
+		"scope-enum": [
+			RuleConfigSeverity.Error,
+			"always",
+			["root", "backend-nestjs", "backend-expressjs", "web-vite", "web-astro", "web-tanstack", "shared", "db"],
+		],
 		"scope-max-length": [RuleConfigSeverity.Error, "always", Infinity],
 		"scope-min-length": [RuleConfigSeverity.Error, "always", 0],
 

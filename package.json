@@ -68,7 +68,7 @@
 		"lint:format:fix": "biome format --write",
 		"lint:fs:check": "ls-lint",
 		"lint:types:check": "tsc --noEmit",
-    "lint:branch:check": "branch-name-lint branch-name-lint.config.json"
+		"lint:branch:check": "branch-name-lint branch-name-lint.config.json"
 	},
 	"version": "0.0.1",
 	"workspaces": [
