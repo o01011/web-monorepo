@@ -30,7 +30,6 @@ documentation
 
 .github
 .husky
-.simple-git-hooks.json
 
 .env
 .env.local

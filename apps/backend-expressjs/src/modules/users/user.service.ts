@@ -9,6 +9,7 @@ export type UserService = {
 	delete(id: number): Promise<void>;
 	get(id: number): Promise<UserDto>;
 	list(query: ListUsersQuery): Promise<{ items: UserDto[]; total: number }>;
+	updateRole(id: number, role: "USER" | "ADMIN"): Promise<UserDto>;
 	update(id: number, input: UpdateUserInput): Promise<UserDto>;
 };
 
@@ -32,6 +33,8 @@ export const createUserService = (repository: UserRepository): UserService => ({
 
 		return { items: items.map(toUserDto), total };
 	},
+
+	updateRole: async (id, role) => toUserDto(await repository.updateRole(id, role)),
 
 	update: async (id, input) => toUserDto(await repository.update(id, input)),
 });

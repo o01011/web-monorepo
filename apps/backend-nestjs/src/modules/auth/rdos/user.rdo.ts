@@ -1,5 +1,6 @@
 import { ApiProperty, ApiSchema } from "@nestjs/swagger";
-import type { User } from "@web-monorepo/db";
+import { UserRole } from "@web-monorepo/db";
+import type { User, UserRole as UserRoleType } from "@web-monorepo/db";
 import { Exclude } from "class-transformer";
 
 @ApiSchema({
@@ -68,6 +69,14 @@ export class UserRdo implements User {
 	password: string;
 
 	@ApiProperty({
+		description: "User role",
+		enum: UserRole,
+		nullable: false,
+		required: true,
+	})
+	role: UserRoleType;
+
+	@ApiProperty({
 		description: "User created at",
 		example: "",
 		nullable: false,
@@ -85,13 +94,24 @@ export class UserRdo implements User {
 	})
 	updatedAt: Date;
 
-	constructor(id: number, username: string, firstName: string, lastName: string, email: string, password: string, createdAt: Date, updatedAt: Date) {
+	constructor(
+		id: number,
+		username: string,
+		firstName: string,
+		lastName: string,
+		email: string,
+		password: string,
+		role: UserRoleType,
+		createdAt: Date,
+		updatedAt: Date,
+	) {
 		this.id = id;
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		this.role = role;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}

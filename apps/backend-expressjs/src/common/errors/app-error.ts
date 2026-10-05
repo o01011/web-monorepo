@@ -1,4 +1,4 @@
-export type ErrorCode = "BAD_REQUEST" | "CONFLICT" | "INTERNAL_ERROR" | "NOT_FOUND" | "TIMEOUT" | "VALIDATION_ERROR";
+export type ErrorCode = "BAD_REQUEST" | "CONFLICT" | "FORBIDDEN" | "INTERNAL_ERROR" | "NOT_FOUND" | "TIMEOUT" | "UNAUTHORIZED" | "VALIDATION_ERROR";
 
 export type ErrorDetails = ReadonlyArray<{ readonly message: string; readonly path: string }>;
 
@@ -23,8 +23,16 @@ export class AppError extends Error {
 		return new AppError(409, "CONFLICT", message);
 	}
 
+	static forbidden(message = "Insufficient permissions"): AppError {
+		return new AppError(403, "FORBIDDEN", message);
+	}
+
 	static notFound(message: string): AppError {
 		return new AppError(404, "NOT_FOUND", message);
+	}
+
+	static unauthorized(message = "Authentication required"): AppError {
+		return new AppError(401, "UNAUTHORIZED", message);
 	}
 
 	static validation(details: ErrorDetails): AppError {
