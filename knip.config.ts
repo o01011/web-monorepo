@@ -5,7 +5,9 @@ const config: KnipConfig = {
 	ignoreDependencies: ["tsconfig-paths", "pg", "branch-name-lint"],
 	ignoreMembers: ["DEVELOPMENT", "STAGING", "P2002", "P2025"],
 	workspaces: {
-		"apps/backend-expressjs": {},
+		"apps/backend-expressjs": {
+			ignoreDependencies: ["pino-pretty"],
+		},
 		"apps/backend-nestjs": {},
 		"apps/web-astro": {},
 		"apps/web-tanstack": {},
