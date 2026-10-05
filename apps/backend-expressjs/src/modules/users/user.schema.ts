@@ -8,14 +8,19 @@ export const listUsersQuerySchema = z.object({
 });
 
 export const createUserBodySchema = z.object({
-	email: z.email(),
+	email: z.email().transform((value) => value.trim().toLowerCase()),
 	firstName: z.string().trim().min(1).max(100),
 	lastName: z.string().trim().min(1).max(100),
-	password: z.string().min(8).max(128),
+	password: z.string().min(12).max(128),
 	username: z.string().trim().min(3).max(32).regex(/^\w+$/),
 });
 
-export const updateUserBodySchema = createUserBodySchema.omit({ password: true }).partial();
+export const updateUserBodySchema = createUserBodySchema
+	.omit({ password: true })
+	.partial()
+	.refine((input) => Object.keys(input).length > 0, "At least one field must be provided");
+
+export const updateUserRoleBodySchema = z.object({ role: z.enum(["USER", "ADMIN"]) });
 
 export type CreateUserInput = z.output<typeof createUserBodySchema>;
 export type UpdateUserInput = z.output<typeof updateUserBodySchema>;

@@ -7,17 +7,37 @@ type CreateUserData = Omit<Prisma.UserCreateInput, "posts">;
 export type UserRepository = {
 	create(data: CreateUserData): Promise<User>;
 	delete(id: number): Promise<void>;
+	findByEmail(email: string): Promise<User | null>;
 	findById(id: number): Promise<User | null>;
 	list(query: ListUsersQuery): Promise<{ items: User[]; total: number }>;
 	update(id: number, data: UpdateUserInput): Promise<User>;
+	updateRole(id: number, role: User["role"]): Promise<User>;
 };
 
 export const createUserRepository = (prisma: PrismaClient): UserRepository => ({
 	create: (data) => mapPrismaError(() => prisma.user.create({ data })),
 
 	delete: async (id) => {
-		await mapPrismaError(() => prisma.user.delete({ where: { id } }));
+		await mapPrismaError(() =>
+			prisma.$transaction(
+				async (transaction) => {
+					const user = await transaction.user.findUnique({ select: { role: true }, where: { id } });
+					if (!user) {
+						throw AppError.notFound("User not found");
+					}
+
+					if (user.role === "ADMIN" && (await transaction.user.count({ where: { role: "ADMIN" } })) <= 1) {
+						throw AppError.conflict("Cannot remove the last administrator");
+					}
+
+					await transaction.user.delete({ where: { id } });
+				},
+				{ isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+			),
+		);
 	},
+
+	findByEmail: (email) => prisma.user.findFirst({ where: { email: { equals: email, mode: "insensitive" } } }),
 
 	findById: (id) => prisma.user.findUnique({ where: { id } }),
 
@@ -31,6 +51,25 @@ export const createUserRepository = (prisma: PrismaClient): UserRepository => ({
 	},
 
 	update: (id, data) => mapPrismaError(() => prisma.user.update({ data, where: { id } })),
+
+	updateRole: (id, role) =>
+		mapPrismaError(() =>
+			prisma.$transaction(
+				async (transaction) => {
+					const user = await transaction.user.findUnique({ select: { role: true }, where: { id } });
+					if (!user) {
+						throw AppError.notFound("User not found");
+					}
+
+					if (user.role === "ADMIN" && role === "USER" && (await transaction.user.count({ where: { role: "ADMIN" } })) <= 1) {
+						throw AppError.conflict("Cannot remove the last administrator");
+					}
+
+					return transaction.user.update({ data: { role }, where: { id } });
+				},
+				{ isolationLevel: Prisma.TransactionIsolationLevel.Serializable },
+			),
+		),
 });
 
 const mapPrismaError = async <T>(operation: () => Promise<T>): Promise<T> => {
@@ -44,6 +83,10 @@ const mapPrismaError = async <T>(operation: () => Promise<T>): Promise<T> => {
 
 			if (error.code === "P2025") {
 				throw AppError.notFound("User not found");
+			}
+
+			if (error.code === "P2034") {
+				throw AppError.conflict("Concurrent role change; retry the request");
 			}
 		}
 

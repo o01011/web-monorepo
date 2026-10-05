@@ -1,16 +1,18 @@
 import type { Configuration } from "lint-staged";
 
 const config: Configuration = {
-	"*": [(): string => "npm run lint:clean:check", (): string => "npm run lint:fs:check"],
+	"*": [
+		(): string => "npm run lint:clean:check",
+		(): string => "npm run lint:fs:check",
+		(): string => "node scripts/lint-types-check.mjs",
+	],
 	"apps/backend-nestjs/**/*.ts": [
 		(): string => "npm run lint:format:check -w @web-monorepo/backend-nestjs",
 		(): string => "npm run lint:check -w @web-monorepo/backend-nestjs",
-		(): string => "npm run lint:types:check -w @web-monorepo/backend-nestjs",
 	],
 	"apps/backend-expressjs/**/*.ts": [
 		(): string => "npm run lint:format:check -w @web-monorepo/backend-expressjs",
 		(): string => "npm run lint:check -w @web-monorepo/backend-expressjs",
-		(): string => "npm run lint:types:check -w @web-monorepo/backend-expressjs",
 	],
 	"apps/web-astro/**/*.{ts,tsx}": [
 		(): string => "npm run lint:format:check -w @web-monorepo/web-astro",
@@ -35,7 +37,6 @@ const config: Configuration = {
 	"packages/db/**/*.ts": [
 		(): string => "npm run lint:format:check -w @web-monorepo/db",
 		(): string => "npm run lint:check -w @web-monorepo/db",
-		(): string => "npm run lint:types:check -w @web-monorepo/db",
 	],
 };
 
