@@ -58,17 +58,18 @@ export class LoggingInterceptor implements NestInterceptor {
 		error?: unknown,
 	): void {
 		switch (loggerExpressionType) {
-			case "incoming":
+			case "incoming": {
 				this.logger.debug(`[Incoming] - [Method: ${method}] - [Url: ${url}]`);
 				break;
-
-			case "success":
+			}
+			case "success": {
 				this.logger.debug(`[Completed] - [Method: ${method}] - [Url: ${url}] - [Status: ${statusCode}] - [Duration: ${duration}ms]`);
 				break;
-
-			case "error":
+			}
+			case "error": {
 				this.logger.error(`[Failed] - [Method: ${method}] - [Url: ${url}] - [Status: ${statusCode}] - [Duration: ${duration}ms] - [Error: ${error}]`);
 				break;
+			}
 		}
 	}
 }
