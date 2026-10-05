@@ -14,16 +14,6 @@ const config: Configuration = {
 		(): string => "npm run lint:format:check -w @web-monorepo/backend-expressjs",
 		(): string => "npm run lint:check -w @web-monorepo/backend-expressjs",
 	],
-	"apps/web-astro/**/*.{ts,tsx}": [
-		(): string => "npm run lint:format:check -w @web-monorepo/web-astro",
-		(): string => "npm run lint:check -w @web-monorepo/web-astro",
-		(): string => "npm run lint:types:check -w @web-monorepo/web-astro",
-	],
-	"apps/web-tanstack/**/*.{ts,tsx}": [
-		(): string => "npm run lint:format:check -w @web-monorepo/web-tanstack",
-		(): string => "npm run lint:check -w @web-monorepo/web-tanstack",
-		(): string => "npm run lint:types:check -w @web-monorepo/web-tanstack",
-	],
 	"apps/web-vite/**/*.{ts,tsx}": [
 		(): string => "npm run lint:format:check -w @web-monorepo/web-vite",
 		(): string => "npm run lint:check -w @web-monorepo/web-vite",

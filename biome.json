@@ -39,12 +39,6 @@
 			},
 			"suspicious": {
 				"noBiomeFirstException": "error",
-				"noConsole": {
-					"level": "error",
-					"options": {
-						"allow": ["error"]
-					}
-				},
 				"noDuplicateDependencies": "error",
 				"noDuplicateObjectKeys": "error",
 				"noQuickfixBiome": "error",
