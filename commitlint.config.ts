@@ -21,7 +21,7 @@ const config: UserConfig = {
 		"scope-enum": [
 			RuleConfigSeverity.Error,
 			"always",
-			["root", "backend-nestjs", "backend-expressjs", "web-vite", "web-astro", "web-tanstack", "shared", "db"],
+			["root", "backend-nestjs", "backend-expressjs", "web-vite", "shared", "db"],
 		],
 		"scope-max-length": [RuleConfigSeverity.Error, "always", Infinity],
 		"scope-min-length": [RuleConfigSeverity.Error, "always", 0],

@@ -25,7 +25,7 @@ export class ValidationError extends AppError {
 	}
 }
 
-export class COnflictError extends AppError {
+export class ConflictError extends AppError {
 	constructor(message: string) {
 		super(400, message, "CONFLICT");
 		this.name = "ConflictError";
