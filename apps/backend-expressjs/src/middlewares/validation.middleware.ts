@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 import { StatusCodes } from "http-status-codes";
-import { ZodAny, ZodError } from "zod";
+import { type ZodType, ZodError } from "zod";
 
-export const validateMiddleware = (schema: ZodAny) => {
+export const validateMiddleware = (schema: ZodType) => {
 	return (req: Request, _res: Response, next: NextFunction) => {
 		try {
 			schema.parse({

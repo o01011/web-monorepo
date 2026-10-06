@@ -54,4 +54,4 @@ export const listTasksSchema = z.object({
 export type Task = z.infer<typeof taskSchema>;
 export type CreateTaskInput = z.infer<typeof createTaskSchema>["body"];
 export type UpdateTaskInput = z.infer<typeof updateTaskSchema>["body"];
-export type GetTaskQuery = z.infer<typeof listTasksSchema>["query"];
+export type ListTasksQuery = z.infer<typeof listTasksSchema>["query"];
