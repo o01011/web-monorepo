@@ -1,15 +1,18 @@
-import type { Request, Response, NextFunction } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { type ZodType, ZodError } from "zod";
+import { ZodError, type ZodType } from "zod";
 
 export const validateMiddleware = (schema: ZodType) => {
-	return (req: Request, _res: Response, next: NextFunction) => {
+	return (req: Request, res: Response, next: NextFunction) => {
 		try {
-			schema.parse({
+			const validated = schema.parse({
 				body: req.body,
 				query: req.query,
 				params: req.params,
 			});
+
+			const locals = res.locals as typeof res.locals & { validated: unknown };
+			locals.validated = validated;
 			next();
 		} catch (e) {
 			if (e instanceof ZodError) {
@@ -33,4 +36,9 @@ export const validateMiddleware = (schema: ZodType) => {
 			next(e);
 		}
 	};
+};
+
+export const getValidatedData = <T>(res: Response): T => {
+	const locals = res.locals as typeof res.locals & { validated: T };
+	return locals.validated;
 };

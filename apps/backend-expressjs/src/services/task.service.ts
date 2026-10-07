@@ -1,5 +1,6 @@
+import type { Task } from "@web-monorepo/db";
 import { TaskRepository } from "../repositories/task.repository.ts";
-import type { CreateTaskInput, ListTasksQuery, Task, UpdateTaskInput } from "../schemas/task.schema.ts";
+import type { CreateTaskInput, ListTasksQuery, UpdateTaskInput } from "../schemas/task.schema.ts";
 import { ConflictError, NotFoundError } from "../utils/errors.util.ts";
 
 export class TaskService {
