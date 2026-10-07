@@ -1,83 +1,106 @@
-import type { CreateTaskInput, ListTasksQuery, Task, UpdateTaskInput } from "../schemas/task.schema.ts";
-import { v4 as uuidv4 } from "uuid";
-
-const tasks: Map<string, Task> = new Map();
+import type { CreateTaskInput, ListTasksQuery, UpdateTaskInput } from "../schemas/task.schema.ts";
+import { Prisma, type Task } from "@web-monorepo/db";
+import { prisma } from "../lib/prisma.ts";
 
 export class TaskRepository {
 	async findMany(query: ListTasksQuery): Promise<{ tasks: Task[]; total: number }> {
-		let results = Array.from(tasks.values());
+		const where: Prisma.TaskWhereInput = {};
 
 		if (query.status) {
-			results = results.filter((t) => t.status === query.status);
+			where.status = query.status;
 		}
 		if (query.priority) {
-			results = results.filter((t) => t.priority === query.priority);
+			where.priority = query.priority;
 		}
 
-		results.sort((a, b) => {
-			const field = query.sortBy;
-			const aVal = a[field];
-			const bVal = b[field];
+		const [tasks, total] = await Promise.all([
+			prisma.task.findMany({
+				where,
+				orderBy: { [query.sortBy]: query.order },
+				skip: (query.page - 1) * query.limit,
+				take: query.limit,
+				include: { tags: true },
+			}),
+			prisma.task.count({ where }),
+		]);
 
-			if (aVal === undefined || bVal === undefined) return 0;
-			if (aVal < bVal) return query.order === "asc" ? -1 : 1;
-			if (aVal > bVal) return query.order === "asc" ? 1 : -1;
-			return 0;
+		return { tasks, total };
+	}
+
+	async findById(id: string): Promise<Task | null> {
+		return prisma.task.findUnique({
+			where: { id },
+			include: { tags: true },
 		});
-
-		const total = results.length;
-
-		const offset = (query.page - 1) * query.limit;
-		results = results.slice(offset, offset + query.limit);
-
-		return {
-			tasks: results,
-			total,
-		};
 	}
 
-	async findById(id: string): Promise<Task | undefined> {
-		return tasks.get(id);
+	async create(createTaskInput: CreateTaskInput): Promise<Task> {
+		return prisma.task.create({
+			data: {
+				title: createTaskInput.title,
+				description: createTaskInput.description,
+				status: createTaskInput.status ?? "TODO",
+				prisma: createTaskInput.priority ?? "medium",
+				dueDate: createTaskInput.dueDate,
+				tags: createTaskInput.tags
+					? {
+							connectOrCreate: createTaskInput.tags.map((tag) => ({
+								where: { name: tag },
+								create: { name: tag },
+							})),
+						}
+					: undefined,
+			},
+			include: { tags: true },
+		});
 	}
 
-	async create(data: CreateTaskInput): Promise<Task> {
-		const now = new Date();
-
-		const task: Task = {
-			id: uuidv4(),
-			...data,
-			status: data.status ?? "todo",
-			priority: data.priority ?? "medium",
-			createdAt: now,
-			updatedAt: now,
-		};
-		tasks.set(task.id, task);
-
-		return task;
-	}
-
-	async update(id: string, data: UpdateTaskInput): Promise<Task | null> {
-		const existing = tasks.get(id);
-		if (!existing) return null;
-
-		const updated: Task = {
-			...existing,
-			...data,
-			updatedAt: new Date(),
-		};
-		tasks.set(id, updated);
-
-		return updated;
+	async update(id: string, updateTaskInput: UpdateTaskInput): Promise<Task | null> {
+		try {
+			return await prisma.task.update({
+				where: { id },
+				data: {
+					...updateTaskInput,
+					dueDate: updateTaskInput.dueDate,
+					tags: updateTaskInput.tags
+						? {
+								set: [],
+								connectOrCreate: updateTaskInput.tags.map((tag) => ({
+									where: { name: tag },
+									create: { name: tag },
+								})),
+							}
+						: undefined,
+				},
+				include: { tags: true },
+			});
+		} catch (e) {
+			if (e instanceof Error && "code" in e && (e as { code: string }).code === "P2025") {
+				return null;
+			}
+			throw e;
+		}
 	}
 
 	async delete(id: string): Promise<boolean> {
-		return tasks.delete(id);
+		try {
+			await prisma.task.delete({ where: { id } });
+			return true;
+		} catch (e) {
+			if (e instanceof Error && "code" in e && (e as { code: string }).code === "P2025") {
+				return false;
+			}
+			throw e;
+		}
 	}
 
-	async existsByTitle(tiitle: string, excludeId?: string): Promise<boolean> {
-		for (const task of tasks.values()) {
-			if (task.title === tiitle && task.id !== excludeId) return true;
-		}
-		return false;
+	async existsByTitle(title: string, excludeId?: string): Promise<boolean> {
+		const count = await prisma.task.count({
+			where: {
+				title,
+				...(excludeId ? { id: { not: excludeId } } : {}),
+			},
+		});
+		return count > 0;
 	}
 }

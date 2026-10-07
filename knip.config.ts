@@ -6,9 +6,11 @@ const config: KnipConfig = {
 	ignoreMembers: ["DEVELOPMENT", "STAGING", "P2002", "P2025"],
 	workspaces: {
 		"apps/backend-expressjs": {
-      ignore: ["**/*"]
+			ignore: ["**/*"],
 		},
-		"apps/backend-nestjs": {},
+		"apps/backend-nestjs": {
+      ignore: ["**/*"]
+    },
 		"apps/web-vite": {},
 		"packages/shared": {},
 		"packages/db": {
