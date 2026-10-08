@@ -1,1 +1,1 @@
-# WEB monorepo
+# web-monorepo

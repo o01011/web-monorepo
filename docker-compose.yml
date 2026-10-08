@@ -1,12 +1,12 @@
 services:
-  postgres:
-    container_name: postgres
-    image: postgres:latest
+  web-monorepo-postgres:
+    container_name: web-monorepo-postgres
+    image: postgres:18
     restart: always
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - web-monorepo-postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -14,36 +14,36 @@ services:
       PGUSER: ${POSTGRES_USER}
     env_file: .env
     networks:
-      - network
+      - web-monorepo-network
     healthcheck:
       test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 30s
-    hostname: postgres
+    hostname: web-monorepo-postgres
 
-  redis:
-    container_name: redis
+  web-monorepo-redis:
+    container_name: web-monorepo-redis
     image: redis:latest
     restart: unless-stopped
     ports:
       - ${REDIS_PORT}:${REDIS_PORT}
     volumes:
-      - redis-data:/data
+      - web-monorepo-redis-data:/data
     environment:
       REDIS_PORT: ${REDIS_PORT}
       REDIS_DATABASES: ${REDIS_DATABASES}
     env_file: .env
     networks:
-      - network
+      - web-monorepo-network
     healthcheck:
       test: redis-cli -a $REDIS_PASSWORD ping
       interval: 30s
       timeout: 10s
       retries: 5
       start_period: 30s
-    hostname: redis
+    hostname: web-monorepo-redis
 
   # redis-insight:
   #   container_name: redis-insight
@@ -106,18 +106,18 @@ services:
   #   hostname: kafka-ui
 
 volumes:
-  postgres-data:
-    name: postgres-data
+  web-monorepo-postgres-data:
+    name: web-monorepo-postgres-data
     driver: local
-  redis-data:
-    name: redis-data
+  web-monorepo-redis-data:
+    name: web-monorepo-redis-data
     driver: local
   # redis-insight-data:
   #   name: redis-insight-data
   #   driver: local
 
 networks:
-  network:
-    name: network
+  web-monorepo-network:
+    name: web-monorepo-network
     driver: bridge
     attachable: true
