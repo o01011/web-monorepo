@@ -5,9 +5,6 @@ const config: KnipConfig = {
 	ignoreDependencies: ["tsconfig-paths", "pg"],
 	ignoreMembers: ["DEVELOPMENT", "STAGING", "P2002", "P2025"],
 	workspaces: {
-		"apps/backend-expressjs": {
-			ignore: ["**/*"],
-		},
 		"apps/backend-nestjs": {
       ignore: ["**/*"]
     },

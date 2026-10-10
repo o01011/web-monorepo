@@ -6,7 +6,6 @@ This is a **TypeScript monorepo** containing multiple full-stack applications an
 
 ### Applications (`/apps`)
 - **backend-nestjs**: NestJS API server
-- **backend-expressjs**: Express.js API server
 - **web-vite**: Vite + React frontend
 
 ### Shared Packages (`/packages`)
@@ -104,9 +103,6 @@ Example: `feat(backend-nestjs): add user authentication endpoints`
 ### Pre-push Verification
 The pre-push hook automatically builds all applications:
 - `apps/backend-nestjs`
-- `apps/backend-expressjs`
-- `apps/web-astro`
-- `apps/web-tanstack`
 - `apps/web-vite`
 
 Ensure builds pass before pushing.

@@ -6,10 +6,6 @@ const config: Configuration = {
 		(): string => "npm run lint:format:check -w @web-monorepo/backend-nestjs",
 		(): string => "npm run lint:check -w @web-monorepo/backend-nestjs",
 	],
-	"apps/backend-expressjs/**/*.ts": [
-		(): string => "npm run lint:format:check -w @web-monorepo/backend-expressjs",
-		(): string => "npm run lint:check -w @web-monorepo/backend-expressjs",
-	],
 	"apps/web-vite/**/*.{ts,tsx}": [
 		(): string => "npm run lint:format:check -w @web-monorepo/web-vite",
 		(): string => "npm run lint:check -w @web-monorepo/web-vite",
