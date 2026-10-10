@@ -6,6 +6,7 @@
 	},
 	"dependencies": {
 		"branch-name-lint": "^3.0.1",
+		"concurrently": "^10.0.6",
 		"knip": "^6.3.1"
 	},
 	"description": "Web Monorepo",
@@ -53,14 +54,11 @@
 		"docker:compose:start": "docker compose -f docker-compose.yml start",
 		"docker:compose:stop": "docker compose -f docker-compose.yml stop -t 10",
 		"docker:compose:up": "docker compose -f docker-compose.yml up -d --no-color --timestamps --wait --wait-timeout 60",
-		"docker:build:web:astro": "docker build -f Dockerfile.web -t web-astro .",
-		"docker:build:web:tanstack": "docker build -f Dockerfile.web -t web-tanstack .",
 		"docker:build:web:vite": "docker build -f Dockerfile.web -t web-vite .",
-		"docker:build:backend:expressjs": "docker build -f Dockerfile.backend -t backend-expressjs .",
 		"docker:build:backend:nestjs": "docker build -f Dockerfile.backend -t backend-nestjs .",
 		"git:hook:init": "simple-git-hooks",
 		"git:hook:precommit": "lint-staged",
-		"git:hook:prepush": "npm run build -w apps/backend-nestjs && npm run build -w apps/backend-expressjs && npm run build -w apps/web-vite",
+		"git:hook:prepush": "concurrently 'npm run build -w apps/backend-nestjs' 'npm run build -w apps/web-vite'",
 		"lint:check": "biome lint",
 		"lint:fix": "biome lint --write",
 		"lint:clean:check": "knip",
@@ -74,11 +72,8 @@
 	"workspaces": [
 		"packages/shared",
 		"packages/db",
-		"apps/web-astro",
 		"apps/web-vite",
-		"apps/web-tanstack",
-		"apps/backend-nestjs",
-		"apps/backend-expressjs"
+		"apps/backend-nestjs"
 	],
 	"type": "module"
 }
