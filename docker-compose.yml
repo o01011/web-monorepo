@@ -1,7 +1,7 @@
 services:
   web-monorepo-postgres:
     container_name: web-monorepo-postgres
-    image: postgres:18
+    image: postgres:alpine3.23
     restart: always
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
@@ -25,7 +25,7 @@ services:
 
   web-monorepo-redis:
     container_name: web-monorepo-redis
-    image: redis:latest
+    image: redis:8.2-alpine3.22
     restart: unless-stopped
     ports:
       - ${REDIS_PORT}:${REDIS_PORT}
